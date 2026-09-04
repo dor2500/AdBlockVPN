@@ -31,6 +31,7 @@ private object Routes {
     const val MONITOR = "monitor"
     const val LOCATION = "location"
     const val APP_BYPASS = "app_bypass"
+    const val APP_FIREWALL = "app_firewall"
 }
 
 private data class BottomNavItem(
@@ -103,6 +104,7 @@ fun AppNavigation() {
                 SettingsScreen(
                     onNavigateToExcluded = { navController.navigate(Routes.EXCLUDED_NETWORKS) },
                     onNavigateToAppBypass = { navController.navigate(Routes.APP_BYPASS) },
+                    onNavigateToAppFirewall = { navController.navigate(Routes.APP_FIREWALL) },
                     onBack = { navController.popBackStack() }
                 )
             }
@@ -111,6 +113,9 @@ fun AppNavigation() {
             }
             composable(Routes.APP_BYPASS) {
                 com.adblocker.vpn.ui.bypass.AppBypassScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Routes.APP_FIREWALL) {
+                com.adblocker.vpn.ui.firewall.AppFirewallScreen(onBack = { navController.popBackStack() })
             }
         }
     }

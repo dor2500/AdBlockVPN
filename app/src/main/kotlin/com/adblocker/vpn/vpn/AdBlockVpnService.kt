@@ -13,6 +13,10 @@ import androidx.core.app.NotificationCompat
 import com.adblocker.vpn.MainActivity
 import com.adblocker.vpn.R
 import com.adblocker.vpn.data.datastore.SettingsDataStore
+import android.system.OsConstants
+import java.net.InetSocketAddress
+import java.net.InetAddress
+import android.net.ConnectivityManager
 import com.adblocker.vpn.data.model.VpnEngineState
 import com.adblocker.vpn.data.repository.ExcludedNetworkRepository
 import com.adblocker.vpn.util.Constants
@@ -65,6 +69,7 @@ class AdBlockVpnService : VpnService() {
     private val useDoh = AtomicBoolean(true)
     private val enableZeroDayProtection = AtomicBoolean(true)
     private var bypassedApps = emptySet<String>()
+    private var blockedInternetApps = emptySet<String>()
 
     override fun onCreate() {
         super.onCreate()
@@ -86,6 +91,7 @@ class AdBlockVpnService : VpnService() {
                 queriesBlocked.set(settings.queriesBlocked)
                 queriesZeroDay.set(settings.queriesZeroDayBlocked)
                 bypassedApps = settings.bypassedApps
+                blockedInternetApps = settings.blockedInternetApps
             }
         }
     }
@@ -111,6 +117,11 @@ class AdBlockVpnService : VpnService() {
             .addAddress(Constants.VPN_ADDRESS, Constants.VPN_ADDRESS_PREFIX)
             .addRoute(Constants.VPN_DNS, 32)
             .addDnsServer(Constants.VPN_DNS)
+            // Add IPv6 to prevent DNS leaks or drops
+            .addAddress(Constants.VPN_ADDRESS_V6, 128)
+            .addRoute(Constants.VPN_DNS_V6, 128)
+            .addDnsServer(Constants.VPN_DNS_V6)
+            .allowBypass() // Allow non-VPN traffic to pass through the normal network
             .setBlocking(true)
             .setMtu(1500)
 
@@ -210,10 +221,36 @@ class AdBlockVpnService : VpnService() {
         var isZeroDay = false
         
         if (!isPassThrough.get() && hostname != null) {
-            blocked = blocklistManager.isBlocked(hostname)
-            if (!blocked && enableZeroDayProtection.get()) {
-                isZeroDay = ThreatHeuristics.isZeroDayThreat(hostname)
-                if (isZeroDay) blocked = true
+            // App Firewall Killswitch Check
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && blockedInternetApps.isNotEmpty()) {
+                try {
+                    val srcAddr = InetAddress.getByAddress(parsed.sourceAddress)
+                    val dstAddr = InetAddress.getByAddress(parsed.destAddress)
+                    val cm = applicationContext.getSystemService(ConnectivityManager::class.java)
+                    val uid = cm.getConnectionOwnerUid(
+                        OsConstants.IPPROTO_UDP,
+                        InetSocketAddress(srcAddr, parsed.sourcePort),
+                        InetSocketAddress(dstAddr, parsed.destPort)
+                    )
+                    
+                    if (uid > 0) {
+                        val pm = applicationContext.packageManager
+                        val packages = pm.getPackagesForUid(uid)
+                        if (packages != null && packages.any { blockedInternetApps.contains(it) }) {
+                            blocked = true
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.w(TAG, "Failed to get connection owner UID: ${e.message}")
+                }
+            }
+
+            if (!blocked) {
+                blocked = blocklistManager.isBlocked(hostname)
+                if (!blocked && enableZeroDayProtection.get()) {
+                    isZeroDay = ThreatHeuristics.isZeroDayThreat(hostname)
+                    if (isZeroDay) blocked = true
+                }
             }
         }
 

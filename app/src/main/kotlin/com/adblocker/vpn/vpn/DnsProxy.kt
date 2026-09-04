@@ -54,11 +54,11 @@ class DnsProxy(private val vpnService: VpnService) {
         timeoutMs: Int
     ): ByteArray? {
         return try {
-            // Map common IPs to their DoH endpoint, default to standard format
+            // Use IP addresses directly to avoid DNS lookups that would loop back into our VPN
             val urlStr = when (upstreamHost) {
-                "1.1.1.1" -> "https://cloudflare-dns.com/dns-query"
-                "8.8.8.8" -> "https://dns.google/dns-query"
-                "9.9.9.9" -> "https://dns.quad9.net/dns-query"
+                "1.1.1.1" -> "https://1.1.1.1/dns-query"
+                "8.8.8.8" -> "https://8.8.8.8/dns-query"
+                "9.9.9.9" -> "https://9.9.9.9/dns-query"
                 else -> "https://$upstreamHost/dns-query"
             }
             val url = java.net.URL(urlStr)

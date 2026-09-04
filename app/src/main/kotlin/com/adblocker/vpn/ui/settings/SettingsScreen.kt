@@ -22,6 +22,7 @@ import com.adblocker.vpn.ui.theme.NeonGreen
 fun SettingsScreen(
     onNavigateToExcluded: () -> Unit,
     onNavigateToAppBypass: () -> Unit,
+    onNavigateToAppFirewall: () -> Unit,
     onBack: () -> Unit,
     viewModel: SettingsViewModel = viewModel()
 ) {
@@ -75,6 +76,20 @@ fun SettingsScreen(
                         Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Gray)
                         Spacer(Modifier.width(16.dp))
                         Text("App Bypass (Split Tunneling)", modifier = Modifier.weight(1f))
+                    }
+                }
+
+                Spacer(Modifier.height(8.dp))
+
+                Card(
+                    onClick = onNavigateToAppFirewall,
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Red)
+                        Spacer(Modifier.width(16.dp))
+                        Text("App Firewall (Killswitch)", modifier = Modifier.weight(1f), color = Color.Red)
                     }
                 }
                 

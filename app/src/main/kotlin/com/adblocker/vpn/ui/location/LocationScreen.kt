@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.data.model.VpnServer
 import com.adblocker.vpn.data.model.VpnServerProvider
 import com.adblocker.vpn.ui.theme.DarkBackground
-import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.NeonCyan
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +31,7 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Global Servers", color = NeonGreen, fontWeight = FontWeight.Bold) },
+                title = { Text("Global Servers", color = NeonCyan, fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
             )
         },
@@ -65,8 +65,8 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
 
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
-    val bgColor = if (isSelected) NeonGreen.copy(alpha = 0.1f) else Color(0xFF141414)
-    val borderColor = if (isSelected) NeonGreen else Color.DarkGray
+    val bgColor = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color(0xFF141414)
+    val borderColor = if (isSelected) NeonCyan else Color.DarkGray
 
     Surface(
         modifier = Modifier
@@ -84,7 +84,7 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
                 text = server.countryCode,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = if (isSelected) NeonGreen else Color.White,
+                color = if (isSelected) NeonCyan else Color.White,
                 modifier = Modifier.width(40.dp)
             )
             Column(modifier = Modifier.weight(1f)) {
@@ -92,7 +92,7 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
                 Text(text = "${server.latencyMs} ms", color = Color.Gray, fontSize = 12.sp)
             }
             if (isSelected) {
-                Icon(Icons.Default.Check, contentDescription = "Selected", tint = NeonGreen)
+                Icon(Icons.Default.Check, contentDescription = "Selected", tint = NeonCyan)
             }
         }
     }

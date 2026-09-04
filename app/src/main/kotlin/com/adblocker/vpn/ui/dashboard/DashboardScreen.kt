@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.util.Constants
 import com.adblocker.vpn.vpn.AdBlockVpnService
-import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.*
 
 @Composable
 fun DashboardScreen(
@@ -93,21 +94,23 @@ fun DashboardScreen(
             // Premium Connect Button
             val infiniteTransition = rememberInfiniteTransition(label = "pulse")
             val pulseAlpha by infiniteTransition.animateFloat(
-                initialValue = 0.05f,
-                targetValue = if (state.isRunning && !state.isPassThrough) 0.3f else 0.05f,
+                initialValue = 0.0f,
+                targetValue = if (state.isRunning && !state.isPassThrough) 0.6f else 0.0f,
                 animationSpec = infiniteRepeatable(
-                    animation = tween(1500, easing = FastOutSlowInEasing),
+                    animation = tween(2000, easing = LinearOutSlowInEasing),
                     repeatMode = RepeatMode.Reverse
                 ), label = "alpha"
             )
 
-            val buttonColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFFB300) else NeonGreen) else Color.DarkGray
+            val primaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFFB300) else NeonCyan) else Color.DarkGray
+            val secondaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFF8F00) else NeonGreen) else Color.Gray
+            val gradient = Brush.linearGradient(listOf(primaryColor, secondaryColor))
             
             Box(
                 modifier = Modifier
-                    .size(220.dp)
+                    .size(240.dp)
                     .clip(CircleShape)
-                    .background(buttonColor.copy(alpha = pulseAlpha))
+                    .background(Brush.radialGradient(listOf(primaryColor.copy(alpha = pulseAlpha), Color.Transparent)))
                     .clickable {
                         if (state.isRunning) stopVpnService(context) else requestStart()
                     },
@@ -116,18 +119,18 @@ fun DashboardScreen(
                 // Inner button
                 Box(
                     modifier = Modifier
-                        .size(160.dp)
-                        .shadow(if (state.isRunning) 20.dp else 0.dp, CircleShape, spotColor = buttonColor)
+                        .size(170.dp)
+                        .shadow(if (state.isRunning) 25.dp else 5.dp, CircleShape, spotColor = primaryColor)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
-                        .border(2.dp, buttonColor.copy(alpha = 0.5f), CircleShape),
+                        .border(3.dp, gradient, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         Icons.Filled.PowerSettingsNew,
                         contentDescription = "Power",
-                        modifier = Modifier.size(64.dp),
-                        tint = buttonColor
+                        modifier = Modifier.size(68.dp),
+                        tint = if (state.isRunning) Color.White else Color.Gray
                     )
                 }
             }

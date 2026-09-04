@@ -4,6 +4,8 @@ object Constants {
     const val VPN_ADDRESS = "10.111.222.1"
     const val VPN_ADDRESS_PREFIX = 32
     const val VPN_DNS = "10.111.222.2"
+    const val VPN_ADDRESS_V6 = "fd00:1:fd00:1:fd00:1:fd00:1"
+    const val VPN_DNS_V6 = "fd00:1:fd00:1:fd00:1:fd00:2"
     const val DNS_PORT = 53
     
     // DNS Options
@@ -33,6 +35,32 @@ object Constants {
         "Amazon Fire TV Trackers" to "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt",
         "Crypto-Jacking Miners (Prigent)" to "https://v.firebog.net/hosts/Prigent-Crypto.txt",
         "NoCoin Anti-Miner" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt"
+    )
+    
+    // Hardcoded Essential Whitelist (These will never be blocked, regardless of lists)
+    val DEFAULT_WHITELIST = setOf(
+        "google.com",
+        "googleapis.com",
+        "gstatic.com",
+        "apple.com",
+        "icloud.com",
+        "whatsapp.com",
+        "whatsapp.net",
+        "microsoft.com",
+        "windowsupdate.com",
+        "office.com",
+        "youtube.com",
+        "googlevideo.com",
+        "netflix.com",
+        "spotify.com",
+        "amazon.com",
+        "aws.amazon.com",
+        "facebook.com",
+        "instagram.com",
+        "paypal.com",
+        "github.com",
+        "githubusercontent.com",
+        "android.com"
     )
     
     const val NOTIFICATION_CHANNEL_ID = "vpn_status_channel"

@@ -4,33 +4,61 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.Typography
 
-val NeonGreen = Color(0xFF00E676)
-val DarkBackground = Color(0xFF0A0A0A)
-val SurfaceDark = Color(0xFF141414)
-val SurfaceVariantDark = Color(0xFF1E1E1E)
+val NeonCyan = Color(0xFF00F0FF)
+val NeonGreen = Color(0xFF00FF87)
+val DarkBackground = Color(0xFF07090E)
+val SurfaceDark = Color(0xFF11141D)
+val SurfaceVariantDark = Color(0x801A1F2C) // Glassmorphism base
 
 private val PremiumDarkScheme = darkColorScheme(
-    primary = NeonGreen,
+    primary = NeonCyan,
     onPrimary = Color.Black,
-    secondary = Color(0xFF2196F3),
+    secondary = NeonGreen,
+    onSecondary = Color.Black,
     background = DarkBackground,
     surface = SurfaceDark,
     surfaceVariant = SurfaceVariantDark,
     onBackground = Color.White,
     onSurface = Color.White,
-    onSurfaceVariant = Color.LightGray
+    onSurfaceVariant = Color(0xFFA0A5B5)
+)
+
+val ModernTypography = Typography(
+    titleMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        letterSpacing = 0.5.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Light,
+        fontSize = 28.sp,
+        letterSpacing = 1.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        letterSpacing = 0.5.sp
+    )
 )
 
 @Composable
 fun AdBlockerTheme(
-    // We ignore dynamic parameters to force a premium look
     darkTheme: Boolean = true,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colorScheme = PremiumDarkScheme,
+        typography = ModernTypography,
         content = content
     )
 }
