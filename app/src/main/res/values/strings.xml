@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AdBlock VPN</string>
+    <string name="notif_channel_name">VPN Status</string>
+    <string name="notif_active">Filtering Active</string>
+    <string name="notif_paused">Paused – Excluded Network</string>
+    <string name="notif_disconnected">Disconnected</string>
+</resources>

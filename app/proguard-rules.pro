@@ -1,0 +1,3 @@
+-keep class com.adblocker.vpn.vpn.** { *; }
+-keep class com.adblocker.vpn.data.db.** { *; }
+-dontwarn org.slf4j.**
