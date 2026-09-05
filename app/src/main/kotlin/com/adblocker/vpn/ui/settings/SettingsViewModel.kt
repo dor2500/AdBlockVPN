@@ -50,6 +50,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         dataStore.setEnableZeroDayProtection(enabled)
     }
     
+    fun setAggressiveFirewall(enabled: Boolean) = viewModelScope.launch {
+        dataStore.setAggressiveFirewall(enabled)
+    }
+    
     fun resetStats() = viewModelScope.launch { dataStore.resetStats() }
 
     /**

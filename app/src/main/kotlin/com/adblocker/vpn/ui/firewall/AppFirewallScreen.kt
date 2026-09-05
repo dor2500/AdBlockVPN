@@ -9,6 +9,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +40,8 @@ import com.adblocker.vpn.ui.theme.DarkBackground
 import com.adblocker.vpn.ui.theme.NeonCyan
 import com.adblocker.vpn.ui.theme.NeonGreen
 import com.adblocker.vpn.ui.theme.cyberBackground
+import android.view.HapticFeedbackConstants
+import androidx.compose.ui.platform.LocalView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,8 +51,15 @@ fun AppFirewallScreen(
 ) {
     val apps by viewModel.installedApps.collectAsState()
     val blockedApps by viewModel.blockedApps.collectAsState()
+    var searchQuery by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val view = LocalView.current
+    
+    val filteredApps = apps.filter { 
+        it.name.contains(searchQuery, ignoreCase = true) || 
+        it.packageName.contains(searchQuery, ignoreCase = true) 
+    }
 
     Scaffold(
         modifier = Modifier.cyberBackground(),
@@ -71,6 +83,22 @@ fun AppFirewallScreen(
                 .padding(horizontal = 16.dp)
         ) {
             item {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    label = { Text("Search Apps", color = Color.Gray) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = NeonCyan,
+                        unfocusedBorderColor = Color.DarkGray,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+            }
+
+            item {
                 Text(
                     text = "Blocked apps will have their internet severed. Note: You may need to Force Stop an app to clear its cached connections.",
                     color = Color.LightGray,
@@ -79,7 +107,7 @@ fun AppFirewallScreen(
                 )
             }
 
-            items(apps) { app ->
+            items(filteredApps) { app ->
                 val isBlocked = blockedApps.contains(app.packageName)
                 val cardColor = if (isBlocked) Color.Red.copy(alpha = 0.1f) else Color.DarkGray.copy(alpha = 0.4f)
                 val borderColor = if (isBlocked) Color.Red.copy(alpha = 0.5f) else Color.DarkGray
@@ -117,7 +145,10 @@ fun AppFirewallScreen(
                         
                         Switch(
                             checked = isBlocked,
-                            onCheckedChange = { viewModel.toggleAppBlock(app.packageName, it) },
+                            onCheckedChange = { 
+                                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                                viewModel.toggleAppBlock(app.packageName, it) 
+                            },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = Color.White,
                                 checkedTrackColor = Color.Red,
@@ -138,6 +169,7 @@ fun AppFirewallScreen(
                                 .fillMaxWidth()
                                 .background(Color.Red.copy(alpha = 0.2f))
                                 .clickable {
+                                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                                         data = Uri.parse("package:${app.packageName}")
                                     }

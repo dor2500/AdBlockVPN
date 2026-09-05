@@ -70,6 +70,7 @@ class AdBlockVpnService : VpnService() {
     private val enableZeroDayProtection = AtomicBoolean(true)
     private var bypassedApps = emptySet<String>()
     private var blockedInternetApps = emptySet<String>()
+    private val aggressiveFirewall = AtomicBoolean(false)
 
     override fun onCreate() {
         super.onCreate()
@@ -91,7 +92,17 @@ class AdBlockVpnService : VpnService() {
                 queriesBlocked.set(settings.queriesBlocked)
                 queriesZeroDay.set(settings.queriesZeroDayBlocked)
                 bypassedApps = settings.bypassedApps
+                
+                val previousBlocked = blockedInternetApps
                 blockedInternetApps = settings.blockedInternetApps
+                aggressiveFirewall.set(settings.aggressiveFirewall)
+                
+                // Aggressive Firewall: Restart VPN interface to force socket drop if blocked apps changed
+                if (aggressiveFirewall.get() && previousBlocked != blockedInternetApps && vpnInterface != null) {
+                    serviceScope.launch(Dispatchers.Main) {
+                        restartVpnInterface()
+                    }
+                }
             }
         }
     }
@@ -165,6 +176,17 @@ class AdBlockVpnService : VpnService() {
         _state.value = VpnEngineState(isRunning = false, isPassThrough = false)
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
+    }
+    
+    private fun restartVpnInterface() {
+        Log.i(TAG, "Aggressive Firewall: Restarting VPN Interface")
+        tunnelJob?.cancel()
+        tunnelJob = null
+        vpnInterface?.let { runCatching { it.close() } }
+        vpnInterface = null
+        
+        // Re-establish
+        startVpn()
     }
 
     private suspend fun evaluatePassThrough(active: ActiveNetworkInfo?) {

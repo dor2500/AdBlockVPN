@@ -14,27 +14,23 @@ object Constants {
     
     // Blocklists (Constantly updated lists from the internet)
     val BLOCKLISTS = mapOf(
-        "AdGuard DNS Filter (Comprehensive)" to "https://adguardteam.github.io/HostlistsRegistry/assets/filter_15.txt",
+        // Mobile & In-App Ads (Highly Recommended for Android)
         "AdGuard Mobile Ads (In-App)" to "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt",
         "AdAway (Mobile/In-App Ads)" to "https://adaway.org/hosts.txt",
         "HaGeZi's Mobile Tracker Blocker" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt",
-        "HaGeZi's Ultimate (Maximum Protection)" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/ultimate.txt",
-        "HaGeZi's Threat Intelligence (Malware)" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/tif.txt",
-        "OISD Basic (Safe & Fast)" to "https://small.oisd.nl/domainswild",
-        "OISD Big (Comprehensive)" to "https://big.oisd.nl/domainswild",
-        "StevenBlack (Ad/Malware/Fakenews)" to "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
-        "1Hosts (Pro)" to "https://o0.pages.dev/Pro/hosts.txt",
-        "Dan Pollock's (Ads/Trackers)" to "https://someonewhocares.org/hosts/hosts",
-        "URLHaus (Malware/Ransomware)" to "https://urlhaus.abuse.ch/downloads/hostfile/",
-        "Phishing Army (Anti-Phishing)" to "https://phishing.army/download/phishing_army_blocklist_extended.txt",
-        "Bypass Paywalls (Clean)" to "https://raw.githubusercontent.com/bpc-clone/bypass-paywalls-clean-filters/main/bpc-paywall-filter.txt",
+        "OISD Mobile & App Trackers" to "https://small.oisd.nl/domainswild",
         
-        // Niche & Specialized Blocklists (Deep Web Scanning)
-        "Smart TV Telemetry & Ads" to "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt",
-        "Samsung Smart TV Spyware" to "https://raw.githubusercontent.com/mboutolleau/block-samsung-tv-telemetry/refs/heads/master/samsung_tv_telemetry_urls.txt",
-        "Amazon Fire TV Trackers" to "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/AmazonFireTV.txt",
-        "Crypto-Jacking Miners (Prigent)" to "https://v.firebog.net/hosts/Prigent-Crypto.txt",
-        "NoCoin Anti-Miner" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt"
+        // Anti-Telemetry & Privacy
+        "Android Telemetry Blocklist" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/native.winoffice.txt", // Using a solid native tracker blocker
+        "StevenBlack (Ad/Malware/Fakenews)" to "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+        
+        // Comprehensive Security
+        "HaGeZi's Threat Intelligence (Malware)" to "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/tif.txt",
+        "Phishing Army (Anti-Phishing)" to "https://phishing.army/download/phishing_army_blocklist_extended.txt",
+        "URLHaus (Malware/Ransomware)" to "https://urlhaus.abuse.ch/downloads/hostfile/",
+        
+        // Crypto & Scams
+        "Crypto-Jacking Miners (Prigent)" to "https://v.firebog.net/hosts/Prigent-Crypto.txt"
     )
     
     // Hardcoded Essential Whitelist (These will never be blocked, regardless of lists)

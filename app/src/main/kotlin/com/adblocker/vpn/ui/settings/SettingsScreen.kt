@@ -23,6 +23,8 @@ import androidx.compose.foundation.border
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.clickable
 import com.adblocker.vpn.ui.theme.NeonGreen
+import android.view.HapticFeedbackConstants
+import androidx.compose.ui.platform.LocalView
 
 @Composable
 fun SettingsScreen(
@@ -34,6 +36,7 @@ fun SettingsScreen(
 ) {
     val settings by viewModel.settings.collectAsState()
     val updateState by viewModel.updateState.collectAsState()
+    val view = LocalView.current
 
     var upstreamPrimary by remember(settings.upstreamPrimary) { mutableStateOf(settings.upstreamPrimary) }
     var upstreamSecondary by remember(settings.upstreamSecondary) { mutableStateOf(settings.upstreamSecondary) }
@@ -121,6 +124,7 @@ fun SettingsScreen(
                                 checked = isChecked,
                                 colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = Color.Black, uncheckedColor = Color.Gray),
                                 onCheckedChange = { checked ->
+                                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                                     val newSet = settings.activeBlocklists.toMutableSet()
                                     if (checked) newSet.add(url) else newSet.remove(url)
                                     viewModel.setActiveBlocklists(newSet)
@@ -207,7 +211,10 @@ fun SettingsScreen(
                     Switch(
                         checked = settings.useDoh,
                         colors = SwitchDefaults.colors(checkedThumbColor = NeonGreen, checkedTrackColor = NeonGreen.copy(alpha=0.3f)),
-                        onCheckedChange = { viewModel.setUseDoh(it) }
+                        onCheckedChange = { 
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                            viewModel.setUseDoh(it) 
+                        }
                     )
                 }
 
@@ -216,7 +223,10 @@ fun SettingsScreen(
                     Switch(
                         checked = settings.enableZeroDayProtection,
                         colors = SwitchDefaults.colors(checkedThumbColor = NeonGreen, checkedTrackColor = NeonGreen.copy(alpha=0.3f)),
-                        onCheckedChange = { viewModel.setEnableZeroDayProtection(it) }
+                        onCheckedChange = { 
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                            viewModel.setEnableZeroDayProtection(it) 
+                        }
                     )
                 }
 
@@ -225,7 +235,22 @@ fun SettingsScreen(
                     Switch(
                         checked = settings.autoStartOnBoot,
                         colors = SwitchDefaults.colors(checkedThumbColor = NeonGreen, checkedTrackColor = NeonGreen.copy(alpha=0.3f)),
-                        onCheckedChange = { viewModel.setAutoStart(it) }
+                        onCheckedChange = { 
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                            viewModel.setAutoStart(it) 
+                        }
+                    )
+                }
+                
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Aggressive Firewall (Restart on rule change)", modifier = Modifier.weight(1f))
+                    Switch(
+                        checked = settings.aggressiveFirewall,
+                        colors = SwitchDefaults.colors(checkedThumbColor = NeonGreen, checkedTrackColor = NeonGreen.copy(alpha=0.3f)),
+                        onCheckedChange = { 
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                            viewModel.setAggressiveFirewall(it) 
+                        }
                     )
                 }
 

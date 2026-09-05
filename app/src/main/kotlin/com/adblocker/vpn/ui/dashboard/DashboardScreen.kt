@@ -39,6 +39,9 @@ import com.adblocker.vpn.util.Updater
 import com.adblocker.vpn.util.UpdateInfo
 import com.adblocker.vpn.vpn.AdBlockVpnService
 import com.adblocker.vpn.ui.theme.*
+import android.view.HapticFeedbackConstants
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.draw.scale
 
 @Composable
 fun DashboardScreen(
@@ -136,16 +139,26 @@ fun DashboardScreen(
             val infiniteTransition = rememberInfiniteTransition(label = "pulse")
             val pulseAlpha by infiniteTransition.animateFloat(
                 initialValue = 0.0f,
-                targetValue = if (state.isRunning && !state.isPassThrough) 0.6f else 0.0f,
+                targetValue = if (state.isRunning && !state.isPassThrough) 0.5f else 0.0f,
                 animationSpec = infiniteRepeatable(
-                    animation = tween(2000, easing = LinearOutSlowInEasing),
+                    animation = tween(1500, easing = LinearOutSlowInEasing),
                     repeatMode = RepeatMode.Reverse
                 ), label = "alpha"
+            )
+            
+            val pulseScale by infiniteTransition.animateFloat(
+                initialValue = 1.0f,
+                targetValue = if (state.isRunning && !state.isPassThrough) 1.08f else 1.0f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(1500, easing = LinearOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                ), label = "scale"
             )
 
             val primaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFFB300) else NeonCyan) else Color.DarkGray
             val secondaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFF8F00) else NeonGreen) else Color.Gray
             val gradient = Brush.linearGradient(listOf(primaryColor, secondaryColor))
+            val view = LocalView.current
             
             Box(
                 modifier = Modifier
@@ -153,6 +166,7 @@ fun DashboardScreen(
                     .clip(CircleShape)
                     .background(Brush.radialGradient(listOf(primaryColor.copy(alpha = pulseAlpha), Color.Transparent)))
                     .clickable {
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         if (state.isRunning) stopVpnService(context) else requestStart()
                     },
                 contentAlignment = Alignment.Center
@@ -160,6 +174,7 @@ fun DashboardScreen(
                 Box(
                     modifier = Modifier
                         .size(180.dp)
+                        .scale(pulseScale)
                         .shadow(if (state.isRunning) 30.dp else 0.dp, CircleShape, spotColor = primaryColor)
                         .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.05f))
