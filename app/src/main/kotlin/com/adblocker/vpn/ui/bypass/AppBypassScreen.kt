@@ -17,6 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.ui.theme.DarkBackground
 import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.cyberBackground
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,18 +33,19 @@ fun AppBypassScreen(
     val bypassedApps by viewModel.bypassedApps.collectAsState()
 
     Scaffold(
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("App Bypass (Split Tunnel)", color = NeonGreen) },
+                title = { Text("APP BYPASS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
-        },
-        containerColor = DarkBackground
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -50,9 +56,9 @@ fun AppBypassScreen(
             item {
                 Text(
                     text = "Apps turned ON will bypass the AdBlocker VPN completely and use normal unmonitored internet.",
-                    color = Color.Gray,
+                    color = Color.LightGray,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 24.dp)
                 )
             }
 
@@ -61,19 +67,25 @@ fun AppBypassScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 6.dp)
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .background(if (isBypassed) Color.White.copy(alpha = 0.05f) else Color.DarkGray.copy(alpha = 0.4f))
+                        .border(1.dp, if (isBypassed) NeonGreen.copy(alpha=0.5f) else Color.DarkGray, androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(text = app.name, color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(text = app.name, color = if (isBypassed) NeonGreen else Color.White, fontWeight = FontWeight.Bold)
                         Text(text = app.packageName, color = Color.Gray, style = MaterialTheme.typography.bodySmall)
                     }
                     Switch(
                         checked = isBypassed,
                         onCheckedChange = { viewModel.toggleAppBypass(app.packageName, it) },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = NeonGreen,
-                            checkedTrackColor = NeonGreen.copy(alpha = 0.3f)
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = NeonGreen,
+                            uncheckedThumbColor = Color.Gray,
+                            uncheckedTrackColor = Color.DarkGray
                         )
                     )
                 }

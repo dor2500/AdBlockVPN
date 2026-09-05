@@ -20,9 +20,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.adblocker.vpn.data.model.DnsLog
 import com.adblocker.vpn.vpn.AdBlockVpnService
+import com.adblocker.vpn.ui.theme.cyberBackground
+import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.CyberRed
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -31,12 +36,12 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
     val logsList = AdBlockVpnService.dnsLogs.replayCache.reversed()
 
     Scaffold(
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Live Traffic Monitor") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
+                title = { Text("LIVE TRAFFIC", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) { padding ->
@@ -66,29 +71,32 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
 
 @Composable
 private fun LogItemCard(log: DnsLog, onWhitelist: (String) -> Unit, onBlacklist: (String) -> Unit) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = if (log.isBlocked) MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f)
-            else MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = Modifier.fillMaxWidth()
+    val borderColor = if (log.isBlocked) CyberRed.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.1f)
+    val bgColor = if (log.isBlocked) CyberRed.copy(alpha = 0.1f) else Color.White.copy(alpha = 0.05f)
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .background(bgColor)
+            .border(1.dp, borderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val color = if (log.isBlocked) Color.Red else Color.Green
+            val color = if (log.isBlocked) CyberRed else NeonGreen
             Box(
                 modifier = Modifier
-                    .size(12.dp)
+                    .size(10.dp)
                     .clip(CircleShape)
                     .background(color)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 val time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(log.timestamp))
-                Text(time, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text(log.domain, style = MaterialTheme.typography.bodyMedium, fontFamily = FontFamily.Monospace)
+                Text(time, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                Text(log.domain, style = MaterialTheme.typography.bodyMedium, fontFamily = FontFamily.Monospace, color = Color.White)
             }
             IconButton(onClick = { onWhitelist(log.domain) }) {
                 Icon(

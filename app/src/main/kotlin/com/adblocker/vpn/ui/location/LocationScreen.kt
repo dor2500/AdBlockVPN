@@ -20,6 +20,9 @@ import com.adblocker.vpn.data.model.VpnServer
 import com.adblocker.vpn.data.model.VpnServerProvider
 import com.adblocker.vpn.ui.theme.DarkBackground
 import com.adblocker.vpn.ui.theme.NeonCyan
+import com.adblocker.vpn.ui.theme.cyberBackground
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.border
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,13 +32,14 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
     val selectedId = settings.selectedVpnLocation
 
     Scaffold(
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Global Servers", color = NeonCyan, fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
+                title = { Text("GLOBAL SERVERS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
-        },
-        containerColor = DarkBackground
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
@@ -65,16 +69,16 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
 
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
-    val bgColor = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color(0xFF141414)
-    val borderColor = if (isSelected) NeonCyan else Color.DarkGray
+    val bgColor = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color.White.copy(alpha=0.05f)
+    val borderColor = if (isSelected) NeonCyan else Color.White.copy(alpha=0.1f)
 
-    Surface(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onSelect(server) },
-        color = bgColor,
-        shape = MaterialTheme.shapes.medium,
-        border = androidx.compose.foundation.BorderStroke(1.dp, borderColor)
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .background(bgColor)
+            .border(1.dp, borderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .clickable { onSelect(server) }
     ) {
         Row(
             modifier = Modifier.padding(16.dp),

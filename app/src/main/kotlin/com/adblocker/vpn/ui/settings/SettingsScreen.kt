@@ -16,6 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.util.Constants
+import com.adblocker.vpn.ui.theme.cyberBackground
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.clickable
 import com.adblocker.vpn.ui.theme.NeonGreen
 
 @Composable
@@ -35,14 +41,17 @@ fun SettingsScreen(
     var newBlacklistDomain by remember { mutableStateOf("") }
 
     Scaffold(
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text("SETTINGS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) { padding ->
@@ -51,100 +60,101 @@ fun SettingsScreen(
                 Spacer(Modifier.height(16.dp))
                 
                 // Excluded Networks Section
-                Text("Network Bypass", style = MaterialTheme.typography.titleSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(8.dp))
-                Card(
-                    onClick = onNavigateToExcluded,
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                    modifier = Modifier.fillMaxWidth()
+                Text("NETWORK CONTROL", style = MaterialTheme.typography.labelSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(12.dp))
+                
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .background(Color.White.copy(alpha = 0.05f))
+                        .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
                 ) {
-                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Gray)
-                        Spacer(Modifier.width(16.dp))
-                        Text("Manage Excluded Networks", modifier = Modifier.weight(1f))
-                    }
-                }
-                
-                Spacer(Modifier.height(8.dp))
-                
-                Card(
-                    onClick = onNavigateToAppBypass,
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Gray)
-                        Spacer(Modifier.width(16.dp))
-                        Text("App Bypass (Split Tunneling)", modifier = Modifier.weight(1f))
-                    }
-                }
-
-                Spacer(Modifier.height(8.dp))
-
-                Card(
-                    onClick = onNavigateToAppFirewall,
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Red)
-                        Spacer(Modifier.width(16.dp))
-                        Text("App Firewall (Killswitch)", modifier = Modifier.weight(1f), color = Color.Red)
-                    }
-                }
-                
-                Spacer(Modifier.height(24.dp))
-                HorizontalDivider(color = Color.DarkGray)
-                Spacer(Modifier.height(24.dp))
-
-                Text("Blocklist Sources", style = MaterialTheme.typography.titleSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(8.dp))
-                
-                Constants.BLOCKLISTS.forEach { (name, url) ->
-                    val isChecked = settings.activeBlocklists.contains(url)
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        modifier = Modifier.fillMaxWidth().clickable(onClick = onNavigateToExcluded).padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Checkbox(
-                            checked = isChecked,
-                            colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = Color.Black),
-                            onCheckedChange = { checked ->
-                                val newSet = settings.activeBlocklists.toMutableSet()
-                                if (checked) newSet.add(url) else newSet.remove(url)
-                                viewModel.setActiveBlocklists(newSet)
-                            }
-                        )
-                        Text(name, modifier = Modifier.padding(start = 8.dp))
+                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.LightGray)
+                        Spacer(Modifier.width(16.dp))
+                        Text("Manage Excluded Networks", modifier = Modifier.weight(1f), color = Color.White)
+                    }
+                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    Row(
+                        modifier = Modifier.fillMaxWidth().clickable(onClick = onNavigateToAppBypass).padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.LightGray)
+                        Spacer(Modifier.width(16.dp))
+                        Text("App Bypass (Split Tunneling)", modifier = Modifier.weight(1f), color = Color.White)
+                    }
+                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    Row(
+                        modifier = Modifier.fillMaxWidth().clickable(onClick = onNavigateToAppFirewall).padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Filled.Close, contentDescription = null, tint = Color.Red)
+                        Spacer(Modifier.width(16.dp))
+                        Text("App Firewall (Killswitch)", modifier = Modifier.weight(1f), color = Color.Red, fontWeight = FontWeight.Bold)
                     }
                 }
                 
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(32.dp))
+
+                Text("BLOCKLIST SOURCES", style = MaterialTheme.typography.labelSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(12.dp))
+                
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .background(Color.White.copy(alpha = 0.05f))
+                        .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .padding(8.dp)
+                ) {
+                    Constants.BLOCKLISTS.forEach { (name, url) ->
+                        val isChecked = settings.activeBlocklists.contains(url)
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Checkbox(
+                                checked = isChecked,
+                                colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = Color.Black, uncheckedColor = Color.Gray),
+                                onCheckedChange = { checked ->
+                                    val newSet = settings.activeBlocklists.toMutableSet()
+                                    if (checked) newSet.add(url) else newSet.remove(url)
+                                    viewModel.setActiveBlocklists(newSet)
+                                }
+                            )
+                            Text(name, modifier = Modifier.padding(start = 8.dp), color = Color.White)
+                        }
+                    }
+                }
+                
+                Spacer(Modifier.height(12.dp))
                 Button(
                     onClick = { viewModel.refreshBlocklists(settings.activeBlocklists) },
                     enabled = updateState !is BlocklistUpdateState.Updating,
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant, contentColor = Color.White),
-                    modifier = Modifier.fillMaxWidth()
+                    colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = Color.Black),
+                    modifier = Modifier.fillMaxWidth().height(48.dp)
                 ) {
-                    Text(if (updateState is BlocklistUpdateState.Updating) "Updating..." else "Sync Blocklists Now")
+                    Text(if (updateState is BlocklistUpdateState.Updating) "UPDATING..." else "SYNC BLOCKLISTS NOW", fontWeight = FontWeight.Bold)
                 }
                 when (val s = updateState) {
                     is BlocklistUpdateState.Success -> Text(
                         "Loaded ${s.domainCount} domains",
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 4.dp)
+                        color = NeonGreen,
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                     is BlocklistUpdateState.Error -> Text(
                         "Error: ${s.message}",
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(top = 4.dp)
+                        color = Color.Red,
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                     else -> {}
                 }
 
-                Spacer(Modifier.height(24.dp))
-                HorizontalDivider(color = Color.DarkGray)
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(32.dp))
 
                 Text("Upstream DNS", style = MaterialTheme.typography.titleSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))

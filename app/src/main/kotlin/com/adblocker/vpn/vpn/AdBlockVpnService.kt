@@ -264,14 +264,24 @@ class AdBlockVpnService : VpnService() {
         } else {
             val upstreamResponse = dnsProxy.forward(parsed.payload, currentUpstream, useDoh = useDoh.get())
             if (upstreamResponse != null) {
-                val ipPacket = DnsPacketParser.buildUdpIpv4Packet(
-                    srcAddr = parsed.destAddress,
-                    dstAddr = parsed.sourceAddress,
-                    srcPort = parsed.destPort,
-                    dstPort = parsed.sourcePort,
-                    payload = upstreamResponse
-                )
-                writeToTun(output, ipPacket)
+                // DNS Rebinding Protection
+                if (DnsPacketParser.containsPrivateIp(upstreamResponse)) {
+                    Log.w(TAG, "DNS Rebinding attack prevented for $hostname")
+                    queriesBlocked.incrementAndGet()
+                    blocked = true
+                    DnsPacketParser.buildBlockedResponse(packet, length)?.let { response ->
+                        writeToTun(output, response)
+                    }
+                } else {
+                    val ipPacket = DnsPacketParser.buildUdpIpv4Packet(
+                        srcAddr = parsed.destAddress,
+                        dstAddr = parsed.sourceAddress,
+                        srcPort = parsed.destPort,
+                        dstPort = parsed.sourcePort,
+                        payload = upstreamResponse
+                    )
+                    writeToTun(output, ipPacket)
+                }
             }
         }
 

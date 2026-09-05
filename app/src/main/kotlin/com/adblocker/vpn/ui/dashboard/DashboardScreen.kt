@@ -26,7 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.ui.text.style.TextOverflow
+import com.adblocker.vpn.data.model.DnsLog
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.take
 import com.adblocker.vpn.util.Constants
+import com.adblocker.vpn.util.Updater
+import com.adblocker.vpn.util.UpdateInfo
 import com.adblocker.vpn.vpn.AdBlockVpnService
 import com.adblocker.vpn.ui.theme.*
 
@@ -45,6 +55,38 @@ fun DashboardScreen(
         }
     }
 
+    var updateInfo by remember { mutableStateOf<UpdateInfo?>(null) }
+    var showUpdateDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        val info = Updater.checkForUpdate()
+        if (info != null && info.isUpdateAvailable) {
+            updateInfo = info
+            showUpdateDialog = true
+        }
+    }
+
+    if (showUpdateDialog && updateInfo != null) {
+        AlertDialog(
+            onDismissRequest = { showUpdateDialog = false },
+            title = { Text("Update Available") },
+            text = { Text("Version ${updateInfo!!.latestVersion} is available!\n\nRelease Notes:\n${updateInfo!!.releaseNotes}") },
+            confirmButton = {
+                Button(onClick = {
+                    showUpdateDialog = false
+                    Updater.downloadAndInstallUpdate(context, updateInfo!!.downloadUrl, updateInfo!!.latestVersion)
+                }) {
+                    Text("Update Now")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showUpdateDialog = false }) {
+                    Text("Later")
+                }
+            }
+        )
+    }
+
     fun requestStart() {
         val intent = VpnService.prepare(context)
         if (intent != null) {
@@ -54,44 +96,43 @@ fun DashboardScreen(
         }
     }
 
+    // Collect latest 15 logs
+    val logs by viewModel.dnsLogs
+        .scan(emptyList<DnsLog>()) { acc, log -> 
+            (listOf(log) + acc).take(15) 
+        }
+        .collectAsState(initial = emptyList())
+
     Scaffold(
-        topBar = {
-            // Minimalist Top Bar, no huge backgrounds
-            CenterAlignedTopAppBar(
-                title = { Text("AdBlock VPN", fontWeight = FontWeight.Bold, color = Color.White) },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(top = 40.dp, bottom = 24.dp, start = 24.dp, end = 24.dp),
+                .padding(top = 48.dp, bottom = 16.dp, start = 24.dp, end = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Nexus Header
+            Text(
+                text = "NEXUS VPN",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                letterSpacing = 2.sp
+            )
             
+            Spacer(Modifier.height(32.dp))
+
             // Connection Status Text
             val (statusText, statusColor) = when {
                 !state.isRunning -> "DISCONNECTED" to Color.Gray
-                state.isPassThrough -> "PAUSED" to Color(0xFFFFB300)
-                else -> "PROTECTED" to NeonGreen
+                state.isPassThrough -> "PROTECTION PAUSED" to Color(0xFFFFB300)
+                else -> "SECURED" to NeonGreen
             }
-            
-            Text(
-                text = statusText,
-                style = MaterialTheme.typography.titleMedium,
-                color = statusColor,
-                fontWeight = FontWeight.Black,
-                letterSpacing = 2.sp
-            )
 
-            Spacer(Modifier.height(60.dp))
-
-            // Premium Connect Button
+            // Premium Connect Button with Shield
             val infiniteTransition = rememberInfiniteTransition(label = "pulse")
             val pulseAlpha by infiniteTransition.animateFloat(
                 initialValue = 0.0f,
@@ -116,38 +157,91 @@ fun DashboardScreen(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                // Inner button
                 Box(
                     modifier = Modifier
-                        .size(170.dp)
-                        .shadow(if (state.isRunning) 25.dp else 5.dp, CircleShape, spotColor = primaryColor)
+                        .size(180.dp)
+                        .shadow(if (state.isRunning) 30.dp else 0.dp, CircleShape, spotColor = primaryColor)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                        .border(3.dp, gradient, CircleShape),
+                        .background(Color.White.copy(alpha = 0.05f))
+                        .border(2.dp, primaryColor.copy(alpha = 0.5f), CircleShape)
+                        .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        Icons.Filled.PowerSettingsNew,
-                        contentDescription = "Power",
-                        modifier = Modifier.size(68.dp),
-                        tint = if (state.isRunning) Color.White else Color.Gray
-                    )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            Icons.Filled.Shield,
+                            contentDescription = "Power",
+                            modifier = Modifier.size(56.dp),
+                            tint = if (state.isRunning) primaryColor else Color.Gray
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Text(
+                            text = statusText,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = statusColor,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.sp
+                        )
+                    }
                 }
             }
 
-            Spacer(Modifier.height(80.dp))
+            Spacer(Modifier.height(40.dp))
 
-            // Minimalist Stats Row
+            // Minimalist Stats Row in Glass Card
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .background(Color.White.copy(alpha = 0.05f))
+                    .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
                 StatItem("QUERIES", format.format(state.queriesTotal))
                 StatItem("BLOCKED", format.format(state.queriesBlocked))
                 StatItem("ZERO-DAY", format.format(state.queriesZeroDayBlocked))
-                val pct = if (state.queriesTotal > 0) (state.queriesBlocked * 100 / state.queriesTotal) else 0
-                StatItem("RATIO", "$pct%")
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            // Live Threat Feed in Glass Card
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .background(Color.White.copy(alpha = 0.05f))
+                    .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .padding(16.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.Security, contentDescription = null, tint = NeonCyan, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("LIVE THREAT FEED", style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
+                }
+                Spacer(Modifier.height(16.dp))
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(logs) { log ->
+                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                            Text(
+                                text = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]",
+                                color = if (log.isBlocked) CyberRed else Color.Gray,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Text(
+                                text = log.domain,
+                                color = Color.LightGray,
+                                style = MaterialTheme.typography.bodySmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.adblocker.vpn.data.datastore.SettingsDataStore
 import com.adblocker.vpn.data.model.VpnEngineState
+import com.adblocker.vpn.data.model.DnsLog
 import com.adblocker.vpn.vpn.AdBlockVpnService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,4 +20,6 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     val settings = settingsDataStore.settingsFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+        
+    val dnsLogs = AdBlockVpnService.dnsLogs
 }

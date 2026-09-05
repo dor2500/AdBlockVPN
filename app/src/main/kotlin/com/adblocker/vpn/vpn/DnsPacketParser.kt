@@ -160,4 +160,79 @@ object DnsPacketParser {
         while (sum shr 16 != 0L) sum = (sum and 0xFFFF) + (sum shr 16)
         return (sum.inv() and 0xFFFF).toInt()
     }
+
+    /**
+     * Minimal parser to check if any returned A record contains a private/local IPv4 address.
+     * This is used for DNS Rebinding protection.
+     */
+    fun containsPrivateIp(dnsResponse: ByteArray): Boolean {
+        try {
+            if (dnsResponse.size < 12) return false
+            val qdCount = ((dnsResponse[4].toInt() and 0xFF) shl 8) or (dnsResponse[5].toInt() and 0xFF)
+            val anCount = ((dnsResponse[6].toInt() and 0xFF) shl 8) or (dnsResponse[7].toInt() and 0xFF)
+            
+            if (anCount == 0) return false
+
+            var pos = 12
+            // Skip questions
+            for (i in 0 until qdCount) {
+                while (pos < dnsResponse.size) {
+                    val len = dnsResponse[pos].toInt() and 0xFF
+                    if (len == 0) {
+                        pos++
+                        break
+                    }
+                    if ((len and 0xC0) == 0xC0) {
+                        pos += 2
+                        break
+                    }
+                    pos += len + 1
+                }
+                pos += 4 // QTYPE, QCLASS
+            }
+
+            // Parse answers
+            for (i in 0 until anCount) {
+                if (pos >= dnsResponse.size) return false
+                // Skip Name
+                if ((dnsResponse[pos].toInt() and 0xC0) == 0xC0) {
+                    pos += 2
+                } else {
+                    while (pos < dnsResponse.size) {
+                        val len = dnsResponse[pos].toInt() and 0xFF
+                        if (len == 0) {
+                            pos++
+                            break
+                        }
+                        pos += len + 1
+                    }
+                }
+                
+                if (pos + 10 > dnsResponse.size) return false
+                val type = ((dnsResponse[pos].toInt() and 0xFF) shl 8) or (dnsResponse[pos + 1].toInt() and 0xFF)
+                val dataLen = ((dnsResponse[pos + 8].toInt() and 0xFF) shl 8) or (dnsResponse[pos + 9].toInt() and 0xFF)
+                pos += 10
+                
+                if (type == 1 && dataLen == 4) { // TYPE A (IPv4)
+                    if (pos + 4 > dnsResponse.size) return false
+                    val ip1 = dnsResponse[pos].toInt() and 0xFF
+                    val ip2 = dnsResponse[pos + 1].toInt() and 0xFF
+                    
+                    // Check private ranges:
+                    // 127.0.0.0/8
+                    // 10.0.0.0/8
+                    // 172.16.0.0/12
+                    // 192.168.0.0/16
+                    // 0.0.0.0/8
+                    if (ip1 == 127 || ip1 == 10 || ip1 == 0 || (ip1 == 192 && ip2 == 168) || (ip1 == 172 && ip2 in 16..31)) {
+                        return true
+                    }
+                }
+                pos += dataLen
+            }
+        } catch (e: Exception) {
+            // Ignore parsing errors, assume false
+        }
+        return false
+    }
 }

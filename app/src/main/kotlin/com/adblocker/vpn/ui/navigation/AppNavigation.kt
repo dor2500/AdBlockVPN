@@ -23,6 +23,13 @@ import com.adblocker.vpn.ui.excluded.ExcludedNetworksScreen
 import com.adblocker.vpn.ui.monitor.MonitorScreen
 import com.adblocker.vpn.ui.settings.SettingsScreen
 import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.cyberBackground
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.draw.clip
 
 private object Routes {
     const val DASHBOARD = "dashboard"
@@ -52,39 +59,53 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     Scaffold(
+        modifier = Modifier.cyberBackground(),
+        containerColor = Color.Transparent,
         bottomBar = {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             
             if (bottomNavItems.any { it.route == currentDestination?.route }) {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.LightGray,
-                    tonalElevation = 0.dp
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 ) {
-                    bottomNavItems.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-                        NavigationBarItem(
-                            icon = { Icon(item.icon, contentDescription = item.title) },
-                            label = { Text(item.title) },
-                            selected = selected,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = NeonGreen,
-                                selectedTextColor = NeonGreen,
-                                indicatorColor = Color.Transparent, // Removes the ugly pill
-                                unselectedIconColor = Color.DarkGray,
-                                unselectedTextColor = Color.DarkGray
-                            ),
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                    NavigationBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(72.dp)
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(36.dp))
+                            .background(Color.White.copy(alpha = 0.05f))
+                            .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(36.dp)),
+                        containerColor = Color.Transparent,
+                        contentColor = Color.LightGray,
+                        tonalElevation = 0.dp
+                    ) {
+                        bottomNavItems.forEach { item ->
+                            val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+                            NavigationBarItem(
+                                icon = { Icon(item.icon, contentDescription = item.title) },
+                                label = { Text(item.title) },
+                                selected = selected,
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = NeonGreen,
+                                    selectedTextColor = NeonGreen,
+                                    indicatorColor = Color.Transparent, // Removes the ugly pill
+                                    unselectedIconColor = Color.White.copy(alpha = 0.5f),
+                                    unselectedTextColor = Color.White.copy(alpha = 0.5f)
+                                ),
+                                onClick = {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
