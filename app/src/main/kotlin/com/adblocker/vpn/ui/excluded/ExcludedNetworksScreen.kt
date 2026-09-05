@@ -50,14 +50,14 @@ fun ExcludedNetworksScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             @OptIn(ExperimentalMaterial3Api::class)
-            TopAppBar(
-                title = { Text("EXCLUDED NETWORKS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
+            CenterAlignedTopAppBar(
+                title = { Text("EXCLUDED NETWORKS", fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
             )
         },
         floatingActionButton = {

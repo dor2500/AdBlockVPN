@@ -36,14 +36,14 @@ fun AppBypassScreen(
         modifier = Modifier.cyberBackground(),
         containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text("APP BYPASS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
+            CenterAlignedTopAppBar(
+                title = { Text("APP BYPASS", fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
             )
         }
     ) { padding ->
