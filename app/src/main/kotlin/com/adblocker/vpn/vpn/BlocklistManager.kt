@@ -55,6 +55,7 @@ class BlocklistManager(private val cacheDir: File) {
     fun isBlocked(host: String): Boolean {
         val normalized = host.lowercase().removeSuffix(".")
         if (whitelist.contains(normalized)) return false
+        if (com.adblocker.vpn.util.Constants.DEFAULT_WHITELIST.any { normalized == it || normalized.endsWith(".$it") }) return false
         if (userBlacklist.contains(normalized)) return true
 
         var domain = normalized

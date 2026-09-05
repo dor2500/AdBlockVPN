@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_500">#FF6650a4</color>
+    <color name="teal_500">#FF018786</color>
+    <string name="app_name">Nexus VPN</string>
+    <string name="notif_active">Filtering Active</string>
+    <string name="notif_channel_name">VPN Status</string>
+    <string name="notif_disconnected">Disconnected</string>
+    <string name="notif_paused">Paused – Excluded Network</string>
+    <style name="Theme.AdBlockerVPN" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>

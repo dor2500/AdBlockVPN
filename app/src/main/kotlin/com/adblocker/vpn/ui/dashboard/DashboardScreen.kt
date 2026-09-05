@@ -14,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -72,19 +74,19 @@ fun DashboardScreen(
     if (showUpdateDialog && updateInfo != null) {
         AlertDialog(
             onDismissRequest = { showUpdateDialog = false },
-            title = { Text("Update Available") },
-            text = { Text("Version ${updateInfo!!.latestVersion} is available!\n\nRelease Notes:\n${updateInfo!!.releaseNotes}") },
+            title = { Text(stringResource(R.string.update_available)) },
+            text = { Text(stringResource(R.string.update_desc, updateInfo!!.latestVersion, updateInfo!!.releaseNotes)) },
             confirmButton = {
                 Button(onClick = {
                     showUpdateDialog = false
                     Updater.downloadAndInstallUpdate(context, updateInfo!!.downloadUrl, updateInfo!!.latestVersion)
                 }) {
-                    Text("Update Now")
+                    Text(stringResource(R.string.update_now))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showUpdateDialog = false }) {
-                    Text("Later")
+                    Text(stringResource(R.string.later))
                 }
             }
         )
@@ -119,7 +121,7 @@ fun DashboardScreen(
         ) {
             // Nexus Header
             Text(
-                text = "NEXUS VPN",
+                text = stringResource(R.string.app_name).uppercase(),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -130,74 +132,53 @@ fun DashboardScreen(
 
             // Connection Status Text
             val (statusText, statusColor) = when {
-                !state.isRunning -> "DISCONNECTED" to Color.Gray
-                state.isPassThrough -> "PROTECTION PAUSED" to Color(0xFFFFB300)
-                else -> "SECURED" to NeonGreen
+                !state.isRunning -> stringResource(R.string.disconnected) to MaterialTheme.colorScheme.onSurfaceVariant
+                state.isPassThrough -> stringResource(R.string.protection_paused) to MaterialTheme.colorScheme.secondary
+                else -> stringResource(R.string.secured) to MaterialTheme.colorScheme.primary
             }
 
-            // Premium Connect Button with Shield
-            val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-            val pulseAlpha by infiniteTransition.animateFloat(
-                initialValue = 0.0f,
-                targetValue = if (state.isRunning && !state.isPassThrough) 0.5f else 0.0f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(1500, easing = LinearOutSlowInEasing),
-                    repeatMode = RepeatMode.Reverse
-                ), label = "alpha"
-            )
-            
-            val pulseScale by infiniteTransition.animateFloat(
-                initialValue = 1.0f,
-                targetValue = if (state.isRunning && !state.isPassThrough) 1.08f else 1.0f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(1500, easing = LinearOutSlowInEasing),
-                    repeatMode = RepeatMode.Reverse
-                ), label = "scale"
-            )
-
-            val primaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFFB300) else NeonCyan) else Color.DarkGray
-            val secondaryColor = if (state.isRunning) (if (state.isPassThrough) Color(0xFFFF8F00) else NeonGreen) else Color.Gray
-            val gradient = Brush.linearGradient(listOf(primaryColor, secondaryColor))
+            // Clean, Flat Connect Button
             val view = LocalView.current
             
-            Box(
+            Card(
                 modifier = Modifier
-                    .size(240.dp)
-                    .clip(CircleShape)
-                    .background(Brush.radialGradient(listOf(primaryColor.copy(alpha = pulseAlpha), Color.Transparent)))
+                    .fillMaxWidth()
+                    .height(180.dp)
                     .clickable {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         if (state.isRunning) stopVpnService(context) else requestStart()
                     },
-                contentAlignment = Alignment.Center
+                colors = CardDefaults.cardColors(
+                    containerColor = if (state.isRunning) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surfaceVariant,
+                ),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .scale(pulseScale)
-                        .shadow(if (state.isRunning) 30.dp else 0.dp, CircleShape, spotColor = primaryColor)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.05f))
-                        .border(2.dp, primaryColor.copy(alpha = 0.5f), CircleShape)
-                        .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape),
-                    contentAlignment = Alignment.Center
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            Icons.Filled.Shield,
-                            contentDescription = "Power",
-                            modifier = Modifier.size(56.dp),
-                            tint = if (state.isRunning) primaryColor else Color.Gray
-                        )
-                        Spacer(Modifier.height(12.dp))
-                        Text(
-                            text = statusText,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = statusColor,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.sp
-                        )
-                    }
+                    Icon(
+                        if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
+                        contentDescription = "Power",
+                        modifier = Modifier.size(64.dp),
+                        tint = if (state.isRunning) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        text = statusText,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = statusColor,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = if (state.isRunning) "Tap to disconnect" else "Tap to connect",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
 
@@ -208,15 +189,14 @@ fun DashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
-                    .background(Color.White.copy(alpha = 0.05f))
-                    .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
                     .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
-                StatItem("QUERIES", format.format(state.queriesTotal))
-                StatItem("BLOCKED", format.format(state.queriesBlocked))
-                StatItem("ZERO-DAY", format.format(state.queriesZeroDayBlocked))
+                StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
+                StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
+                StatItem(stringResource(R.string.zero_day), format.format(state.queriesZeroDayBlocked))
             }
 
             Spacer(Modifier.height(24.dp))
@@ -227,29 +207,28 @@ fun DashboardScreen(
                     .fillMaxWidth()
                     .weight(1f)
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
-                    .background(Color.White.copy(alpha = 0.05f))
-                    .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
                     .padding(16.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Security, contentDescription = null, tint = NeonCyan, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Filled.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
                     Spacer(Modifier.width(8.dp))
-                    Text("LIVE THREAT FEED", style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
+                    Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface, letterSpacing = 1.sp)
                 }
                 Spacer(Modifier.height(16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(logs) { log ->
                         Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                             Text(
-                                text = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]",
-                                color = if (log.isBlocked) CyberRed else Color.Gray,
+                                text = if (log.isBlocked) stringResource(R.string.log_blocked) else stringResource(R.string.log_allowed),
+                                color = if (log.isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                                 style = MaterialTheme.typography.bodySmall,
                                 fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
                             )
                             Spacer(Modifier.width(12.dp))
                             Text(
                                 text = log.domain,
-                                color = Color.LightGray,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -265,9 +244,9 @@ fun DashboardScreen(
 @Composable
 private fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Light, color = Color.White)
+        Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Light, color = MaterialTheme.colorScheme.onSurface)
         Spacer(Modifier.height(8.dp))
-        Text(label, style = MaterialTheme.typography.labelSmall, color = Color.Gray, letterSpacing = 1.sp)
+        Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.sp)
     }
 }
 

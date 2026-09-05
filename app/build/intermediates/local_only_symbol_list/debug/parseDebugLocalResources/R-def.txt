@@ -1,0 +1,16 @@
+R_DEF: Internal format may change without notice
+local
+color purple_500
+color teal_500
+drawable custom_icon
+drawable ic_notification
+mipmap ic_launcher
+string app_name
+string notif_active
+string notif_channel_name
+string notif_disconnected
+string notif_paused
+style Theme.AdBlockerVPN
+xml backup_rules
+xml data_extraction_rules
+xml filepaths

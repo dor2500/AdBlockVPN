@@ -62,6 +62,39 @@ fun SettingsScreen(
             item {
                 Spacer(Modifier.height(16.dp))
                 
+                // Appearance Section
+                Text("APPEARANCE", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(12.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(
+                        onClick = { viewModel.setTheme("system") },
+                        modifier = Modifier.weight(1f),
+                        colors = if (settings.selectedTheme == "system") ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary) else ButtonDefaults.outlinedButtonColors()
+                    ) { Text("System", color = if (settings.selectedTheme == "system") Color.White else MaterialTheme.colorScheme.onSurface) }
+                    
+                    OutlinedButton(
+                        onClick = { viewModel.setTheme("light") },
+                        modifier = Modifier.weight(1f),
+                        colors = if (settings.selectedTheme == "light") ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary) else ButtonDefaults.outlinedButtonColors()
+                    ) { Text("Light", color = if (settings.selectedTheme == "light") Color.White else MaterialTheme.colorScheme.onSurface) }
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(
+                        onClick = { viewModel.setTheme("slate") },
+                        modifier = Modifier.weight(1f),
+                        colors = if (settings.selectedTheme == "slate") ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary) else ButtonDefaults.outlinedButtonColors()
+                    ) { Text("Slate", color = if (settings.selectedTheme == "slate") Color.White else MaterialTheme.colorScheme.onSurface) }
+                    
+                    OutlinedButton(
+                        onClick = { viewModel.setTheme("midnight") },
+                        modifier = Modifier.weight(1f),
+                        colors = if (settings.selectedTheme == "midnight") ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary) else ButtonDefaults.outlinedButtonColors()
+                    ) { Text("Midnight", color = if (settings.selectedTheme == "midnight") Color.White else MaterialTheme.colorScheme.onSurface) }
+                }
+                
+                Spacer(Modifier.height(32.dp))
+                
                 // Excluded Networks Section
                 Text("NETWORK CONTROL", style = MaterialTheme.typography.labelSmall, color = NeonGreen, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(12.dp))

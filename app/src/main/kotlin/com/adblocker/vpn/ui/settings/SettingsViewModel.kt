@@ -53,6 +53,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun setAggressiveFirewall(enabled: Boolean) = viewModelScope.launch {
         dataStore.setAggressiveFirewall(enabled)
     }
+
+    fun setTheme(themeId: String) = viewModelScope.launch {
+        dataStore.setTheme(themeId)
+    }
     
     fun resetStats() = viewModelScope.launch { dataStore.resetStats() }
 

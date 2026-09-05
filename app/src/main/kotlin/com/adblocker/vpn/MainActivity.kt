@@ -10,6 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.adblocker.vpn.ui.navigation.AppNavigation
 import com.adblocker.vpn.ui.theme.AdBlockerTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.adblocker.vpn.ui.settings.SettingsViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -29,7 +33,10 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            AdBlockerTheme {
+            val settingsViewModel: SettingsViewModel = viewModel()
+            val settingsState by settingsViewModel.settings.collectAsState()
+            
+            AdBlockerTheme(themeName = settingsState.selectedTheme) {
                 AppNavigation()
             }
         }

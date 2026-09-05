@@ -24,7 +24,8 @@ data class AppSettings(
     val selectedVpnLocation: String = "local", // "local" means just DNS, other IDs mean full VPN
     val bypassedApps: Set<String> = emptySet(),
     val blockedInternetApps: Set<String> = emptySet(),
-    val aggressiveFirewall: Boolean = false
+    val aggressiveFirewall: Boolean = false,
+    val selectedTheme: String = "system"
 )
 
 class SettingsDataStore(private val context: Context) {
@@ -45,6 +46,7 @@ class SettingsDataStore(private val context: Context) {
         val BYPASSED_APPS = stringSetPreferencesKey("bypassed_apps")
         val BLOCKED_INTERNET_APPS = stringSetPreferencesKey("blocked_internet_apps")
         val AGGRESSIVE_FIREWALL = booleanPreferencesKey("aggressive_firewall")
+        val SELECTED_THEME = stringPreferencesKey("selected_theme")
     }
 
     val settingsFlow: Flow<AppSettings> = context.dataStore.data.map { prefs ->
@@ -63,7 +65,8 @@ class SettingsDataStore(private val context: Context) {
             selectedVpnLocation = prefs[Keys.SELECTED_VPN_LOCATION] ?: "local",
             bypassedApps = prefs[Keys.BYPASSED_APPS] ?: emptySet(),
             blockedInternetApps = prefs[Keys.BLOCKED_INTERNET_APPS] ?: emptySet(),
-            aggressiveFirewall = prefs[Keys.AGGRESSIVE_FIREWALL] ?: false
+            aggressiveFirewall = prefs[Keys.AGGRESSIVE_FIREWALL] ?: false,
+            selectedTheme = prefs[Keys.SELECTED_THEME] ?: "system"
         )
     }
 
@@ -132,6 +135,10 @@ class SettingsDataStore(private val context: Context) {
 
     suspend fun setAggressiveFirewall(enabled: Boolean) {
         context.dataStore.edit { it[Keys.AGGRESSIVE_FIREWALL] = enabled }
+    }
+
+    suspend fun setTheme(themeId: String) {
+        context.dataStore.edit { it[Keys.SELECTED_THEME] = themeId }
     }
 
     suspend fun recordQueryStats(total: Long, blocked: Long, zeroDay: Long = 0) {

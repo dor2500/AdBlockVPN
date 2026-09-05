@@ -1,7 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Nexus VPN</string>
-    <string name="notif_channel_name">VPN Status</string>
-    <string name="notif_active">Filtering Active</string>
-    <string name="notif_paused">Paused – Excluded Network</string>
-    <string name="notif_disconnected">Disconnected</string>
+    <string name="update_available">Update Available</string>
+    <string name="update_desc">Version %1$s is available!\n\nRelease Notes:\n%2$s</string>
+    <string name="update_now">Update Now</string>
+    <string name="later">Later</string>
+    <string name="disconnected">DISCONNECTED</string>
+    <string name="protection_paused">PROTECTION PAUSED</string>
+    <string name="secured">SECURED</string>
+    <string name="queries">QUERIES</string>
+    <string name="blocked">BLOCKED</string>
+    <string name="zero_day">ZERO-DAY</string>
+    <string name="live_threat_feed">LIVE THREAT FEED</string>
+    <string name="log_blocked">[BLOCKED]</string>
+    <string name="log_allowed">[ALLOWED]</string>
 </resources>
