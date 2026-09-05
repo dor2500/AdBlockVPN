@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.adblocker.vpn.ui.theme.DarkBackground
+import com.adblocker.vpn.R
 import com.adblocker.vpn.ui.theme.NeonGreen
 import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.draw.clip

@@ -13,5 +13,10 @@
     <string name="zero_day">ZERO-DAY</string>
     <string name="live_threat_feed">LIVE THREAT FEED</string>
     <string name="log_blocked">[BLOCKED]</string>
-    <string name="log_allowed">[ALLOWED]</string>
+    <string name="log_allowed">ALLOWED</string>
+
+    <string name="notif_disconnected">Disconnected</string>
+    <string name="notif_paused">Protection Paused</string>
+    <string name="notif_active">Protection Active</string>
+    <string name="notif_channel_name">VPN Status</string>
 </resources>

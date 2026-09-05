@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.data.model.VpnServer
 import com.adblocker.vpn.data.model.VpnServerProvider
-import com.adblocker.vpn.ui.theme.DarkBackground
 import com.adblocker.vpn.ui.theme.NeonCyan
 import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.draw.clip

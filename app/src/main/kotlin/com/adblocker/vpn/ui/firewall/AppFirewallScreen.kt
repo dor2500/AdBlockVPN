@@ -36,7 +36,6 @@ import android.content.Intent
 import android.provider.Settings
 import android.net.Uri
 import androidx.compose.ui.platform.LocalContext
-import com.adblocker.vpn.ui.theme.DarkBackground
 import com.adblocker.vpn.ui.theme.NeonCyan
 import com.adblocker.vpn.ui.theme.NeonGreen
 import com.adblocker.vpn.ui.theme.cyberBackground

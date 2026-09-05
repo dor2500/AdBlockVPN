@@ -198,6 +198,7 @@ layout notification_template_part_time
 mipmap ic_launcher
 string androidx_startup
 string app_name
+string blocked
 string call_notification_answer_action
 string call_notification_answer_video_action
 string call_notification_decline_action
@@ -209,9 +210,14 @@ string close_drawer
 string close_sheet
 string default_error_message
 string default_popup_window_title
+string disconnected
 string dropdown_menu
 string in_progress
 string indeterminate
+string later
+string live_threat_feed
+string log_allowed
+string log_blocked
 string m3c_bottom_sheet_collapse_description
 string m3c_bottom_sheet_dismiss_description
 string m3c_bottom_sheet_drag_handle_description
@@ -276,8 +282,11 @@ string notif_disconnected
 string notif_paused
 string off
 string on
+string protection_paused
+string queries
 string range_end
 string range_start
+string secured
 string selected
 string status_bar_notification_info_overflow
 string switch_role
@@ -285,6 +294,10 @@ string tab
 string template_percent
 string tooltip_description
 string tooltip_label
+string update_available
+string update_desc
+string update_now
+string zero_day
 style DialogWindowTheme
 style FloatingDialogTheme
 style FloatingDialogWindowTheme

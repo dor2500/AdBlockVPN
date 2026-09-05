@@ -13,5 +13,10 @@
     <string name="zero_day">איומי יום-אפס</string>
     <string name="live_threat_feed">עדכוני איומים בזמן אמת</string>
     <string name="log_blocked">[נחסם]</string>
-    <string name="log_allowed">[הורשה]</string>
+    <string name="log_allowed">אושר</string>
+
+    <string name="notif_disconnected">מנותק</string>
+    <string name="notif_paused">ההגנה מושהית</string>
+    <string name="notif_active">ההגנה פעילה</string>
+    <string name="notif_channel_name">סטטוס VPN</string>
 </resources>
