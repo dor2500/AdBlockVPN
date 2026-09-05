@@ -25,7 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import com.adblocker.vpn.util.Constants
+import com.adblocker.vpn.util.Updater
+import com.adblocker.vpn.util.UpdateInfo
+import com.adblocker.vpn.ui.theme.cyberBackground
+import androidx.compose.ui.platform.LocalContext
+import com.adblocker.vpn.BuildConfig
 import com.adblocker.vpn.ui.theme.cyberBackground
 import com.adblocker.vpn.ui.theme.NeonGreen
 
@@ -45,6 +51,45 @@ fun SettingsScreen(
     var upstreamSecondary by remember(settings.upstreamSecondary) { mutableStateOf(settings.upstreamSecondary) }
     var newWhitelistDomain by remember { mutableStateOf("") }
     var newBlacklistDomain by remember { mutableStateOf("") }
+    
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    var updateInfo by remember { mutableStateOf<UpdateInfo?>(null) }
+    var showUpdateDialog by remember { mutableStateOf(false) }
+    var isCheckingUpdate by remember { mutableStateOf(false) }
+    var updateMessage by remember { mutableStateOf<String?>(null) }
+
+    if (showUpdateDialog && updateInfo != null) {
+        AlertDialog(
+            onDismissRequest = { showUpdateDialog = false },
+            title = { Text("Update Available") },
+            text = { Text("Version ${updateInfo!!.latestVersion} is available!\n\n${updateInfo!!.releaseNotes}") },
+            confirmButton = {
+                Button(onClick = {
+                    showUpdateDialog = false
+                    Updater.downloadAndInstallUpdate(context, updateInfo!!.downloadUrl, updateInfo!!.latestVersion)
+                }) {
+                    Text("Update Now")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showUpdateDialog = false }) {
+                    Text("Later")
+                }
+            }
+        )
+    }
+    
+    if (updateMessage != null) {
+        AlertDialog(
+            onDismissRequest = { updateMessage = null },
+            title = { Text("Check for Updates") },
+            text = { Text(updateMessage!!) },
+            confirmButton = {
+                Button(onClick = { updateMessage = null }) { Text("OK") }
+            }
+        )
+    }
 
     Scaffold(
         modifier = Modifier.cyberBackground(),
@@ -270,6 +315,47 @@ fun SettingsScreen(
                             if (index < settings.blacklist.size - 1) {
                                 HorizontalDivider(color = Color.White.copy(alpha = 0.05f))
                             }
+                        }
+                    }
+                }
+            }
+
+            // --- About & Updates Section ---
+            item {
+                SectionHeader("ABOUT & UPDATES")
+                SettingsCard {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Current Version", color = Color.White)
+                        Text("v${BuildConfig.VERSION_NAME}", color = Color.LightGray)
+                    }
+                    Button(
+                        onClick = {
+                            if (!isCheckingUpdate) {
+                                isCheckingUpdate = true
+                                scope.launch {
+                                    val info = Updater.checkForUpdate()
+                                    isCheckingUpdate = false
+                                    if (info != null && info.isUpdateAvailable) {
+                                        updateInfo = info
+                                        showUpdateDialog = true
+                                    } else {
+                                        updateMessage = "You are on the latest version."
+                                    }
+                                }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = Color.Black)
+                    ) {
+                        if (isCheckingUpdate) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black, strokeWidth = 2.dp)
+                        } else {
+                            Text("CHECK FOR UPDATES", fontWeight = FontWeight.Bold)
                         }
                     }
                 }
