@@ -67,20 +67,15 @@ fun AppNavigation() {
             
             if (bottomNavItems.any { it.route == currentDestination?.route }) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     NavigationBar(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(72.dp)
-                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(36.dp))
-                            .background(Color.White.copy(alpha = 0.05f))
-                            .border(1.dp, Color.White.copy(alpha = 0.1f), androidx.compose.foundation.shape.RoundedCornerShape(36.dp)),
-                        containerColor = Color.Transparent,
-                        contentColor = Color.LightGray,
-                        tonalElevation = 0.dp
+                            .height(80.dp),
+                        containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        contentColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurface,
+                        tonalElevation = 8.dp
                     ) {
                         bottomNavItems.forEach { item ->
                             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
@@ -89,11 +84,11 @@ fun AppNavigation() {
                                 label = { Text(item.title) },
                                 selected = selected,
                                 colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = NeonGreen,
-                                    selectedTextColor = NeonGreen,
-                                    indicatorColor = Color.Transparent, // Removes the ugly pill
-                                    unselectedIconColor = Color.White.copy(alpha = 0.5f),
-                                    unselectedTextColor = Color.White.copy(alpha = 0.5f)
+                                    selectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                                    selectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                                    indicatorColor = androidx.compose.material3.MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                    unselectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                    unselectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                                 ),
                                 onClick = {
                                     navController.navigate(item.route) {

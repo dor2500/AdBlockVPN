@@ -9,7 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material3.*
@@ -110,25 +110,33 @@ fun DashboardScreen(
 
     Scaffold(
         modifier = Modifier.cyberBackground(),
-        containerColor = Color.Transparent
+        containerColor = Color.Transparent,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { 
+                    Text(
+                        text = stringResource(R.string.app_name).uppercase(),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.5.sp
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(top = 48.dp, bottom = 16.dp, start = 24.dp, end = 24.dp),
+                .padding(horizontal = 20.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Nexus Header
-            Text(
-                text = stringResource(R.string.app_name).uppercase(),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                letterSpacing = 2.sp
-            )
-            
-            Spacer(Modifier.height(32.dp))
+            // Removed old title since we now have TopAppBar
+            Spacer(Modifier.height(16.dp))
 
             // Connection Status Text
             val (statusText, statusColor) = when {
@@ -151,7 +159,7 @@ fun DashboardScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = if (state.isRunning) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surfaceVariant,
                 ),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
                 Column(
@@ -188,9 +196,9 @@ fun DashboardScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(20.dp),
+                    .padding(vertical = 16.dp, horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
@@ -206,7 +214,7 @@ fun DashboardScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant)
                     .padding(16.dp)
             ) {
@@ -218,21 +226,34 @@ fun DashboardScreen(
                 Spacer(Modifier.height(16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(logs) { log ->
-                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
-                            Text(
-                                text = if (log.isBlocked) stringResource(R.string.log_blocked) else stringResource(R.string.log_allowed),
-                                color = if (log.isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
-                            )
-                            Spacer(Modifier.width(12.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
                             Text(
                                 text = log.domain,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f).padding(end = 8.dp)
                             )
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(if (log.isBlocked) MaterialTheme.colorScheme.error.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = if (log.isBlocked) stringResource(R.string.log_blocked).uppercase() else stringResource(R.string.log_allowed).uppercase(),
+                                    color = if (log.isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
