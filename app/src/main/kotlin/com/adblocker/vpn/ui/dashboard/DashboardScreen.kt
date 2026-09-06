@@ -447,12 +447,24 @@ private fun NetworkGraph(rxSpeed: Long, txSpeed: Long) {
 
     val maxVal = maxOf(1f, rxHistory.maxOrNull() ?: 1f, txHistory.maxOrNull() ?: 1f)
 
+    val isNetworkActive = rxSpeed > 0 || txSpeed > 0
+    val borderColor by androidx.compose.animation.animateColorAsState(
+        targetValue = if (isNetworkActive) PremiumCyan.copy(alpha = 0.5f) else GlassBorder,
+        animationSpec = androidx.compose.animation.core.tween(500),
+        label = "graph_border"
+    )
+    val borderWidth by androidx.compose.animation.core.animateDpAsState(
+        targetValue = if (isNetworkActive) 1.dp else 0.5.dp,
+        animationSpec = androidx.compose.animation.core.tween(500),
+        label = "graph_border_width"
+    )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(GlassBackground)
-            .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
+            .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
             .padding(16.dp)
     ) {
         Text("Network Activity (KB/s)", style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
