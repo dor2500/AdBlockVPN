@@ -4,6 +4,10 @@ color purple_500
 color teal_500
 drawable custom_icon
 drawable ic_notification
+drawable widget_background
+id widget_icon
+id widget_status_text
+layout widget_vpn
 mipmap ic_launcher
 string app_name
 string blocked
@@ -27,3 +31,4 @@ style Theme.AdBlockerVPN
 xml backup_rules
 xml data_extraction_rules
 xml filepaths
+xml vpn_widget_info

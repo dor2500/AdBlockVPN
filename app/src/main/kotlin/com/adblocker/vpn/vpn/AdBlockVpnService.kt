@@ -158,6 +158,9 @@ class AdBlockVpnService : VpnService() {
         }
 
         _state.value = VpnEngineState(isRunning = true, isPassThrough = false)
+        sendBroadcast(Intent("com.adblocker.vpn.ACTION_UPDATE_WIDGET").apply {
+            setPackage(packageName)
+        })
 
         networkMonitor = NetworkMonitor(applicationContext) { active ->
             serviceScope.launch { evaluatePassThrough(active) }
@@ -174,6 +177,9 @@ class AdBlockVpnService : VpnService() {
         vpnInterface?.let { runCatching { it.close() } }
         vpnInterface = null
         _state.value = VpnEngineState(isRunning = false, isPassThrough = false)
+        sendBroadcast(Intent("com.adblocker.vpn.ACTION_UPDATE_WIDGET").apply {
+            setPackage(packageName)
+        })
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }

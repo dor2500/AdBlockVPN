@@ -60,6 +60,19 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".receiver.VpnWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.adblocker.vpn.ACTION_TOGGLE_VPN" />
+                <action android:name="com.adblocker.vpn.ACTION_UPDATE_WIDGET" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vpn_widget_info" />
+        </receiver>
+
         <service
             android:name=".service.VpnTileService"
             android:exported="true"

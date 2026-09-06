@@ -95,6 +95,7 @@ int drawable notification_template_icon_bg 0x7f050012
 int drawable notification_template_icon_low_bg 0x7f050013
 int drawable notification_tile_bg 0x7f050014
 int drawable notify_panel_notification_icon_bg 0x7f050015
+int drawable widget_background 0x7f050016
 int id accessibility_action_clickable_span 0x7f060000
 int id accessibility_custom_action_0 0x7f060001
 int id accessibility_custom_action_1 0x7f060002
@@ -183,7 +184,9 @@ int id view_tree_lifecycle_owner 0x7f060054
 int id view_tree_on_back_pressed_dispatcher_owner 0x7f060055
 int id view_tree_saved_state_registry_owner 0x7f060056
 int id view_tree_view_model_store_owner 0x7f060057
-int id wrapped_composition_tag 0x7f060058
+int id widget_icon 0x7f060058
+int id widget_status_text 0x7f060059
+int id wrapped_composition_tag 0x7f06005a
 int integer status_bar_notification_info_maxnum 0x7f070000
 int layout custom_dialog 0x7f080000
 int layout ime_base_split_test_activity 0x7f080001
@@ -194,6 +197,7 @@ int layout notification_template_custom_big 0x7f080005
 int layout notification_template_icon_group 0x7f080006
 int layout notification_template_part_chronometer 0x7f080007
 int layout notification_template_part_time 0x7f080008
+int layout widget_vpn 0x7f080009
 int mipmap ic_launcher 0x7f090000
 int string androidx_startup 0x7f0a0000
 int string app_name 0x7f0a0001
@@ -417,3 +421,4 @@ int styleable StateListDrawableItem_android_drawable 0
 int xml backup_rules 0x7f0d0000
 int xml data_extraction_rules 0x7f0d0001
 int xml filepaths 0x7f0d0002
+int xml vpn_widget_info 0x7f0d0003

@@ -1,20 +1,20 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
-INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:74:9-82:20
+INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:87:9-95:20
 	android:grantUriPermissions
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:78:13-47
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:91:13-47
 	android:authorities
 		INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:76:13-64
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:89:13-64
 	android:exported
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:77:13-37
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:90:13-37
 	android:name
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:75:13-62
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:88:13-62
 manifest
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-86:12
-INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-86:12
-INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-86:12
-INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-86:12
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-99:12
+INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:2:1-99:12
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] C:\Users\Dorp\.gradle\caches\transforms-4\6534b771720e0aeffb21750347f7343c\transformed\work-runtime-ktx-2.9.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Dorp\.gradle\caches\transforms-4\17b9de30ffbdc289802d4e000b8da02d\transformed\work-runtime-2.9.1\AndroidManifest.xml:17:1-145:12
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\Dorp\.gradle\caches\transforms-4\fe0bfa0d5983e4510a88f46c7299367f\transformed\navigation-common-2.7.7\AndroidManifest.xml:17:1-22:12
@@ -149,8 +149,8 @@ ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main
 	android:name
 		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:17:22-76
 application
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:19:5-84:19
-INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:19:5-84:19
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:19:5-97:19
+INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:19:5-97:19
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Dorp\.gradle\caches\transforms-4\17b9de30ffbdc289802d4e000b8da02d\transformed\work-runtime-2.9.1\AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.work:work-runtime:2.9.1] C:\Users\Dorp\.gradle\caches\transforms-4\17b9de30ffbdc289802d4e000b8da02d\transformed\work-runtime-2.9.1\AndroidManifest.xml:28:5-143:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\Dorp\.gradle\caches\transforms-4\6eeb287f86f81a3982838f69de2024a5\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
@@ -247,30 +247,56 @@ action#android.intent.action.BOOT_COMPLETED
 ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:59:17-79
 	android:name
 		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:59:25-76
-service#com.adblocker.vpn.service.VpnTileService
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:63:9-72:19
-	android:label
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:66:13-46
+receiver#com.adblocker.vpn.receiver.VpnWidgetProvider
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:63:9-74:20
 	android:exported
 		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:65:13-36
-	android:permission
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:68:13-77
-	android:icon
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:67:13-49
 	android:name
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:64:13-51
-intent-filter#action:name:android.service.quicksettings.action.QS_TILE
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:69:13-71:29
-action#android.service.quicksettings.action.QS_TILE
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:70:17-87
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:64:13-55
+intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE+action:name:com.adblocker.vpn.ACTION_TOGGLE_VPN+action:name:com.adblocker.vpn.ACTION_UPDATE_WIDGET
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:66:13-70:29
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:67:17-84
 	android:name
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:70:25-84
-meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:79:13-81:53
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:67:25-81
+action#com.adblocker.vpn.ACTION_TOGGLE_VPN
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:68:17-78
+	android:name
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:68:25-75
+action#com.adblocker.vpn.ACTION_UPDATE_WIDGET
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:69:17-81
+	android:name
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:69:25-78
+meta-data#android.appwidget.provider
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:71:13-73:59
 	android:resource
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:81:17-50
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:73:17-56
 	android:name
-		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:80:17-67
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:72:17-58
+service#com.adblocker.vpn.service.VpnTileService
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:76:9-85:19
+	android:label
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:79:13-46
+	android:exported
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:78:13-36
+	android:permission
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:81:13-77
+	android:icon
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:80:13-49
+	android:name
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:77:13-51
+intent-filter#action:name:android.service.quicksettings.action.QS_TILE
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:82:13-84:29
+action#android.service.quicksettings.action.QS_TILE
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:83:17-87
+	android:name
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:83:25-84
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:92:13-94:53
+	android:resource
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:94:17-50
+	android:name
+		ADDED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml:93:17-67
 uses-sdk
 INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Dorp\.gemini\antigravity-ide\scratch\AdBlockVPN\app\src\main\AndroidManifest.xml
