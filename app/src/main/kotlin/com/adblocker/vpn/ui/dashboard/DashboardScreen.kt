@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
@@ -221,7 +222,7 @@ fun DashboardScreen(
                             Icon(
                                 if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
                                 contentDescription = "Power",
-                                modifier = Modifier.size(48.dp),
+                                modifier = Modifier.size(48.dp).scale(currentScale),
                                 tint = if (state.isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Spacer(Modifier.height(8.dp))
