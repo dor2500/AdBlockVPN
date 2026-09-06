@@ -15,10 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
-// Core Colors
-val Blue500 = Color(0xFF3B82F6)
-val Emerald500 = Color(0xFF10B981)
-val Red500 = Color(0xFFEF4444)
+// Premium Core Colors
+val Blue500 = Color(0xFF0057FF)
+val Emerald500 = Color(0xFF00FF87)
+val Red500 = Color(0xFFFF0055)
+
+val PremiumCyan = Color(0xFF00F0FF)
+val PremiumPurple = Color(0xFF8A2BE2)
 
 // Light Theme Colors
 val LightBackground = Color(0xFFF8FAFC)
@@ -29,8 +32,17 @@ val SlateBackground = Color(0xFF0F172A)
 val SlateSurface = Color(0xFF1E293B)
 
 // Midnight Theme Colors
-val MidnightBackground = Color(0xFF000000)
-val MidnightSurface = Color(0xFF111111)
+val MidnightBackground = Color(0xFF0A0E17)
+val MidnightSurface = Color(0xFF131A2A)
+
+// Glassmorphism 
+val GlassBackground = Color.White.copy(alpha = 0.03f)
+val GlassBorder = Color.White.copy(alpha = 0.1f)
+
+// Premium Gradients
+val PrimaryGradient = Brush.linearGradient(listOf(PremiumCyan, Blue500))
+val SuccessGradient = Brush.linearGradient(listOf(Emerald500, Color(0xFF00B359)))
+val DangerGradient = Brush.linearGradient(listOf(Red500, Color(0xFFCC0044)))
 
 // Legacy aliases for compilation compatibility in other files
 val NeonCyan = Blue500
@@ -70,27 +82,27 @@ val MidnightScheme = darkColorScheme(
     surface = MidnightSurface,
     onBackground = Color.White,
     onSurface = Color.White,
-    onSurfaceVariant = Color(0xFF6B7280)
+    onSurfaceVariant = Color(0xFF8B949E)
 )
 
 val ModernTypography = Typography(
     titleMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        letterSpacing = 1.sp
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 22.sp,
+        letterSpacing = 1.2.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 28.sp,
-        letterSpacing = 1.sp
+        fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+        letterSpacing = 1.5.sp
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp,
-        letterSpacing = 1.sp
+        letterSpacing = 1.5.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily.SansSerif,
@@ -101,7 +113,7 @@ val ModernTypography = Typography(
     bodySmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 13.sp
     )
 )
 

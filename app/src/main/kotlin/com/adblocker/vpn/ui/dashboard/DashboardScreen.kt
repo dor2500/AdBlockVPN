@@ -145,59 +145,99 @@ fun DashboardScreen(
                 else -> stringResource(R.string.secured) to MaterialTheme.colorScheme.primary
             }
 
-            // Clean, Flat Connect Button
+            // Dynamic Glass Pulsing Connect Button
             val view = LocalView.current
             
-            Card(
+            val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+            val pulseScale by infiniteTransition.animateFloat(
+                initialValue = 1f,
+                targetValue = 1.05f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(1200, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                ),
+                label = "pulseScale"
+            )
+            val currentScale = if (state.isRunning) pulseScale else 1f
+
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
-                    .clickable {
-                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-                        if (state.isRunning) stopVpnService(context) else requestStart()
-                    },
-                colors = CardDefaults.cardColors(
-                    containerColor = if (state.isRunning) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surfaceVariant,
-                ),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    .height(220.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                // Outer glow pulse
+                if (state.isRunning) {
+                    Box(
+                        modifier = Modifier
+                            .size(180.dp)
+                            .scale(currentScale)
+                            .clip(androidx.compose.foundation.shape.CircleShape)
+                            .background(PrimaryGradient.copy(alpha = 0.3f))
+                    )
+                }
+
+                // Main circular glass button
+                Card(
+                    modifier = Modifier
+                        .size(150.dp)
+                        .clip(androidx.compose.foundation.shape.CircleShape)
+                        .clickable {
+                            view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                            if (state.isRunning) stopVpnService(context) else requestStart()
+                        },
+                    shape = androidx.compose.foundation.shape.CircleShape,
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Transparent,
+                    ),
+                    elevation = CardDefaults.cardElevation(defaultElevation = if (state.isRunning) 16.dp else 0.dp)
                 ) {
-                    Icon(
-                        if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
-                        contentDescription = "Power",
-                        modifier = Modifier.size(64.dp),
-                        tint = if (state.isRunning) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(Modifier.height(16.dp))
-                    Text(
-                        text = statusText,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = statusColor,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.sp
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = if (state.isRunning) "Tap to disconnect" else "Tap to connect",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                brush = if (state.isRunning) PrimaryGradient else Brush.linearGradient(listOf(GlassBackground, GlassBackground)),
+                                alpha = 1f
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = GlassBorder,
+                                shape = androidx.compose.foundation.shape.CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
+                                contentDescription = "Power",
+                                modifier = Modifier.size(48.dp),
+                                tint = if (state.isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                text = statusText,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = if (state.isRunning) Color.White else statusColor,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 1.sp
+                            )
+                        }
+                    }
                 }
             }
 
             Spacer(Modifier.height(40.dp))
 
-            // Minimalist Stats Row in Glass Card
+            // Glassmorphism Stats Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(GlassBackground)
+                    .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
                     .padding(vertical = 16.dp, horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -209,19 +249,28 @@ fun DashboardScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            // Live Threat Feed in Glass Card
+            // Glassmorphic Live Threat Feed
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(GlassBackground)
+                    .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
                     .padding(16.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Security, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface, letterSpacing = 1.sp)
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clip(androidx.compose.foundation.shape.CircleShape)
+                            .background(PrimaryGradient.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp))
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
                 }
                 Spacer(Modifier.height(16.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -229,13 +278,13 @@ fun DashboardScreen(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 6.dp),
+                                .padding(vertical = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
                                 text = log.domain,
-                                color = MaterialTheme.colorScheme.onSurface,
+                                color = Color.White.copy(alpha = 0.8f),
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -243,15 +292,16 @@ fun DashboardScreen(
                             )
                             Box(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(if (log.isBlocked) MaterialTheme.colorScheme.error.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
-                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(if (log.isBlocked) DangerGradient else SuccessGradient)
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     text = if (log.isBlocked) stringResource(R.string.log_blocked).uppercase() else stringResource(R.string.log_allowed).uppercase(),
-                                    color = if (log.isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                                    color = Color.White,
                                     style = MaterialTheme.typography.labelSmall,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp
                                 )
                             }
                         }

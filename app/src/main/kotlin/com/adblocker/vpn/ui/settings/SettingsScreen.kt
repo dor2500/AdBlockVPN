@@ -32,8 +32,9 @@ import com.adblocker.vpn.util.UpdateInfo
 import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.platform.LocalContext
 import com.adblocker.vpn.BuildConfig
-import com.adblocker.vpn.ui.theme.cyberBackground
 import com.adblocker.vpn.ui.theme.NeonGreen
+import com.adblocker.vpn.ui.theme.GlassBackground
+import com.adblocker.vpn.ui.theme.GlassBorder
 
 @Composable
 fun SettingsScreen(
@@ -380,9 +381,10 @@ private fun SectionHeader(title: String) {
 private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        border = null,
-        modifier = Modifier.fillMaxWidth()
+        colors = CardDefaults.cardColors(containerColor = GlassBackground),
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             content()
