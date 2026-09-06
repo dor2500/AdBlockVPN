@@ -63,11 +63,10 @@ object Updater {
                     }
                 }
 
-                if (downloadUrl.isNotEmpty()) {
-                    // Compare semantic versioning simply
-                    val isUpdateAvailable = isVersionNewer(BuildConfig.VERSION_NAME, tagName)
-                    return@withContext UpdateInfo(isUpdateAvailable, tagName, releaseNotes, downloadUrl)
-                }
+                val isUpdateAvailable = downloadUrl.isNotEmpty() && isVersionNewer(BuildConfig.VERSION_NAME, tagName)
+                return@withContext UpdateInfo(isUpdateAvailable, tagName, releaseNotes, downloadUrl)
+            } else {
+                Log.w(TAG, "API returned code ${connection.responseCode}")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to check for updates", e)
