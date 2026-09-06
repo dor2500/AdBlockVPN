@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,7 +41,29 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("LIVE TRAFFIC", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
+                title = { 
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        val infiniteTransition = androidx.compose.animation.core.rememberInfiniteTransition(label = "live_dot")
+                        val dotAlpha by infiniteTransition.animateFloat(
+                            initialValue = 0.3f,
+                            targetValue = 1f,
+                            animationSpec = androidx.compose.animation.core.infiniteRepeatable(
+                                animation = androidx.compose.animation.core.tween(1000, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                                repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
+                            ),
+                            label = "live_dot_alpha"
+                        )
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(CyberRed.copy(alpha = dotAlpha))
+                                .border(1.dp, CyberRed, CircleShape)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("LIVE TRAFFIC", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) 
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         }
