@@ -128,13 +128,15 @@ fun DashboardScreen(
             )
         }
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 20.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Box(modifier = Modifier.fillMaxSize().padding(padding)) {
+            SecuredNetworkParticles(isRunning = state.isRunning)
+            
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
             // Removed old title since we now have TopAppBar
             Spacer(Modifier.height(16.dp))
 
@@ -313,9 +315,10 @@ fun DashboardScreen(
                     }
                 }
             }
-        }
-    }
-}
+        } // Close Column
+        } // Close Box
+    } // Close Scaffold body
+} // Close DashboardScreen
 
 @Composable
 private fun StatItem(label: String, value: String) {
@@ -394,4 +397,73 @@ private fun startVpnService(context: android.content.Context) {
 private fun stopVpnService(context: android.content.Context) {
     val intent = Intent(context, AdBlockVpnService::class.java).setAction(Constants.ACTION_STOP)
     context.startService(intent)
+}
+
+@Composable
+private fun SecuredNetworkParticles(isRunning: Boolean) {
+    if (!isRunning) return
+    
+    val particleCount = 20
+    val particles = remember { 
+        List(particleCount) { 
+            androidx.compose.ui.geometry.Offset(
+                x = (Math.random() * 1000).toFloat(), 
+                y = (Math.random() * 2000).toFloat()
+            ) 
+        }.toMutableStateList() 
+    }
+    
+    val velocities = remember {
+        List(particleCount) {
+            androidx.compose.ui.geometry.Offset(
+                x = (Math.random() * 2 - 1).toFloat() * 1.5f,
+                y = (Math.random() * 2 - 1).toFloat() * 1.5f
+            )
+        }.toMutableStateList()
+    }
+    
+    LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(16) // ~60fps
+            for (i in particles.indices) {
+                var newX = particles[i].x + velocities[i].x
+                var newY = particles[i].y + velocities[i].y
+                
+                if (newX < 0 || newX > 1500) velocities[i] = velocities[i].copy(x = -velocities[i].x)
+                if (newY < 0 || newY > 2500) velocities[i] = velocities[i].copy(y = -velocities[i].y)
+                
+                particles[i] = androidx.compose.ui.geometry.Offset(newX, newY)
+            }
+        }
+    }
+    
+    androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+        particles.forEach { particle ->
+            drawCircle(
+                color = PremiumCyan.copy(alpha = 0.5f),
+                radius = 4f,
+                center = particle
+            )
+        }
+        
+        // Draw connecting lines if close
+        for (i in particles.indices) {
+            for (j in i + 1 until particles.size) {
+                val p1 = particles[i]
+                val p2 = particles[j]
+                val distance = kotlin.math.sqrt(
+                    (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)
+                )
+                if (distance < 300f) {
+                    val alpha = (1f - (distance / 300f)) * 0.3f
+                    drawLine(
+                        color = PremiumCyan.copy(alpha = alpha),
+                        start = p1,
+                        end = p2,
+                        strokeWidth = 2f
+                    )
+                }
+            }
+        }
+    }
 }
