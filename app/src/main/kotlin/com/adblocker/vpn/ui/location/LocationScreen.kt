@@ -99,7 +99,11 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = server.name, color = Color.White, fontWeight = FontWeight.Medium)
             }
-            if (isSelected) {
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isSelected,
+                enter = androidx.compose.animation.fadeIn() + androidx.compose.animation.scaleIn(),
+                exit = androidx.compose.animation.fadeOut() + androidx.compose.animation.scaleOut()
+            ) {
                 Icon(Icons.Default.Check, contentDescription = "Selected", tint = NeonCyan)
             }
         }
