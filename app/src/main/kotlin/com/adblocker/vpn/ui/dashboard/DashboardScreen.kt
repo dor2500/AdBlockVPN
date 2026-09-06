@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.style.TextOverflow
 import com.adblocker.vpn.data.model.DnsLog
@@ -365,11 +366,30 @@ fun DashboardScreen(
                 ) { isEmpty ->
                     if (isEmpty) {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text(
-                                text = if (searchQuery.isNotEmpty()) "No domains found." else "No network activity intercepted yet...",
-                                color = Color.Gray,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                val emptyInfinite = rememberInfiniteTransition(label = "emptyPulse")
+                                val emptyAlpha by emptyInfinite.animateFloat(
+                                    initialValue = 0.3f,
+                                    targetValue = 0.8f,
+                                    animationSpec = infiniteRepeatable(
+                                        animation = tween(1500, easing = LinearEasing),
+                                        repeatMode = RepeatMode.Reverse
+                                    ),
+                                    label = "emptyAlpha"
+                                )
+                                Icon(
+                                    Icons.Filled.Search,
+                                    contentDescription = null,
+                                    tint = Color.Gray.copy(alpha = emptyAlpha),
+                                    modifier = Modifier.size(48.dp)
+                                )
+                                Spacer(Modifier.height(16.dp))
+                                Text(
+                                    text = if (searchQuery.isNotEmpty()) "No domains found." else "No network activity intercepted yet...",
+                                    color = Color.Gray.copy(alpha = emptyAlpha),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
                     } else {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
