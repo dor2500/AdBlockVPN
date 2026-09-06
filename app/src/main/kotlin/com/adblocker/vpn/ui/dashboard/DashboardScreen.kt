@@ -294,20 +294,36 @@ fun DashboardScreen(
                     .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
                     .padding(16.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clip(androidx.compose.foundation.shape.CircleShape)
-                            .background(brush = PrimaryGradient, alpha = 0.2f),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(androidx.compose.foundation.shape.CircleShape)
+                                .background(brush = PrimaryGradient, alpha = 0.2f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp))
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
+                        Spacer(Modifier.width(8.dp))
+                        
+                        // Count Badge
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(GlassBorder)
+                                .padding(horizontal = 8.dp, vertical = 2.dp)
+                        ) {
+                            Text(
+                                text = "${logs.size}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color.White.copy(alpha = 0.8f),
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
-                    Spacer(Modifier.width(12.dp))
-                    Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
-                }
-                Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(12.dp))
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
