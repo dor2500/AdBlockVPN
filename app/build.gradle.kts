@@ -17,6 +17,17 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        getByName("debug") {
+            enableV3Signing = false
+            enableV4Signing = false
+        }
+        create("release") {
+            enableV3Signing = false
+            enableV4Signing = false
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
