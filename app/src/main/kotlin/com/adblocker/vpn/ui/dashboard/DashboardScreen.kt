@@ -122,14 +122,27 @@ fun DashboardScreen(
         modifier = Modifier.cyberBackground(),
         containerColor = Color.Transparent,
         topBar = {
+            val topBarIconTint by androidx.compose.animation.animateColorAsState(
+                targetValue = if (state.isRunning) PremiumCyan else MaterialTheme.colorScheme.onSurfaceVariant,
+                label = "topbar_icon_tint"
+            )
             CenterAlignedTopAppBar(
                 title = { 
-                    Text(
-                        text = stringResource(R.string.app_name).uppercase(),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.5.sp
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Filled.Shield,
+                            contentDescription = "Logo",
+                            tint = topBarIconTint,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(R.string.app_name).uppercase(),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.5.sp
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent,
