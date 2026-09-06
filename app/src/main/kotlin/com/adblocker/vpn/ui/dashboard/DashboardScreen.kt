@@ -260,13 +260,22 @@ fun DashboardScreen(
                                         .background(if (state.isRunning) Color.White.copy(alpha = dotAlpha) else statusColor)
                                 )
                                 Spacer(Modifier.width(6.dp))
-                                Text(
-                                    text = statusText,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = if (state.isRunning) Color.White else statusColor,
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = 1.sp
-                                )
+                                androidx.compose.animation.AnimatedContent(
+                                    targetState = statusText,
+                                    transitionSpec = {
+                                        androidx.compose.animation.fadeIn(animationSpec = tween(300)) + androidx.compose.animation.slideInVertically(animationSpec = tween(300)) { height -> height } togetherWith
+                                                androidx.compose.animation.fadeOut(animationSpec = tween(300)) + androidx.compose.animation.slideOutVertically(animationSpec = tween(300)) { height -> -height }
+                                    },
+                                    label = "statusTextAnim"
+                                ) { text ->
+                                    Text(
+                                        text = text,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = if (state.isRunning) Color.White else statusColor,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 1.sp
+                                    )
+                                }
                             }
                         }
                     }
