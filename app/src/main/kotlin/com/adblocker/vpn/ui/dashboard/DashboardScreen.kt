@@ -107,6 +107,12 @@ fun DashboardScreen(
             (listOf(log) + acc).take(15) 
         }
         .collectAsState(initial = emptyList())
+        
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredLogs = remember(logs, searchQuery) {
+        if (searchQuery.isBlank()) logs
+        else logs.filter { it.domain.contains(searchQuery, ignoreCase = true) }
+    }
 
     Scaffold(
         modifier = Modifier.cyberBackground(),
@@ -279,9 +285,24 @@ fun DashboardScreen(
                     Spacer(Modifier.width(12.dp))
                     Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text("Search domains...", color = Color.Gray, fontSize = 12.sp) },
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = PremiumCyan,
+                        unfocusedBorderColor = GlassBorder,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White
+                    )
+                )
+                Spacer(Modifier.height(12.dp))
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(logs) { log ->
+                    items(filteredLogs) { log ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
