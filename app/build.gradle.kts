@@ -12,20 +12,9 @@ android {
         applicationId = "com.adblocker.vpn"
         minSdk = 26
         targetSdk = 35
-        versionCode = 11
-        versionName = "5.0.0"
+        versionCode = 12
+        versionName = "5.0.1"
         vectorDrawables.useSupportLibrary = true
-    }
-
-    signingConfigs {
-        getByName("debug") {
-            enableV3Signing = false
-            enableV4Signing = false
-        }
-        create("release") {
-            enableV3Signing = false
-            enableV4Signing = false
-        }
     }
 
     buildTypes {
