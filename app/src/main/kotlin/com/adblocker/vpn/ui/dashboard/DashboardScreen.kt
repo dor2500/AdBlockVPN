@@ -405,22 +405,44 @@ private fun NetworkGraph(rxSpeed: Long, txSpeed: Long) {
             // Draw Rx (Download)
             if (rxHistory.isNotEmpty()) {
                 val path = androidx.compose.ui.graphics.Path()
+                val fillPath = androidx.compose.ui.graphics.Path()
                 rxHistory.forEachIndexed { index, value ->
                     val x = index * stepX
                     val y = height - (value / maxVal * height)
-                    if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+                    if (index == 0) {
+                        path.moveTo(x, y)
+                        fillPath.moveTo(x, height)
+                        fillPath.lineTo(x, y)
+                    } else {
+                        path.lineTo(x, y)
+                        fillPath.lineTo(x, y)
+                    }
                 }
+                fillPath.lineTo((rxHistory.size - 1) * stepX, height)
+                fillPath.close()
+                drawPath(fillPath, color = PremiumCyan.copy(alpha = 0.2f))
                 drawPath(path, color = PremiumCyan, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4f))
             }
 
             // Draw Tx (Upload)
             if (txHistory.isNotEmpty()) {
                 val path = androidx.compose.ui.graphics.Path()
+                val fillPath = androidx.compose.ui.graphics.Path()
                 txHistory.forEachIndexed { index, value ->
                     val x = index * stepX
                     val y = height - (value / maxVal * height)
-                    if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+                    if (index == 0) {
+                        path.moveTo(x, y)
+                        fillPath.moveTo(x, height)
+                        fillPath.lineTo(x, y)
+                    } else {
+                        path.lineTo(x, y)
+                        fillPath.lineTo(x, y)
+                    }
                 }
+                fillPath.lineTo((txHistory.size - 1) * stepX, height)
+                fillPath.close()
+                drawPath(fillPath, color = PremiumPurple.copy(alpha = 0.2f))
                 drawPath(path, color = PremiumPurple, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4f))
             }
         }
