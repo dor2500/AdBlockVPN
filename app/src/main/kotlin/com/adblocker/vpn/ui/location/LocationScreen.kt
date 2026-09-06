@@ -68,15 +68,21 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
 
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
-    val bgColor = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color.White.copy(alpha=0.05f)
-    val borderColor = if (isSelected) NeonCyan else Color.White.copy(alpha=0.1f)
+    val animatedBgColor by androidx.compose.animation.animateColorAsState(
+        targetValue = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color.White.copy(alpha = 0.05f),
+        label = "bgColorAnim"
+    )
+    val animatedBorderColor by androidx.compose.animation.animateColorAsState(
+        targetValue = if (isSelected) NeonCyan else Color.White.copy(alpha = 0.1f),
+        label = "borderColorAnim"
+    )
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
-            .background(bgColor)
-            .border(1.dp, borderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .background(animatedBgColor)
+            .border(1.dp, animatedBorderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
             .clickable { onSelect(server) }
     ) {
         Row(
