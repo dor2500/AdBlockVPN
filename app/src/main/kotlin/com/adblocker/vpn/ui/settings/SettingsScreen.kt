@@ -398,8 +398,11 @@ private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
 
 @Composable
 private fun ThemeButton(name: String, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-    val contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
+    val targetContainerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
+    val targetContentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
+    
+    val containerColor by androidx.compose.animation.animateColorAsState(targetContainerColor, label = "theme_bg")
+    val contentColor by androidx.compose.animation.animateColorAsState(targetContentColor, label = "theme_text")
     
     OutlinedButton(
         onClick = onClick,
