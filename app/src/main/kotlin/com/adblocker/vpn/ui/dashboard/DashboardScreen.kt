@@ -248,6 +248,11 @@ fun DashboardScreen(
             }
 
             Spacer(Modifier.height(24.dp))
+            
+            if (state.isRunning) {
+                NetworkGraph(rxSpeed = state.rxSpeed, txSpeed = state.txSpeed)
+                Spacer(Modifier.height(24.dp))
+            }
 
             // Glassmorphic Live Threat Feed
             Column(
@@ -318,6 +323,66 @@ private fun StatItem(label: String, value: String) {
         Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Light, color = MaterialTheme.colorScheme.onSurface)
         Spacer(Modifier.height(8.dp))
         Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.sp)
+    }
+}
+
+@Composable
+private fun NetworkGraph(rxSpeed: Long, txSpeed: Long) {
+    val rxHistory = remember { mutableStateListOf<Float>() }
+    val txHistory = remember { mutableStateListOf<Float>() }
+    val maxPoints = 30
+
+    LaunchedEffect(rxSpeed, txSpeed) {
+        rxHistory.add(rxSpeed.toFloat() / 1024f) // kbps
+        txHistory.add(txSpeed.toFloat() / 1024f) // kbps
+        if (rxHistory.size > maxPoints) rxHistory.removeAt(0)
+        if (txHistory.size > maxPoints) txHistory.removeAt(0)
+    }
+
+    val maxVal = maxOf(1f, rxHistory.maxOrNull() ?: 1f, txHistory.maxOrNull() ?: 1f)
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(GlassBackground)
+            .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
+            .padding(16.dp)
+    ) {
+        Text("Network Activity (KB/s)", style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
+        Spacer(Modifier.height(8.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("↓ ${String.format("%.1f", rxSpeed.toFloat() / 1024f)}", color = PremiumCyan, style = MaterialTheme.typography.labelSmall)
+            Text("↑ ${String.format("%.1f", txSpeed.toFloat() / 1024f)}", color = PremiumPurple, style = MaterialTheme.typography.labelSmall)
+        }
+        Spacer(Modifier.height(8.dp))
+        androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxWidth().height(60.dp)) {
+            val width = size.width
+            val height = size.height
+            val stepX = width / (maxPoints - 1)
+            
+            // Draw Rx (Download)
+            if (rxHistory.isNotEmpty()) {
+                val path = androidx.compose.ui.graphics.Path()
+                rxHistory.forEachIndexed { index, value ->
+                    val x = index * stepX
+                    val y = height - (value / maxVal * height)
+                    if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+                }
+                drawPath(path, color = PremiumCyan, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4f))
+            }
+
+            // Draw Tx (Upload)
+            if (txHistory.isNotEmpty()) {
+                val path = androidx.compose.ui.graphics.Path()
+                txHistory.forEachIndexed { index, value ->
+                    val x = index * stepX
+                    val y = height - (value / maxVal * height)
+                    if (index == 0) path.moveTo(x, y) else path.lineTo(x, y)
+                }
+                drawPath(path, color = PremiumPurple, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4f))
+            }
+        }
     }
 }
 

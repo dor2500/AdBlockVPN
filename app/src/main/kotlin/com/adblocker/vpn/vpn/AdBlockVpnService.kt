@@ -17,6 +17,7 @@ import android.system.OsConstants
 import java.net.InetSocketAddress
 import java.net.InetAddress
 import android.net.ConnectivityManager
+import android.net.TrafficStats
 import com.adblocker.vpn.data.model.VpnEngineState
 import com.adblocker.vpn.data.repository.ExcludedNetworkRepository
 import com.adblocker.vpn.util.Constants
@@ -53,6 +54,7 @@ class AdBlockVpnService : VpnService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var vpnInterface: ParcelFileDescriptor? = null
     private var tunnelJob: Job? = null
+    private var trafficMonitorJob: Job? = null
 
     private lateinit var blocklistManager: BlocklistManager
     private lateinit var dnsProxy: DnsProxy
@@ -167,11 +169,29 @@ class AdBlockVpnService : VpnService() {
         }.also { it.start() }
 
         tunnelJob = serviceScope.launch { runTunnelLoop() }
+        
+        trafficMonitorJob = serviceScope.launch {
+            var lastRx = TrafficStats.getTotalRxBytes()
+            var lastTx = TrafficStats.getTotalTxBytes()
+            while (isActive) {
+                delay(1000)
+                val currentRx = TrafficStats.getTotalRxBytes()
+                val currentTx = TrafficStats.getTotalTxBytes()
+                _state.value = _state.value.copy(
+                    rxSpeed = maxOf(0L, currentRx - lastRx),
+                    txSpeed = maxOf(0L, currentTx - lastTx)
+                )
+                lastRx = currentRx
+                lastTx = currentTx
+            }
+        }
     }
 
     private fun stopVpn() {
         tunnelJob?.cancel()
         tunnelJob = null
+        trafficMonitorJob?.cancel()
+        trafficMonitorJob = null
         networkMonitor?.stop()
         networkMonitor = null
         vpnInterface?.let { runCatching { it.close() } }

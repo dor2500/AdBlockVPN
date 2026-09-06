@@ -9,5 +9,7 @@ data class VpnEngineState(
     val activeNetworkLabel: String? = null,
     val queriesTotal: Long = 0,
     val queriesBlocked: Long = 0,
-    val queriesZeroDayBlocked: Long = 0
+    val queriesZeroDayBlocked: Long = 0,
+    val rxSpeed: Long = 0,
+    val txSpeed: Long = 0
 )
