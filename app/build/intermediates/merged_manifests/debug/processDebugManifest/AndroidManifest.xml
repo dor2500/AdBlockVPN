@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adblocker.vpn.debug"
-    android:versionCode="12"
-    android:versionName="5.0.1" >
+    package="com.adblocker.vpn.v2.debug"
+    android:versionCode="13"
+    android:versionName="6.0.0" >
 
     <uses-sdk
         android:minSdkVersion="26"
@@ -21,10 +21,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission
-        android:name="com.adblocker.vpn.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.adblocker.vpn.v2.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.adblocker.vpn.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.adblocker.vpn.v2.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:name="com.adblocker.vpn.AdBlockerApplication"
@@ -76,7 +76,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.adblocker.vpn.debug.fileprovider"
+            android:authorities="com.adblocker.vpn.v2.debug.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -85,7 +85,7 @@
         </provider>
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.adblocker.vpn.debug.androidx-startup"
+            android:authorities="com.adblocker.vpn.v2.debug.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"

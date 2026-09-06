@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "com.adblocker.vpn.debug",
+  "applicationId": "com.adblocker.vpn.v2.debug",
   "variantName": "debug",
   "elements": []
 }

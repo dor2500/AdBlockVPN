@@ -4,15 +4,15 @@
     "type": "PROCESSED_RES",
     "kind": "Directory"
   },
-  "applicationId": "com.adblocker.vpn.debug",
+  "applicationId": "com.adblocker.vpn.v2.debug",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 12,
-      "versionName": "5.0.1",
+      "versionCode": 13,
+      "versionName": "6.0.0",
       "outputFile": "resources-debug.ap_"
     }
   ],
