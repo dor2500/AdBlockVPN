@@ -301,7 +301,16 @@ fun DashboardScreen(
                     )
                 )
                 Spacer(Modifier.height(12.dp))
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                if (filteredLogs.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = if (searchQuery.isNotEmpty()) "No domains found." else "No network activity intercepted yet...",
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                } else {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(filteredLogs) { log ->
                         Row(
                             modifier = Modifier
@@ -335,6 +344,7 @@ fun DashboardScreen(
                         }
                     }
                 }
+                } // Close else
             }
         } // Close Column
         } // Close Box
