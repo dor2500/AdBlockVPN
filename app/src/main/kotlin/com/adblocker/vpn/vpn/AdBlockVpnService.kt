@@ -139,7 +139,11 @@ class AdBlockVpnService : VpnService() {
             .setMtu(1500)
 
         // Apply app bypass
-        bypassedApps.forEach { packageName ->
+        val finalBypassedApps = bypassedApps.toMutableSet().apply {
+            add("com.anydesk.anydeskandroid") // Prevent AnyDesk connection issues
+        }
+        
+        finalBypassedApps.forEach { packageName ->
             try {
                 builder.addDisallowedApplication(packageName)
             } catch (e: Exception) {
