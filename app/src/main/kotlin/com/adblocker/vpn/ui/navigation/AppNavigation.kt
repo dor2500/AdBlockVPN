@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 
 private object Routes {
     const val DASHBOARD = "dashboard"
@@ -79,8 +80,15 @@ fun AppNavigation() {
                     ) {
                         bottomNavItems.forEach { item ->
                             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+                            val iconScale by androidx.compose.animation.core.animateFloatAsState(if (selected) 1.2f else 1.0f, label = "iconScale")
                             NavigationBarItem(
-                                icon = { Icon(item.icon, contentDescription = item.title) },
+                                icon = { 
+                                    Icon(
+                                        item.icon, 
+                                        contentDescription = item.title,
+                                        modifier = Modifier.scale(iconScale)
+                                    ) 
+                                },
                                 label = { Text(item.title) },
                                 selected = selected,
                                 colors = NavigationBarItemDefaults.colors(
