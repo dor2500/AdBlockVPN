@@ -92,7 +92,6 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = server.name, color = Color.White, fontWeight = FontWeight.Medium)
-                Text(text = "${server.latencyMs} ms", color = Color.Gray, fontSize = 12.sp)
             }
             if (isSelected) {
                 Icon(Icons.Default.Check, contentDescription = "Selected", tint = NeonCyan)
