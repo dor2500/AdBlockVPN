@@ -33,6 +33,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.style.TextOverflow
 import com.adblocker.vpn.data.model.DnsLog
 import kotlinx.coroutines.flow.scan
@@ -294,6 +296,13 @@ fun DashboardScreen(
                     modifier = Modifier.fillMaxWidth().height(48.dp),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { searchQuery = "" }, modifier = Modifier.size(20.dp)) {
+                                Icon(Icons.Filled.Close, contentDescription = "Clear", tint = Color.Gray)
+                            }
+                        }
+                    },
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PremiumCyan,
                         unfocusedBorderColor = GlassBorder,
