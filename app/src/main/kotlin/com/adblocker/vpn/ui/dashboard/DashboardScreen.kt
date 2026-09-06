@@ -230,11 +230,20 @@ fun DashboardScreen(
                             )
                             Spacer(Modifier.height(8.dp))
                             Row(verticalAlignment = Alignment.CenterVertically) {
+                                val dotAlpha by infiniteTransition.animateFloat(
+                                    initialValue = 0.4f,
+                                    targetValue = 1f,
+                                    animationSpec = infiniteRepeatable(
+                                        animation = tween(800, easing = LinearEasing),
+                                        repeatMode = RepeatMode.Reverse
+                                    ),
+                                    label = "dotPulse"
+                                )
                                 Box(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .clip(androidx.compose.foundation.shape.CircleShape)
-                                        .background(if (state.isRunning) Color.White else statusColor)
+                                        .background(if (state.isRunning) Color.White.copy(alpha = dotAlpha) else statusColor)
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
