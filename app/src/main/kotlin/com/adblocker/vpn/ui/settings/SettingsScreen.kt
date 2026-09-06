@@ -340,11 +340,15 @@ fun SettingsScreen(
                                 scope.launch {
                                     val info = Updater.checkForUpdate()
                                     isCheckingUpdate = false
-                                    if (info != null && info.isUpdateAvailable) {
-                                        updateInfo = info
-                                        showUpdateDialog = true
+                                    if (info != null) {
+                                        if (info.isUpdateAvailable) {
+                                            updateInfo = info
+                                            showUpdateDialog = true
+                                        } else {
+                                            updateMessage = "You are on the latest version."
+                                        }
                                     } else {
-                                        updateMessage = "You are on the latest version."
+                                        updateMessage = "Failed to check for updates. GitHub rate limit or network error."
                                     }
                                 }
                             }
