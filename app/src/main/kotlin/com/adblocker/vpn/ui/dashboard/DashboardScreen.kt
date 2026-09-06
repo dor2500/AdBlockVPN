@@ -344,17 +344,24 @@ fun DashboardScreen(
                         }
                     } else {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(filteredLogs) { log ->
+                            items(
+                                items = filteredLogs,
+                                key = { it.timestamp.toString() + it.domain }
+                            ) { log ->
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .padding(vertical = 4.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(GlassBackground)
+                                        .border(0.5.dp, GlassBorder, RoundedCornerShape(12.dp))
                                         .clickable {
                                             val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                                             val clip = android.content.ClipData.newPlainText("domain", log.domain)
                                             clipboard.setPrimaryClip(clip)
                                             android.widget.Toast.makeText(context, "Copied: ${log.domain}", android.widget.Toast.LENGTH_SHORT).show()
                                         }
-                                        .padding(vertical = 8.dp),
+                                        .padding(12.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
