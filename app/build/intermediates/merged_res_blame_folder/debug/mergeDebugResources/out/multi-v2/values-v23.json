@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.adblocker.vpn.app-mergeDebugResources-62:/values-v23/values-v23.xml",
+            "outputFile": "com.adblocker.vpn.app-mergeDebugResources-2:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Dorp\\.gradle\\caches\\8.14.3\\transforms\\67fac44221bab69d216475ed72dab7ac\\transformed\\work-runtime-2.9.1\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Dorp\\.gradle\\caches\\transforms-4\\17b9de30ffbdc289802d4e000b8da02d\\transformed\\work-runtime-2.9.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

@@ -173,7 +173,7 @@ fun DashboardScreen(
                             .size(180.dp)
                             .scale(currentScale)
                             .clip(androidx.compose.foundation.shape.CircleShape)
-                            .background(PrimaryGradient.copy(alpha = 0.3f))
+                            .background(brush = PrimaryGradient, alpha = 0.3f)
                     )
                 }
 
@@ -264,7 +264,7 @@ fun DashboardScreen(
                         modifier = Modifier
                             .size(24.dp)
                             .clip(androidx.compose.foundation.shape.CircleShape)
-                            .background(PrimaryGradient.copy(alpha = 0.2f)),
+                            .background(brush = PrimaryGradient, alpha = 0.2f),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp))
