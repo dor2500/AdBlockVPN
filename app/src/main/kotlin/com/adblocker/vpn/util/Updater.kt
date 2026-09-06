@@ -28,9 +28,48 @@ data class UpdateInfo(
     val downloadUrl: String
 )
 
+data class ReleaseInfo(
+    val version: String,
+    val name: String,
+    val notes: String,
+    val date: String
+)
+
 object Updater {
     private const val TAG = "Updater"
     private const val GITHUB_LATEST_RELEASE_URL = "https://api.github.com/repos/dor2500/AdBlockVPN/releases/latest"
+    private const val GITHUB_RELEASES_URL = "https://api.github.com/repos/dor2500/AdBlockVPN/releases"
+
+    suspend fun fetchChangelog(): List<ReleaseInfo> = withContext(Dispatchers.IO) {
+        val releases = mutableListOf<ReleaseInfo>()
+        try {
+            val url = URL(GITHUB_RELEASES_URL)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+            connection.setRequestProperty("User-Agent", "AdBlockVPN-Updater")
+
+            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                val response = reader.readText()
+                reader.close()
+
+                val jsonArray = org.json.JSONArray(response)
+                for (i in 0 until jsonArray.length()) {
+                    val json = jsonArray.getJSONObject(i)
+                    var tagName = json.getString("tag_name")
+                    if (tagName.startsWith("v")) tagName = tagName.substring(1)
+                    val name = json.optString("name", tagName)
+                    val body = json.optString("body", "No release notes available.")
+                    val date = json.optString("published_at", "")
+                    releases.add(ReleaseInfo(tagName, name, body, date))
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to fetch changelog", e)
+        }
+        releases
+    }
 
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {

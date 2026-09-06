@@ -41,6 +41,7 @@ fun SettingsScreen(
     onNavigateToExcluded: () -> Unit,
     onNavigateToAppBypass: () -> Unit,
     onNavigateToAppFirewall: () -> Unit,
+    onNavigateToChangelog: () -> Unit,
     onBack: () -> Unit,
     viewModel: SettingsViewModel = viewModel()
 ) {
@@ -360,8 +361,17 @@ fun SettingsScreen(
                         if (isCheckingUpdate) {
                             CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black, strokeWidth = 2.dp)
                         } else {
-                            Text("CHECK FOR UPDATES", fontWeight = FontWeight.Bold)
+                            Text("Check for Updates", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                         }
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    OutlinedButton(
+                        onClick = onNavigateToChangelog,
+                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
+                    ) {
+                        Text("View Changelog", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     }
                 }
             }
