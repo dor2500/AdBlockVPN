@@ -298,6 +298,10 @@ fun DashboardScreen(
                 StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
                 StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
                 StatItem(stringResource(R.string.zero_day), format.format(state.queriesZeroDayBlocked))
+                val blockPercent = if (state.queriesTotal > 0) {
+                    String.format("%.1f%%", state.queriesBlocked.toFloat() / state.queriesTotal * 100)
+                } else "0%"
+                StatItem(stringResource(R.string.block_rate), blockPercent)
             }
 
             Spacer(Modifier.height(24.dp))

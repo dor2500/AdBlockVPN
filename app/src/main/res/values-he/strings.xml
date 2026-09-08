@@ -12,6 +12,7 @@
     <string name="blocked">נחסמו</string>
     <string name="zero_day">איומי יום-אפס</string>
     <string name="connection_duration">מחובר</string>
+    <string name="block_rate">אחוז</string>
     <string name="live_threat_feed">עדכוני איומים בזמן אמת</string>
     <string name="log_blocked">[נחסם]</string>
     <string name="log_allowed">אושר</string>

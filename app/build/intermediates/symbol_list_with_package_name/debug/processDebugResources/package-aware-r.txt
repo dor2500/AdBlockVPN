@@ -202,6 +202,7 @@ layout widget_vpn
 mipmap ic_launcher
 string androidx_startup
 string app_name
+string block_rate
 string blocked
 string call_notification_answer_action
 string call_notification_answer_video_action

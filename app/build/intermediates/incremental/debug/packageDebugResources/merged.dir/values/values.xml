@@ -3,6 +3,7 @@
     <color name="purple_500">#FF6650a4</color>
     <color name="teal_500">#FF018786</color>
     <string name="app_name">Nexus VPN</string>
+    <string name="block_rate">RATE</string>
     <string name="blocked">BLOCKED</string>
     <string name="connection_duration">CONNECTED</string>
     <string name="disconnected">DISCONNECTED</string>

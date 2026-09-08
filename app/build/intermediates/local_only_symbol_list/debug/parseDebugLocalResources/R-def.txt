@@ -10,6 +10,7 @@ id widget_status_text
 layout widget_vpn
 mipmap ic_launcher
 string app_name
+string block_rate
 string blocked
 string connection_duration
 string disconnected
