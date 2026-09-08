@@ -212,6 +212,7 @@ string call_notification_ongoing_text
 string call_notification_screening_text
 string close_drawer
 string close_sheet
+string connection_duration
 string default_error_message
 string default_popup_window_title
 string disconnected

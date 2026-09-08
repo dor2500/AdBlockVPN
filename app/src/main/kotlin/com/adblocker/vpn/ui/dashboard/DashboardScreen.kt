@@ -301,6 +301,53 @@ fun DashboardScreen(
             }
 
             Spacer(Modifier.height(24.dp))
+
+            // Connection Duration Timer
+            if (state.isRunning) {
+                var elapsedSeconds by remember { mutableLongStateOf(0L) }
+                LaunchedEffect(state.isRunning) {
+                    elapsedSeconds = 0L
+                    while (true) {
+                        kotlinx.coroutines.delay(1000L)
+                        elapsedSeconds++
+                    }
+                }
+                val hours = elapsedSeconds / 3600
+                val minutes = (elapsedSeconds % 3600) / 60
+                val seconds = elapsedSeconds % 60
+                val timeText = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(GlassBackground)
+                        .border(0.5.dp, GlassBorder, RoundedCornerShape(12.dp))
+                        .padding(vertical = 10.dp, horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "⏱",
+                        fontSize = 16.sp
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.connection_duration),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        letterSpacing = 0.5.sp
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = timeText,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = PremiumCyan,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    )
+                }
+            }
             
             if (state.isRunning) {
                 NetworkGraph(rxSpeed = state.rxSpeed, txSpeed = state.txSpeed)

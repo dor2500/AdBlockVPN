@@ -11,6 +11,7 @@ layout widget_vpn
 mipmap ic_launcher
 string app_name
 string blocked
+string connection_duration
 string disconnected
 string later
 string live_threat_feed

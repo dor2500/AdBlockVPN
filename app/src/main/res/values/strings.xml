@@ -11,6 +11,7 @@
     <string name="queries">QUERIES</string>
     <string name="blocked">BLOCKED</string>
     <string name="zero_day">ZERO-DAY</string>
+    <string name="connection_duration">CONNECTED</string>
     <string name="live_threat_feed">LIVE THREAT FEED</string>
     <string name="log_blocked">[BLOCKED]</string>
     <string name="log_allowed">ALLOWED</string>
