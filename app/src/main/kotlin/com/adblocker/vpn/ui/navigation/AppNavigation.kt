@@ -74,10 +74,12 @@ fun AppNavigation() {
                     NavigationBar(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(80.dp),
-                        containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                        contentColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurface,
-                        tonalElevation = 8.dp
+                            .height(80.dp)
+                            .border(1.dp, com.adblocker.vpn.ui.theme.GlassBorder, androidx.compose.foundation.shape.RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
+                        containerColor = com.adblocker.vpn.ui.theme.GlassBackground,
+                        contentColor = Color.White,
+                        tonalElevation = 0.dp
                     ) {
                         bottomNavItems.forEach { item ->
                             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
@@ -90,14 +92,14 @@ fun AppNavigation() {
                                         modifier = Modifier.scale(iconScale)
                                     ) 
                                 },
-                                label = { Text(item.title) },
+                                label = { Text(item.title, fontWeight = if (selected) androidx.compose.ui.text.font.FontWeight.Bold else androidx.compose.ui.text.font.FontWeight.Normal) },
                                 selected = selected,
                                 colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                                    selectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                                    indicatorColor = androidx.compose.material3.MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                                    unselectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                                    unselectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                                    selectedIconColor = com.adblocker.vpn.ui.theme.NeonCyan,
+                                    selectedTextColor = com.adblocker.vpn.ui.theme.NeonCyan,
+                                    indicatorColor = com.adblocker.vpn.ui.theme.NeonCyan.copy(alpha = 0.15f),
+                                    unselectedIconColor = Color.White.copy(alpha = 0.5f),
+                                    unselectedTextColor = Color.White.copy(alpha = 0.5f)
                                 ),
                                 onClick = {
                                     navController.navigate(item.route) {

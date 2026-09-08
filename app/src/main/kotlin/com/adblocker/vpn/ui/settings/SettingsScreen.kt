@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Add
@@ -430,12 +431,13 @@ private fun NavigationRow(title: String, onClick: () -> Unit, isDestructive: Boo
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(title, modifier = Modifier.weight(1f), color = color, fontWeight = if (isDestructive) FontWeight.Bold else FontWeight.Normal)
-        Icon(Icons.Filled.Close, contentDescription = null, tint = color.copy(alpha = 0.5f))
+        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = color.copy(alpha = 0.5f))
     }
 }
 
