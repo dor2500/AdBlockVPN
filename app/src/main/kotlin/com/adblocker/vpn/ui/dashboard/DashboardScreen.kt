@@ -304,7 +304,55 @@ fun DashboardScreen(
                 StatItem(stringResource(R.string.block_rate), blockPercent)
             }
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(12.dp))
+
+            // Protection Level Badge
+            val protectionLevel = when {
+                !state.isRunning -> "INACTIVE"
+                state.queriesBlocked > 100 -> "MAXIMUM"
+                state.queriesBlocked > 0 -> "STANDARD"
+                else -> "ACTIVE"
+            }
+            val protectionColor = when (protectionLevel) {
+                "MAXIMUM" -> NeonGreen
+                "STANDARD" -> PremiumCyan
+                "ACTIVE" -> Color(0xFFFFB74D)
+                else -> MaterialTheme.colorScheme.onSurfaceVariant
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(protectionColor.copy(alpha = 0.15f))
+                        .border(0.5.dp, protectionColor.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
+                        .padding(horizontal = 16.dp, vertical = 6.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(6.dp)
+                                .clip(androidx.compose.foundation.shape.CircleShape)
+                                .background(protectionColor)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = "Protection: $protectionLevel",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = protectionColor,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.sp
+                        )
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
 
             // Connection Duration Timer
             if (state.isRunning) {
@@ -518,10 +566,11 @@ private fun StatItem(label: String, value: String) {
             },
             label = "stat_value"
         ) { targetValue ->
-            Text(targetValue, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Light, color = MaterialTheme.colorScheme.onSurface)
+            val valueColor = if (targetValue != "0" && targetValue != "0%") PremiumCyan else MaterialTheme.colorScheme.onSurface
+            Text(targetValue, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Light, color = valueColor)
         }
-        Spacer(Modifier.height(8.dp))
-        Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.sp)
+        Spacer(Modifier.height(4.dp))
+        Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 0.8.sp, fontSize = 9.sp)
     }
 }
 
