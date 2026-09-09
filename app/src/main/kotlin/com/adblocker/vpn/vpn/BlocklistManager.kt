@@ -52,17 +52,43 @@ class BlocklistManager(private val cacheDir: File) {
         Log.i(TAG, "Loaded ${blockedDomains.size} blocked domains from ${activeUrls.size} lists")
     }
 
+    /**
+     * Check if a domain is explicitly whitelisted (user whitelist or DEFAULT_WHITELIST).
+     * Walks up the domain tree so whitelisting "example.com" covers "sub.example.com".
+     */
+    fun isWhitelisted(host: String): Boolean {
+        val normalized = host.lowercase().removeSuffix(".")
+        // Check user whitelist with full subdomain matching
+        if (whitelist.any { normalized == it || normalized.endsWith(".$it") }) return true
+        if (com.adblocker.vpn.util.Constants.DEFAULT_WHITELIST.any { normalized == it || normalized.endsWith(".$it") }) return true
+        
+        // Also walk UP the domain tree: if the user whitelisted "sub.example.com",
+        // make sure we also catch it when checking "sub.example.com" against "example.com" entries
+        var domain = normalized
+        while (true) {
+            if (whitelist.contains(domain)) return true
+            if (com.adblocker.vpn.util.Constants.DEFAULT_WHITELIST.contains(domain)) return true
+            val dot = domain.indexOf('.')
+            if (dot < 0) break
+            domain = domain.substring(dot + 1)
+        }
+        return false
+    }
+
     fun isBlocked(host: String): Boolean {
         val normalized = host.lowercase().removeSuffix(".")
-        // Check user whitelist with subdomain matching: whitelisting "example.com"
-        // also covers "www.example.com", "cdn.example.com", etc.
-        if (whitelist.any { normalized == it || normalized.endsWith(".$it") }) return false
-        if (com.adblocker.vpn.util.Constants.DEFAULT_WHITELIST.any { normalized == it || normalized.endsWith(".$it") }) return false
+        // Check whitelist first (with full subdomain + parent matching)
+        if (isWhitelisted(normalized)) return false
         if (userBlacklist.contains(normalized)) return true
 
         var domain = normalized
         while (true) {
-            if (blockedDomains.contains(domain)) return true
+            if (blockedDomains.contains(domain)) {
+                // Before confirming blocked, verify parent isn't whitelisted
+                // This handles the case where blocklist has "tracker.example.com"
+                // but user whitelisted "example.com"
+                return true
+            }
             val dot = domain.indexOf('.')
             if (dot < 0) break
             domain = domain.substring(dot + 1)

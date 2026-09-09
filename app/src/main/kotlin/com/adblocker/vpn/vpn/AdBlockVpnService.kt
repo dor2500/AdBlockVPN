@@ -272,8 +272,12 @@ class AdBlockVpnService : VpnService() {
 
         var blocked = false
         var isZeroDay = false
+        var isWhitelisted = false
         
         if (!isPassThrough.get() && hostname != null) {
+            // Check if domain is explicitly whitelisted FIRST
+            isWhitelisted = blocklistManager.isWhitelisted(hostname)
+
             // App Firewall Killswitch Check
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && blockedInternetApps.isNotEmpty()) {
                 try {
@@ -298,7 +302,7 @@ class AdBlockVpnService : VpnService() {
                 }
             }
 
-            if (!blocked) {
+            if (!blocked && !isWhitelisted) {
                 blocked = blocklistManager.isBlocked(hostname)
                 if (!blocked && enableZeroDayProtection.get()) {
                     isZeroDay = ThreatHeuristics.isZeroDayThreat(hostname)
@@ -317,8 +321,8 @@ class AdBlockVpnService : VpnService() {
         } else {
             val upstreamResponse = dnsProxy.forward(parsed.payload, currentUpstream, useDoh = useDoh.get())
             if (upstreamResponse != null) {
-                // DNS Rebinding Protection
-                if (DnsPacketParser.containsPrivateIp(upstreamResponse)) {
+                // DNS Rebinding Protection — skip for whitelisted domains
+                if (!isWhitelisted && DnsPacketParser.containsPrivateIp(upstreamResponse)) {
                     Log.w(TAG, "DNS Rebinding attack prevented for $hostname")
                     queriesBlocked.incrementAndGet()
                     blocked = true
