@@ -369,12 +369,27 @@ fun DashboardScreen(
                 val seconds = elapsedSeconds % 60
                 val timeText = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
+                val timerBorderFraction by infiniteTransition.animateFloat(
+                    initialValue = 0f,
+                    targetValue = 1f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(3000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Reverse
+                    ),
+                    label = "timerBorder"
+                )
+                val timerBorderColor = androidx.compose.ui.graphics.lerp(
+                    PremiumCyan.copy(alpha = 0.4f),
+                    NeonGreen.copy(alpha = 0.4f),
+                    timerBorderFraction
+                )
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(12.dp))
                         .background(GlassBackground)
-                        .border(0.5.dp, GlassBorder, RoundedCornerShape(12.dp))
+                        .border(width = 0.5.dp, color = timerBorderColor, shape = RoundedCornerShape(12.dp))
                         .padding(vertical = 10.dp, horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
@@ -396,7 +411,8 @@ fun DashboardScreen(
                         style = MaterialTheme.typography.titleMedium,
                         color = PremiumCyan,
                         fontWeight = FontWeight.Bold,
-                        letterSpacing = 2.sp
+                        letterSpacing = 2.sp,
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
                     )
                 }
             }
