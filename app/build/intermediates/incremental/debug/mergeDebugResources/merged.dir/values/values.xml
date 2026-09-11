@@ -200,6 +200,7 @@
     <string name="queries">QUERIES</string>
     <string name="range_end">"Range end"</string>
     <string name="range_start">"Range start"</string>
+    <string name="search_domains_placeholder">Search domains...</string>
     <string name="secured">SECURED</string>
     <string name="selected">Selected</string>
     <string name="start_vpn">Start VPN Protection</string>

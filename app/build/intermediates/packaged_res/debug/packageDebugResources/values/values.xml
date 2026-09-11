@@ -17,6 +17,7 @@
     <string name="notif_paused">Protection Paused</string>
     <string name="protection_paused">PROTECTION PAUSED</string>
     <string name="queries">QUERIES</string>
+    <string name="search_domains_placeholder">Search domains...</string>
     <string name="secured">SECURED</string>
     <string name="start_vpn">Start VPN Protection</string>
     <string name="stop_vpn">Stop VPN Protection</string>

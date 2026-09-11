@@ -477,7 +477,7 @@ fun DashboardScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Search domains...", color = Color.Gray, fontSize = 12.sp) },
+                    placeholder = { Text(stringResource(R.string.search_domains_placeholder), color = Color.Gray, fontSize = 12.sp) },
                     modifier = Modifier.fillMaxWidth().height(48.dp),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,

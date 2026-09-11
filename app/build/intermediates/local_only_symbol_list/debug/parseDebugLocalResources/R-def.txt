@@ -24,6 +24,7 @@ string notif_disconnected
 string notif_paused
 string protection_paused
 string queries
+string search_domains_placeholder
 string secured
 string start_vpn
 string stop_vpn

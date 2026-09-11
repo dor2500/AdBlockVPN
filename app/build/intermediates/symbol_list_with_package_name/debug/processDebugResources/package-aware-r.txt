@@ -292,6 +292,7 @@ string protection_paused
 string queries
 string range_end
 string range_start
+string search_domains_placeholder
 string secured
 string selected
 string start_vpn
