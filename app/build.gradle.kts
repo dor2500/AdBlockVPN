@@ -12,8 +12,8 @@ android {
         applicationId = "com.adblocker.vpn.v2"
         minSdk = 26
         targetSdk = 35
-        versionCode = 57
-        versionName = "6.5.14"
+        versionCode = 58
+        versionName = "6.5.15"
         vectorDrawables.useSupportLibrary = true
     }
 

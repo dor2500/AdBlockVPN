@@ -578,6 +578,15 @@ fun DashboardScreen(
                     }
                 }
             }
+            
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "v${com.adblocker.vpn.BuildConfig.VERSION_NAME}",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                fontSize = 10.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
         } // Close Column
         } // Close Box
     } // Close Scaffold body
