@@ -7,7 +7,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -30,12 +29,8 @@ import kotlinx.coroutines.launch
 import com.adblocker.vpn.util.Constants
 import com.adblocker.vpn.util.Updater
 import com.adblocker.vpn.util.UpdateInfo
-import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.platform.LocalContext
 import com.adblocker.vpn.BuildConfig
-import com.adblocker.vpn.ui.theme.NeonGreen
-import com.adblocker.vpn.ui.theme.GlassBackground
-import com.adblocker.vpn.ui.theme.GlassBorder
 
 @Composable
 fun SettingsScreen(
@@ -95,17 +90,12 @@ fun SettingsScreen(
     }
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("SETTINGS", fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
+                title = { Text("SETTINGS", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -122,13 +112,9 @@ fun SettingsScreen(
                 SectionHeader("APPEARANCE")
                 SettingsCard {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        ThemeButton(name = "System", isSelected = settings.selectedTheme == "system", onClick = { viewModel.setTheme("system") }, modifier = Modifier.weight(1f))
-                        ThemeButton(name = "Light", isSelected = settings.selectedTheme == "light", onClick = { viewModel.setTheme("light") }, modifier = Modifier.weight(1f))
-                    }
-                    Spacer(Modifier.height(8.dp))
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        ThemeButton(name = "Slate", isSelected = settings.selectedTheme == "slate", onClick = { viewModel.setTheme("slate") }, modifier = Modifier.weight(1f))
-                        ThemeButton(name = "Midnight", isSelected = settings.selectedTheme == "midnight", onClick = { viewModel.setTheme("midnight") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Glass Dark", isSelected = settings.selectedTheme == "glass", onClick = { viewModel.setTheme("glass") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Aurora", isSelected = settings.selectedTheme == "aurora", onClick = { viewModel.setTheme("aurora") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Eclipse", isSelected = settings.selectedTheme == "eclipse", onClick = { viewModel.setTheme("eclipse") }, modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -138,9 +124,9 @@ fun SettingsScreen(
                 SectionHeader("NETWORK CONTROL")
                 SettingsCard {
                     NavigationRow(title = "Manage Excluded Networks", onClick = onNavigateToExcluded)
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    DividerItem()
                     NavigationRow(title = "App Bypass (Split Tunneling)", onClick = onNavigateToAppBypass)
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    DividerItem()
                     NavigationRow(title = "App Firewall (Killswitch)", onClick = onNavigateToAppFirewall, isDestructive = true)
                 }
             }
@@ -153,17 +139,17 @@ fun SettingsScreen(
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setUseDoh(it)
                     }
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    DividerItem()
                     SwitchRow("Zero-Day DGA Heuristics", "Blocks procedurally generated malware domains", settings.enableZeroDayProtection) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setEnableZeroDayProtection(it)
                     }
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    DividerItem()
                     SwitchRow("Auto-start on boot", "Launch VPN service when device starts", settings.autoStartOnBoot) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setAutoStart(it)
                     }
-                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
+                    DividerItem()
                     SwitchRow("Aggressive Firewall", "Restart interface immediately on app rule change", settings.aggressiveFirewall) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setAggressiveFirewall(it)
@@ -173,7 +159,7 @@ fun SettingsScreen(
                         onClick = { viewModel.resetStats() }, 
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red)
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
                     ) {
                         Text("Reset Query Statistics", fontWeight = FontWeight.Bold)
                     }
@@ -222,7 +208,7 @@ fun SettingsScreen(
                         onClick = { viewModel.setUpstream(upstreamPrimary, upstreamSecondary) }, 
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                     ) {
                         Text("Save DNS Configuration", fontWeight = FontWeight.Bold)
                     }
@@ -250,26 +236,26 @@ fun SettingsScreen(
                             Checkbox(
                                 checked = isChecked,
                                 onCheckedChange = null,
-                                colors = CheckboxDefaults.colors(checkedColor = NeonGreen, checkmarkColor = Color.Black)
+                                colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colorScheme.primary, checkmarkColor = MaterialTheme.colorScheme.onPrimary)
                             )
                             Spacer(Modifier.width(12.dp))
-                            Text(name, color = Color.White, style = MaterialTheme.typography.bodyMedium)
+                            Text(name, color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodyMedium)
                         }
-                        HorizontalDivider(color = Color.White.copy(alpha = 0.05f))
+                        DividerItem()
                     }
                     Spacer(Modifier.height(16.dp))
                     Button(
                         onClick = { viewModel.refreshBlocklists(settings.activeBlocklists) },
                         enabled = updateState !is BlocklistUpdateState.Updating,
-                        colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = Color.Black),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth().height(50.dp)
                     ) {
                         Text(if (updateState is BlocklistUpdateState.Updating) "UPDATING..." else "SYNC BLOCKLISTS NOW", fontWeight = FontWeight.Bold)
                     }
                     when (val s = updateState) {
-                        is BlocklistUpdateState.Success -> Text("Loaded ${s.domainCount} domains", color = NeonGreen, modifier = Modifier.padding(top = 8.dp))
-                        is BlocklistUpdateState.Error -> Text("Error: ${s.message}", color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+                        is BlocklistUpdateState.Success -> Text("Loaded ${s.domainCount} domains", color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp))
+                        is BlocklistUpdateState.Error -> Text("Error: ${s.message}", color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 8.dp))
                         else -> {}
                     }
                 }
@@ -292,7 +278,7 @@ fun SettingsScreen(
                         settings.whitelist.forEachIndexed { index, domain ->
                             DomainChip(domain) { viewModel.removeWhitelist(domain) }
                             if (index < settings.whitelist.size - 1) {
-                                HorizontalDivider(color = Color.White.copy(alpha = 0.05f))
+                                DividerItem()
                             }
                         }
                     }
@@ -316,7 +302,7 @@ fun SettingsScreen(
                         settings.blacklist.forEachIndexed { index, domain ->
                             DomainChip(domain) { viewModel.removeBlacklist(domain) }
                             if (index < settings.blacklist.size - 1) {
-                                HorizontalDivider(color = Color.White.copy(alpha = 0.05f))
+                                DividerItem()
                             }
                         }
                     }
@@ -332,8 +318,8 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Current Version", color = Color.White)
-                        Text("v${BuildConfig.VERSION_NAME}", color = Color.LightGray)
+                        Text("Current Version", color = MaterialTheme.colorScheme.onSurface)
+                        Text("v${BuildConfig.VERSION_NAME}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     Button(
                         onClick = {
@@ -357,10 +343,10 @@ fun SettingsScreen(
                         },
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = NeonGreen, contentColor = Color.Black)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                     ) {
                         if (isCheckingUpdate) {
-                            CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black, strokeWidth = 2.dp)
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
                         } else {
                             Text("Check for Updates", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                         }
@@ -370,7 +356,7 @@ fun SettingsScreen(
                         onClick = onNavigateToChangelog,
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Text("View Changelog", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     }
@@ -384,10 +370,9 @@ fun SettingsScreen(
 private fun SectionHeader(title: String) {
     Text(
         text = title,
-        style = MaterialTheme.typography.labelMedium,
-        color = com.adblocker.vpn.ui.theme.PremiumCyan,
-        fontWeight = FontWeight.Bold,
-        letterSpacing = 1.sp,
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.primary,
+        fontWeight = FontWeight.Black,
         modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
     )
 }
@@ -396,10 +381,10 @@ private fun SectionHeader(title: String) {
 private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0F172A)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, Color(0xFF1E293B), RoundedCornerShape(16.dp))
+            .border(2.dp, MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f), RoundedCornerShape(16.dp))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             content()
@@ -410,7 +395,7 @@ private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
 @Composable
 private fun ThemeButton(name: String, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val targetContainerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-    val targetContentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
+    val targetContentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
     
     val containerColor by androidx.compose.animation.animateColorAsState(targetContainerColor, label = "theme_bg")
     val contentColor by androidx.compose.animation.animateColorAsState(targetContentColor, label = "theme_text")
@@ -427,7 +412,7 @@ private fun ThemeButton(name: String, isSelected: Boolean, onClick: () -> Unit, 
 
 @Composable
 private fun NavigationRow(title: String, onClick: () -> Unit, isDestructive: Boolean = false) {
-    val color = if (isDestructive) Color.Red else Color.White
+    val color = if (isDestructive) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -450,13 +435,13 @@ private fun SwitchRow(title: String, subtitle: String, checked: Boolean, onCheck
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, color = Color.White, fontWeight = FontWeight.Medium)
-            Text(subtitle, color = Color.LightGray, fontSize = 12.sp, lineHeight = 16.sp)
+            Text(title, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+            Text(subtitle, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, lineHeight = 16.sp)
         }
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(checkedThumbColor = NeonGreen, checkedTrackColor = NeonGreen.copy(alpha=0.3f))
+            colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colorScheme.onPrimary, checkedTrackColor = MaterialTheme.colorScheme.primary)
         )
     }
 }
@@ -477,9 +462,9 @@ private fun DomainInputRow(value: String, onValueChange: (String) -> Unit, onAdd
             onClick = onAdd,
             modifier = Modifier
                 .size(50.dp)
-                .background(NeonGreen, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
         ) {
-            Icon(Icons.Rounded.Add, contentDescription = "Add", tint = Color.Black)
+            Icon(Icons.Rounded.Add, contentDescription = "Add", tint = MaterialTheme.colorScheme.onPrimary)
         }
     }
 }
@@ -492,12 +477,17 @@ private fun DomainChip(domain: String, onRemove: () -> Unit) {
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(domain, modifier = Modifier.weight(1f), color = Color.White, fontSize = 15.sp)
+        Text(domain, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp, fontWeight = FontWeight.Bold)
         IconButton(
             onClick = onRemove,
             modifier = Modifier.size(32.dp)
         ) {
-            Icon(Icons.Rounded.Delete, contentDescription = "Remove", tint = Color.Red.copy(alpha = 0.8f))
+            Icon(Icons.Rounded.Delete, contentDescription = "Remove", tint = MaterialTheme.colorScheme.error)
         }
     }
+}
+
+@Composable
+private fun DividerItem() {
+    HorizontalDivider(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.05f))
 }

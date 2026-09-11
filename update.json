@@ -1,6 +1,6 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v6.5.37",
-  "releaseNotes": "Completely rebuilt the interface from scratch. Added Cyberpunk Theme and Dashboard pulsing radar animations. Fully resolved the updater GitHub API rate limiting issues.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v6.5.37/AdBlockerVPN-v6.5.37.apk"
+  "latestVersion": "v6.5.38",
+  "releaseNotes": "MASSIVE 2026 UI OVERHAUL! Introduced Glassmorphism, Floating UI Navigation, and pitch-black Dark Mode with Aurora and Eclipse themes. The most stunning version yet.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v6.5.38/AdBlockerVPN-v6.5.38.apk"
 }

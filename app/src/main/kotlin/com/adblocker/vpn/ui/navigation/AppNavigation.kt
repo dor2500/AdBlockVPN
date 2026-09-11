@@ -69,16 +69,22 @@ fun AppNavigation() {
             
             if (bottomNavItems.any { it.route == currentDestination?.route }) {
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp, vertical = 24.dp)
                 ) {
                     NavigationBar(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(80.dp)
-                            .border(1.dp, com.adblocker.vpn.ui.theme.GlassBorder, androidx.compose.foundation.shape.RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
-                        containerColor = com.adblocker.vpn.ui.theme.GlassBackground,
-                        contentColor = Color.White,
+                            .height(72.dp)
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(36.dp))
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(36.dp)
+                            ),
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
+                        contentColor = MaterialTheme.colorScheme.onSurface,
                         tonalElevation = 0.dp
                     ) {
                         bottomNavItems.forEach { item ->
@@ -92,14 +98,14 @@ fun AppNavigation() {
                                         modifier = Modifier.scale(iconScale)
                                     ) 
                                 },
-                                label = { Text(item.title, fontWeight = if (selected) androidx.compose.ui.text.font.FontWeight.Bold else androidx.compose.ui.text.font.FontWeight.Normal) },
+                                label = { }, // Hide labels for minimal look
                                 selected = selected,
                                 colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = com.adblocker.vpn.ui.theme.NeonCyan,
-                                    selectedTextColor = com.adblocker.vpn.ui.theme.NeonCyan,
-                                    indicatorColor = com.adblocker.vpn.ui.theme.NeonCyan.copy(alpha = 0.15f),
-                                    unselectedIconColor = Color.White.copy(alpha = 0.5f),
-                                    unselectedTextColor = Color.White.copy(alpha = 0.5f)
+                                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                                    selectedTextColor = Color.Transparent,
+                                    indicatorColor = MaterialTheme.colorScheme.primary,
+                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedTextColor = Color.Transparent
                                 ),
                                 onClick = {
                                     navController.navigate(item.route) {

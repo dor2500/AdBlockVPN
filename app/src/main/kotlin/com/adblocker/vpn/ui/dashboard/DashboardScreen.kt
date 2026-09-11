@@ -61,7 +61,19 @@ fun DashboardScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                if (isRunning) {
+                    androidx.compose.ui.graphics.Brush.radialGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                            MaterialTheme.colorScheme.background
+                        ),
+                        radius = 1500f
+                    )
+                } else {
+                    androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.background)
+                }
+            )
     ) {
         Column(
             modifier = Modifier
@@ -131,23 +143,33 @@ fun DashboardScreen(
                     )
                 }
 
-                // Main Button
+                // Main 3D Glass Button
                 Box(
                     modifier = Modifier
                         .size(240.dp)
                         .scale(scale)
                         .clip(RoundedCornerShape(120.dp))
-                        .background(if (isRunning) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface)
+                        .background(
+                            androidx.compose.ui.graphics.Brush.linearGradient(
+                                colors = if (isRunning) listOf(
+                                    MaterialTheme.colorScheme.primary,
+                                    MaterialTheme.colorScheme.secondary
+                                ) else listOf(
+                                    MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                                    MaterialTheme.colorScheme.surface.copy(alpha = 0.2f)
+                                )
+                            )
+                        )
                         .border(
-                            width = if (isRunning) 0.dp else 4.dp,
-                            color = MaterialTheme.colorScheme.onBackground,
+                            width = 2.dp,
+                            color = if (isRunning) MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f) else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
                             shape = RoundedCornerShape(120.dp)
                         )
                         .shadow(
-                            elevation = if (isRunning) 24.dp else 8.dp,
+                            elevation = if (isRunning) 32.dp else 16.dp,
                             shape = RoundedCornerShape(120.dp),
-                            ambientColor = MaterialTheme.colorScheme.primary,
-                            spotColor = MaterialTheme.colorScheme.primary
+                            ambientColor = if (isRunning) MaterialTheme.colorScheme.secondary else Color.Black,
+                            spotColor = if (isRunning) MaterialTheme.colorScheme.primary else Color.Black
                         )
                         .clickable {
                             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)

@@ -15,6 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.adblocker.vpn.ui.settings.SettingsViewModel
 
+import androidx.activity.enableEdgeToEdge
+
 class MainActivity : ComponentActivity() {
 
     private val notificationPermissionLauncher =
@@ -22,6 +24,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val granted = ContextCompat.checkSelfPermission(
