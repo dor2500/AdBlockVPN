@@ -207,25 +207,24 @@ fun DashboardScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp),
+                    .height(200.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Outer glow pulse
-                if (state.isRunning) {
-                    Box(
-                        modifier = Modifier
-                            .size(180.dp)
-                            .scale(currentScale)
-                            .clip(androidx.compose.foundation.shape.CircleShape)
-                            .background(brush = PrimaryGradient, alpha = 0.3f)
-                    )
-                }
-
-                // Main circular glass button
-                Card(
+                // Sleek Vertical Slider Switch
+                val switchOffset by androidx.compose.animation.core.animateDpAsState(
+                    targetValue = if (state.isRunning) (-30).dp else 30.dp,
+                    animationSpec = androidx.compose.animation.core.tween(400, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+                    label = "switchOffset"
+                )
+                
+                Box(
                     modifier = Modifier
-                        .size(150.dp)
-                        .clip(androidx.compose.foundation.shape.CircleShape)
+                        .size(100.dp, 160.dp)
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(
+                            brush = if (state.isRunning) PrimaryGradient else Brush.verticalGradient(listOf(Color(0xFF1E293B), Color(0xFF0F172A)))
+                        )
+                        .border(1.dp, if (state.isRunning) PremiumCyan.copy(alpha=0.5f) else GlassBorder, RoundedCornerShape(50.dp))
                         .clickable(
                             onClickLabel = if (state.isRunning) stringResource(R.string.stop_vpn) else stringResource(R.string.start_vpn),
                             role = androidx.compose.ui.semantics.Role.Switch
@@ -233,77 +232,66 @@ fun DashboardScreen(
                             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                             if (state.isRunning) stopVpnService(context) else requestStart()
                         },
-                    shape = androidx.compose.foundation.shape.CircleShape,
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Transparent,
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = if (state.isRunning) 16.dp else 0.dp)
+                    contentAlignment = Alignment.Center
                 ) {
+                    // The sliding thumb
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                brush = if (state.isRunning) PrimaryGradient else Brush.linearGradient(listOf(GlassBackground, GlassBackground)),
-                                alpha = 1f
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = if (state.isRunning) GlassBorder else Red500.copy(alpha = 0.3f),
-                                shape = androidx.compose.foundation.shape.CircleShape
-                            ),
+                            .offset(y = switchOffset)
+                            .size(84.dp)
+                            .clip(RoundedCornerShape(42.dp))
+                            .background(Color.White)
+                            .shadow(8.dp, RoundedCornerShape(42.dp)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
+                        androidx.compose.animation.AnimatedContent(
+                            targetState = state.isRunning,
+                            label = "switchIcon"
+                        ) { isRunning ->
                             Icon(
-                                if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
-                                contentDescription = if (state.isRunning) stringResource(R.string.stop_vpn) else stringResource(R.string.start_vpn),
-                                modifier = Modifier.size(48.dp).scale(currentScale),
-                                tint = if (state.isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                                if (isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
+                                contentDescription = null,
+                                tint = if (isRunning) Blue500 else Color.Gray,
+                                modifier = Modifier.size(36.dp)
                             )
-                            Spacer(Modifier.height(8.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                val dotAlpha by infiniteTransition.animateFloat(
-                                    initialValue = 0.4f,
-                                    targetValue = 1f,
-                                    animationSpec = infiniteRepeatable(
-                                        animation = tween(800, easing = LinearEasing),
-                                        repeatMode = RepeatMode.Reverse
-                                    ),
-                                    label = "dotPulse"
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .clip(androidx.compose.foundation.shape.CircleShape)
-                                        .background(if (state.isRunning) Color.White.copy(alpha = dotAlpha) else statusColor)
-                                )
-                                Spacer(Modifier.width(6.dp))
-                                androidx.compose.animation.AnimatedContent(
-                                    targetState = statusText,
-                                    transitionSpec = {
-                                        androidx.compose.animation.fadeIn(animationSpec = tween(300)) + androidx.compose.animation.slideInVertically(animationSpec = tween(300)) { height -> height } togetherWith
-                                                androidx.compose.animation.fadeOut(animationSpec = tween(300)) + androidx.compose.animation.slideOutVertically(animationSpec = tween(300)) { height -> -height }
-                                    },
-                                    label = "statusTextAnim"
-                                ) { text ->
-                                    Text(
-                                        text = text,
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = if (state.isRunning) Color.White else statusColor,
-                                        fontWeight = FontWeight.Bold,
-                                        letterSpacing = 1.sp
-                                    )
-                                }
-                            }
                         }
                     }
                 }
             }
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(24.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                val dotAlpha by infiniteTransition.animateFloat(
+                    initialValue = 0.4f,
+                    targetValue = 1f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(800, easing = LinearEasing),
+                        repeatMode = RepeatMode.Reverse
+                    ),
+                    label = "dotPulse"
+                )
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .clip(androidx.compose.foundation.shape.CircleShape)
+                        .background(if (state.isRunning) PremiumCyan.copy(alpha = dotAlpha) else statusColor)
+                )
+                Spacer(Modifier.width(8.dp))
+                androidx.compose.animation.AnimatedContent(
+                    targetState = statusText,
+                    label = "statusTextAnim"
+                ) { text ->
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = if (state.isRunning) PremiumCyan else statusColor,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(32.dp))
 
             // Glassmorphism Stats Row
             Row(
