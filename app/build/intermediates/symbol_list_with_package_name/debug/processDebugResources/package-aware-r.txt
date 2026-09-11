@@ -296,6 +296,7 @@ string range_start
 string search_domains_placeholder
 string secured
 string selected
+string settings
 string start_vpn
 string status_bar_notification_info_overflow
 string stop_vpn

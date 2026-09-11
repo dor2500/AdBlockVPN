@@ -25,4 +25,5 @@
     <string name="stop_vpn">Stop VPN Protection</string>
     <string name="search_domains_placeholder">Search domains...</string>
     <string name="clear_search">Clear Search</string>
+    <string name="settings">Settings</string>
 </resources>

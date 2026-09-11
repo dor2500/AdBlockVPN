@@ -38,6 +38,7 @@ import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.style.TextOverflow
 import com.adblocker.vpn.data.model.DnsLog
@@ -150,7 +151,18 @@ fun DashboardScreen(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent,
                     titleContentColor = MaterialTheme.colorScheme.onSurface
-                )
+                ),
+                actions = {
+                    IconButton(onClick = {
+                        android.widget.Toast.makeText(context, "Settings coming soon", android.widget.Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(
+                            Icons.Filled.Settings,
+                            contentDescription = stringResource(R.string.settings),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             )
         }
     ) { padding ->

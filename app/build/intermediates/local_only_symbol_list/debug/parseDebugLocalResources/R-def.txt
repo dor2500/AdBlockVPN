@@ -27,6 +27,7 @@ string protection_paused
 string queries
 string search_domains_placeholder
 string secured
+string settings
 string start_vpn
 string stop_vpn
 string update_available
