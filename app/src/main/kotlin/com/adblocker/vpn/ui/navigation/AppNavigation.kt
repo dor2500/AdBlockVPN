@@ -60,100 +60,46 @@ private val bottomNavItems = listOf(
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    Scaffold(
-        modifier = Modifier.cyberBackground(),
-        containerColor = Color.Transparent,
-        bottomBar = {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
-            
-            if (bottomNavItems.any { it.route == currentDestination?.route }) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 24.dp)
-                ) {
-                    NavigationBar(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(72.dp)
-                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(36.dp))
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                                shape = androidx.compose.foundation.shape.RoundedCornerShape(36.dp)
-                            ),
-                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                        contentColor = MaterialTheme.colorScheme.onSurface,
-                        tonalElevation = 0.dp
-                    ) {
-                        bottomNavItems.forEach { item ->
-                            val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-                            val iconScale by androidx.compose.animation.core.animateFloatAsState(if (selected) 1.2f else 1.0f, label = "iconScale")
-                            NavigationBarItem(
-                                icon = { 
-                                    Icon(
-                                        item.icon, 
-                                        contentDescription = item.title,
-                                        modifier = Modifier.scale(iconScale)
-                                    ) 
-                                },
-                                label = { }, // Hide labels for minimal look
-                                selected = selected,
-                                colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                    selectedTextColor = Color.Transparent,
-                                    indicatorColor = MaterialTheme.colorScheme.primary,
-                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    unselectedTextColor = Color.Transparent
-                                ),
-                                onClick = {
-                                    navController.navigate(item.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                }
-                            )
-                        }
-                    }
-                }
-            }
+    NavHost(
+        navController = navController, 
+        startDestination = Routes.DASHBOARD,
+        modifier = Modifier
+            .fillMaxSize()
+            .cyberBackground()
+    ) {
+        composable(Routes.DASHBOARD) {
+            DashboardScreen(
+                onNavigateToSettings = { navController.navigate(Routes.SETTINGS) },
+                onNavigateToLocation = { navController.navigate(Routes.LOCATION) },
+                onNavigateToMonitor = { navController.navigate(Routes.MONITOR) }
+            )
         }
-    ) { innerPadding ->
-        NavHost(navController = navController, startDestination = Routes.DASHBOARD, modifier = Modifier.padding(innerPadding)) {
-            composable(Routes.DASHBOARD) {
-                DashboardScreen()
-            }
-            composable(Routes.LOCATION) {
-                com.adblocker.vpn.ui.location.LocationScreen()
-            }
-            composable(Routes.MONITOR) {
-                MonitorScreen()
-            }
-            composable(Routes.SETTINGS) {
-                SettingsScreen(
-                    onNavigateToExcluded = { navController.navigate(Routes.EXCLUDED_NETWORKS) },
-                    onNavigateToAppBypass = { navController.navigate(Routes.APP_BYPASS) },
-                    onNavigateToAppFirewall = { navController.navigate(Routes.APP_FIREWALL) },
-                    onNavigateToChangelog = { navController.navigate(Routes.CHANGELOG) },
-                    onBack = { navController.popBackStack() }
-                )
-            }
-            composable(Routes.EXCLUDED_NETWORKS) {
-                ExcludedNetworksScreen(onBack = { navController.popBackStack() })
-            }
-            composable(Routes.APP_BYPASS) {
-                com.adblocker.vpn.ui.bypass.AppBypassScreen(onBack = { navController.popBackStack() })
-            }
-            composable(Routes.APP_FIREWALL) {
-                com.adblocker.vpn.ui.firewall.AppFirewallScreen(onBack = { navController.popBackStack() })
-            }
-            composable(Routes.CHANGELOG) {
-                com.adblocker.vpn.ui.settings.ChangelogScreen(onBack = { navController.popBackStack() })
-            }
+        composable(Routes.LOCATION) {
+            com.adblocker.vpn.ui.location.LocationScreen()
+        }
+        composable(Routes.MONITOR) {
+            MonitorScreen()
+        }
+        composable(Routes.SETTINGS) {
+            SettingsScreen(
+                onNavigateToExcluded = { navController.navigate(Routes.EXCLUDED_NETWORKS) },
+                onNavigateToAppBypass = { navController.navigate(Routes.APP_BYPASS) },
+                onNavigateToAppFirewall = { navController.navigate(Routes.APP_FIREWALL) },
+                onNavigateToChangelog = { navController.navigate(Routes.CHANGELOG) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable(Routes.EXCLUDED_NETWORKS) {
+            ExcludedNetworksScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.APP_BYPASS) {
+            com.adblocker.vpn.ui.bypass.AppBypassScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.APP_FIREWALL) {
+            com.adblocker.vpn.ui.firewall.AppFirewallScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.CHANGELOG) {
+            com.adblocker.vpn.ui.settings.ChangelogScreen(onBack = { navController.popBackStack() })
         }
     }
 }

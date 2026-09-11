@@ -18,8 +18,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.data.model.VpnServer
 import com.adblocker.vpn.data.model.VpnServerProvider
-import com.adblocker.vpn.ui.theme.NeonCyan
-import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.border
 
@@ -31,12 +29,12 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
     val selectedId = settings.selectedVpnLocation
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("GLOBAL SERVERS", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                title = { Text("GLOBAL SERVERS", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 2.sp, fontWeight = FontWeight.Black) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -49,7 +47,7 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
             item {
                 Text(
                     text = "Select a region to bypass geo-restrictions. (Note: Premium full-tunnel proxy requires Native Core integration in Phase 2).",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -69,11 +67,11 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
     val animatedBgColor by androidx.compose.animation.animateColorAsState(
-        targetValue = if (isSelected) NeonCyan.copy(alpha = 0.1f) else Color.White.copy(alpha = 0.05f),
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
         label = "bgColorAnim"
     )
     val animatedBorderColor by androidx.compose.animation.animateColorAsState(
-        targetValue = if (isSelected) NeonCyan else Color.White.copy(alpha = 0.1f),
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
         label = "borderColorAnim"
     )
 
@@ -82,7 +80,7 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
             .fillMaxWidth()
             .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
             .background(animatedBgColor)
-            .border(1.dp, animatedBorderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+            .border(2.dp, animatedBorderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
             .clickable { onSelect(server) }
     ) {
         Row(
@@ -93,18 +91,18 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
                 text = server.countryCode,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = if (isSelected) NeonCyan else Color.White,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.width(40.dp)
             )
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = server.name, color = Color.White, fontWeight = FontWeight.Medium)
+                Text(text = server.name, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Medium)
             }
             androidx.compose.animation.AnimatedVisibility(
                 visible = isSelected,
                 enter = androidx.compose.animation.fadeIn() + androidx.compose.animation.scaleIn(),
                 exit = androidx.compose.animation.fadeOut() + androidx.compose.animation.scaleOut()
             ) {
-                Icon(Icons.Default.Check, contentDescription = "Selected", tint = NeonCyan)
+                Icon(Icons.Default.Check, contentDescription = "Selected", tint = MaterialTheme.colorScheme.primary)
             }
         }
     }

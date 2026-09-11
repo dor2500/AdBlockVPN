@@ -36,9 +36,6 @@ import android.content.Intent
 import android.provider.Settings
 import android.net.Uri
 import androidx.compose.ui.platform.LocalContext
-import com.adblocker.vpn.ui.theme.NeonCyan
-import com.adblocker.vpn.ui.theme.NeonGreen
-import com.adblocker.vpn.ui.theme.cyberBackground
 import android.view.HapticFeedbackConstants
 import androidx.compose.ui.platform.LocalView
 
@@ -61,17 +58,17 @@ fun AppFirewallScreen(
     }
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("App Firewall", color = Color.White, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) },
+                title = { Text("App Firewall", color = MaterialTheme.colorScheme.onBackground, fontWeight = FontWeight.Black, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -85,12 +82,12 @@ fun AppFirewallScreen(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Search Apps", color = Color.Gray) },
+                    label = { Text("Search Apps", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = NeonCyan,
-                        unfocusedBorderColor = Color.DarkGray,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.onBackground.copy(alpha=0.2f),
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                     ),
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     shape = RoundedCornerShape(12.dp)
@@ -100,7 +97,7 @@ fun AppFirewallScreen(
             item {
                 Text(
                     text = "Blocked apps will have their internet severed. Note: You may need to Force Stop an app to clear its cached connections.",
-                    color = Color.LightGray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
@@ -108,8 +105,8 @@ fun AppFirewallScreen(
 
             items(filteredApps) { app ->
                 val isBlocked = blockedApps.contains(app.packageName)
-                val cardColor = if (isBlocked) Color.Red.copy(alpha = 0.1f) else Color.DarkGray.copy(alpha = 0.4f)
-                val borderColor = if (isBlocked) Color.Red.copy(alpha = 0.5f) else Color.DarkGray
+                val cardColor = if (isBlocked) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surface
+                val borderColor = if (isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f)
 
                 Column(
                     modifier = Modifier
@@ -117,7 +114,7 @@ fun AppFirewallScreen(
                         .padding(vertical = 6.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(cardColor)
-                        .border(1.dp, borderColor, RoundedCornerShape(16.dp))
+                        .border(2.dp, borderColor, RoundedCornerShape(16.dp))
                 ) {
                     Row(
                         modifier = Modifier
@@ -138,8 +135,8 @@ fun AppFirewallScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(text = app.name, color = if (isBlocked) Color.Red else Color.White, fontWeight = FontWeight.Bold)
-                            Text(text = app.packageName, color = Color.Gray, style = MaterialTheme.typography.bodySmall)
+                            Text(text = app.name, color = if (isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                            Text(text = app.packageName, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
                         }
                         
                         Switch(
@@ -149,10 +146,10 @@ fun AppFirewallScreen(
                                 viewModel.toggleAppBlock(app.packageName, it) 
                             },
                             colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.White,
-                                checkedTrackColor = Color.Red,
-                                uncheckedThumbColor = Color.Gray,
-                                uncheckedTrackColor = Color.DarkGray
+                                checkedThumbColor = MaterialTheme.colorScheme.onError,
+                                checkedTrackColor = MaterialTheme.colorScheme.error,
+                                uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
                             )
                         )
                     }
@@ -166,7 +163,7 @@ fun AppFirewallScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color.Red.copy(alpha = 0.2f))
+                                .background(MaterialTheme.colorScheme.errorContainer)
                                 .clickable {
                                     view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -177,7 +174,7 @@ fun AppFirewallScreen(
                                 .padding(12.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("FORCE STOP TO APPLY", color = Color.White, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
+                            Text("FORCE STOP TO APPLY", color = MaterialTheme.colorScheme.onErrorContainer, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }

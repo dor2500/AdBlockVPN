@@ -25,9 +25,12 @@ data class AppSettings(
     val bypassedApps: Set<String> = emptySet(),
     val blockedInternetApps: Set<String> = emptySet(),
     val aggressiveFirewall: Boolean = false,
-    val selectedTheme: String = "system"
+    val selectedTheme: String = "glass",
+    val vpnProtocol: String = "wireguard",
+    val multiHopEnabled: Boolean = false,
+    val customMtu: Int = 1280,
+    val autoConnectInsecureWifi: Boolean = false
 )
-
 class SettingsDataStore(private val context: Context) {
 
     private object Keys {
@@ -47,6 +50,10 @@ class SettingsDataStore(private val context: Context) {
         val BLOCKED_INTERNET_APPS = stringSetPreferencesKey("blocked_internet_apps")
         val AGGRESSIVE_FIREWALL = booleanPreferencesKey("aggressive_firewall")
         val SELECTED_THEME = stringPreferencesKey("selected_theme")
+        val VPN_PROTOCOL = stringPreferencesKey("vpn_protocol")
+        val MULTI_HOP_ENABLED = booleanPreferencesKey("multi_hop_enabled")
+        val CUSTOM_MTU = intPreferencesKey("custom_mtu")
+        val AUTO_CONNECT_WIFI = booleanPreferencesKey("auto_connect_wifi")
     }
 
     val settingsFlow: Flow<AppSettings> = context.dataStore.data.map { prefs ->
@@ -66,7 +73,11 @@ class SettingsDataStore(private val context: Context) {
             bypassedApps = prefs[Keys.BYPASSED_APPS] ?: emptySet(),
             blockedInternetApps = prefs[Keys.BLOCKED_INTERNET_APPS] ?: emptySet(),
             aggressiveFirewall = prefs[Keys.AGGRESSIVE_FIREWALL] ?: false,
-            selectedTheme = prefs[Keys.SELECTED_THEME] ?: "system"
+            selectedTheme = prefs[Keys.SELECTED_THEME] ?: "glass",
+            vpnProtocol = prefs[Keys.VPN_PROTOCOL] ?: "wireguard",
+            multiHopEnabled = prefs[Keys.MULTI_HOP_ENABLED] ?: false,
+            customMtu = prefs[Keys.CUSTOM_MTU] ?: 1280,
+            autoConnectInsecureWifi = prefs[Keys.AUTO_CONNECT_WIFI] ?: false
         )
     }
 
@@ -139,6 +150,22 @@ class SettingsDataStore(private val context: Context) {
 
     suspend fun setTheme(themeId: String) {
         context.dataStore.edit { it[Keys.SELECTED_THEME] = themeId }
+    }
+
+    suspend fun setVpnProtocol(protocol: String) {
+        context.dataStore.edit { it[Keys.VPN_PROTOCOL] = protocol }
+    }
+
+    suspend fun setMultiHopEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.MULTI_HOP_ENABLED] = enabled }
+    }
+
+    suspend fun setCustomMtu(mtu: Int) {
+        context.dataStore.edit { it[Keys.CUSTOM_MTU] = mtu }
+    }
+
+    suspend fun setAutoConnectWifi(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.AUTO_CONNECT_WIFI] = enabled }
     }
 
     suspend fun recordQueryStats(total: Long, blocked: Long, zeroDay: Long = 0) {

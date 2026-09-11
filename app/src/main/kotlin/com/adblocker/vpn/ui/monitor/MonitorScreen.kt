@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
@@ -21,14 +22,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.adblocker.vpn.data.model.DnsLog
 import com.adblocker.vpn.vpn.AdBlockVpnService
-import com.adblocker.vpn.ui.theme.cyberBackground
-import com.adblocker.vpn.ui.theme.NeonGreen
-import com.adblocker.vpn.ui.theme.CyberRed
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import androidx.compose.foundation.border
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -37,7 +36,7 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
     val logsList = AdBlockVpnService.dnsLogs.replayCache.reversed()
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
@@ -55,16 +54,20 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
                         )
                         Box(
                             modifier = Modifier
-                                .size(8.dp)
+                                .size(12.dp)
                                 .clip(CircleShape)
-                                .background(CyberRed.copy(alpha = dotAlpha))
-                                .border(1.dp, CyberRed, CircleShape)
+                                .background(MaterialTheme.colorScheme.error.copy(alpha = dotAlpha))
                         )
-                        Spacer(Modifier.width(8.dp))
-                        Text("LIVE TRAFFIC", style = MaterialTheme.typography.titleMedium, color = Color.White, letterSpacing = 2.sp) 
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            "LIVE TRAFFIC", 
+                            style = MaterialTheme.typography.titleMedium, 
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontWeight = FontWeight.Black
+                        ) 
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -78,7 +81,7 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
                     .fillMaxSize()
                     .padding(padding),
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(logsList) { log ->
                     LogItemCard(
@@ -94,45 +97,47 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
 
 @Composable
 private fun LogItemCard(log: DnsLog, onWhitelist: (String) -> Unit, onBlacklist: (String) -> Unit) {
-    val borderColor = if (log.isBlocked) CyberRed.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.1f)
-    val bgColor = if (log.isBlocked) CyberRed.copy(alpha = 0.1f) else Color.White.copy(alpha = 0.05f)
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
-            .background(bgColor)
-            .border(1.dp, borderColor, androidx.compose.foundation.shape.RoundedCornerShape(12.dp))
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = RoundedCornerShape(16.dp),
+        border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f))
     ) {
         Row(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val color = if (log.isBlocked) CyberRed else NeonGreen
+            val color = if (log.isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
             Box(
                 modifier = Modifier
-                    .size(10.dp)
+                    .size(12.dp)
                     .clip(CircleShape)
                     .background(color)
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 val time = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date(log.timestamp))
-                Text(time, style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                Text(log.domain, style = MaterialTheme.typography.bodyMedium, fontFamily = FontFamily.Monospace, color = Color.White)
+                Text(time, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    log.domain, 
+                    style = MaterialTheme.typography.bodyMedium, 
+                    fontFamily = FontFamily.Monospace, 
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
+                )
             }
             IconButton(onClick = { onWhitelist(log.domain) }) {
                 Icon(
                     androidx.compose.material.icons.Icons.Default.CheckCircle,
                     contentDescription = "Whitelist",
-                    tint = Color.Green.copy(alpha = 0.7f)
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
             IconButton(onClick = { onBlacklist(log.domain) }) {
                 Icon(
                     androidx.compose.material.icons.Icons.Default.Cancel,
                     contentDescription = "Blacklist",
-                    tint = Color.Red.copy(alpha = 0.7f)
+                    tint = MaterialTheme.colorScheme.error
                 )
             }
         }

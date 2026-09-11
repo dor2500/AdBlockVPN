@@ -16,8 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.R
-import com.adblocker.vpn.ui.theme.NeonGreen
-import com.adblocker.vpn.ui.theme.cyberBackground
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,17 +31,17 @@ fun AppBypassScreen(
     val bypassedApps by viewModel.bypassedApps.collectAsState()
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("APP BYPASS", fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp) },
+                title = { Text("APP BYPASS", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -56,7 +54,7 @@ fun AppBypassScreen(
             item {
                 Text(
                     text = "Apps turned ON will bypass the AdBlocker VPN completely and use normal unmonitored internet.",
-                    color = Color.LightGray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
@@ -69,23 +67,23 @@ fun AppBypassScreen(
                         .fillMaxWidth()
                         .padding(vertical = 6.dp)
                         .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
-                        .background(if (isBypassed) Color.White.copy(alpha = 0.05f) else Color.DarkGray.copy(alpha = 0.4f))
-                        .border(1.dp, if (isBypassed) NeonGreen.copy(alpha=0.5f) else Color.DarkGray, androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                        .background(if (isBypassed) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)
+                        .border(2.dp, if (isBypassed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(text = app.name, color = if (isBypassed) NeonGreen else Color.White, fontWeight = FontWeight.Bold)
-                        Text(text = app.packageName, color = Color.Gray, style = MaterialTheme.typography.bodySmall)
+                        Text(text = app.name, color = if (isBypassed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                        Text(text = app.packageName, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
                     }
                     Switch(
                         checked = isBypassed,
                         onCheckedChange = { viewModel.toggleAppBypass(app.packageName, it) },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color.White,
-                            checkedTrackColor = NeonGreen,
-                            uncheckedThumbColor = Color.Gray,
-                            uncheckedTrackColor = Color.DarkGray
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
                         )
                     )
                 }

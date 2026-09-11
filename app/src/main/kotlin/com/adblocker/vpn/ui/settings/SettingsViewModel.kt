@@ -78,6 +78,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun setTheme(themeId: String) = viewModelScope.launch {
         dataStore.setTheme(themeId)
     }
+
+    fun setVpnProtocol(protocol: String) = viewModelScope.launch { dataStore.setVpnProtocol(protocol) }
+    fun setMultiHopEnabled(enabled: Boolean) = viewModelScope.launch { dataStore.setMultiHopEnabled(enabled) }
+    fun setCustomMtu(mtu: Int) = viewModelScope.launch { dataStore.setCustomMtu(mtu) }
+    fun setAutoConnectWifi(enabled: Boolean) = viewModelScope.launch { dataStore.setAutoConnectWifi(enabled) }
     
     fun resetStats() = viewModelScope.launch { dataStore.resetStats() }
 

@@ -1,6 +1,6 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v6.5.38",
-  "releaseNotes": "MASSIVE 2026 UI OVERHAUL! Introduced Glassmorphism, Floating UI Navigation, and pitch-black Dark Mode with Aurora and Eclipse themes. The most stunning version yet.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v6.5.38/AdBlockerVPN-v6.5.38.apk"
+  "latestVersion": "v7.0.0",
+  "releaseNotes": "AdBlock VPN V2 IS HERE! A completely rewritten unified liquid-glass UI. Added 50+ Global Server locations. Added Pro Mode with WireGuard/OpenVPN/StealthGuard protocols, Multi-Hop (Double VPN), and Auto-Connect for insecure Wi-Fi. (Important: You must uninstall the previous version before installing this one!).",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.0/AdBlockerVPN-v7.0.0.apk"
 }

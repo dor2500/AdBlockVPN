@@ -131,6 +131,70 @@ fun SettingsScreen(
                 }
             }
 
+            // --- Pro Mode: Advanced Protocols ---
+            item {
+                SectionHeader("PRO MODE (EXPERIMENTAL)")
+                SettingsCard {
+                    Text("VPN Protocol", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text("Select tunneling technology", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(12.dp))
+                    
+                    var expanded by remember { mutableStateOf(false) }
+                    val protocols = mapOf(
+                        "wireguard" to "WireGuard (Fastest)",
+                        "openvpn_udp" to "OpenVPN UDP",
+                        "openvpn_tcp" to "OpenVPN TCP",
+                        "ikev2" to "IKEv2 / IPsec",
+                        "stealthguard" to "StealthGuard (Obfuscated)"
+                    )
+                    
+                    Box {
+                        OutlinedButton(
+                            onClick = { expanded = true },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(protocols[settings.vpnProtocol] ?: "WireGuard")
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                        ) {
+                            protocols.forEach { (id, label) ->
+                                DropdownMenuItem(
+                                    text = { Text(label, color = MaterialTheme.colorScheme.onSurface) },
+                                    onClick = {
+                                        viewModel.setVpnProtocol(id)
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    
+                    DividerItem()
+                    
+                    SwitchRow(
+                        "Multi-Hop (Double VPN)", 
+                        "Route traffic through 2 servers for maximum anonymity", 
+                        settings.multiHopEnabled
+                    ) {
+                        viewModel.setMultiHopEnabled(it)
+                    }
+                    
+                    DividerItem()
+                    
+                    SwitchRow(
+                        "Auto-connect on Insecure Wi-Fi", 
+                        "Automatically engage VPN on unknown networks", 
+                        settings.autoConnectInsecureWifi
+                    ) {
+                        viewModel.setAutoConnectWifi(it)
+                    }
+                }
+            }
+
             // --- Advanced Protection Section ---
             item {
                 SectionHeader("ADVANCED PROTECTION")

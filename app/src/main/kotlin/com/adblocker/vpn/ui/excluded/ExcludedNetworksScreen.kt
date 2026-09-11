@@ -16,8 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adblocker.vpn.data.db.ExcludedNetworkEntity
 import com.adblocker.vpn.data.model.NetworkIdentifierType
-import com.adblocker.vpn.ui.theme.cyberBackground
-import com.adblocker.vpn.ui.theme.NeonGreen
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,26 +43,26 @@ fun ExcludedNetworksScreen(
     }
 
     Scaffold(
-        modifier = Modifier.cyberBackground(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             @OptIn(ExperimentalMaterial3Api::class)
             CenterAlignedTopAppBar(
-                title = { Text("EXCLUDED NETWORKS", fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 1.sp) },
+                title = { Text("EXCLUDED NETWORKS", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showManualDialog = true },
-                containerColor = NeonGreen,
-                contentColor = Color.Black
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Add network")
             }
@@ -82,7 +80,7 @@ fun ExcludedNetworksScreen(
                     }
                 },
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f), contentColor = NeonGreen)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer, contentColor = MaterialTheme.colorScheme.primary)
             ) {
                 Icon(Icons.Filled.WifiFind, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
@@ -138,30 +136,30 @@ private fun ExcludedNetworkRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
-            .background(if (entity.enabled) Color.White.copy(alpha = 0.05f) else Color.Red.copy(alpha=0.05f))
-            .border(1.dp, if (entity.enabled) Color.White.copy(alpha = 0.1f) else Color.Red.copy(alpha=0.3f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+            .background(if (entity.enabled) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface)
+            .border(2.dp, if (entity.enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f), androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
             .padding(16.dp),
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(entity.displayName, style = MaterialTheme.typography.bodyLarge, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(entity.displayName, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(4.dp))
             Text(
                 "${typeLabel(entity.identifierType)}: ${entity.identifierValue}",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.LightGray
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Switch(
             checked = entity.enabled, 
             onCheckedChange = onToggle,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = NeonGreen,
-                checkedTrackColor = NeonGreen.copy(alpha = 0.3f)
+                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                checkedTrackColor = MaterialTheme.colorScheme.primary
             )
         )
         IconButton(onClick = onDelete) {
-            Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = Color.Red.copy(alpha=0.7f))
+            Icon(Icons.Filled.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
         }
     }
 }
