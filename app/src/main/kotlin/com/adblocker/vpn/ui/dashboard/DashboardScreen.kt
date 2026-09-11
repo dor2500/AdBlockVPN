@@ -540,7 +540,9 @@ fun DashboardScreen(
                                         .clip(RoundedCornerShape(12.dp))
                                         .background(GlassBackground)
                                         .border(0.5.dp, if (log.isBlocked) Color(0x33FF5252) else GlassBorder, RoundedCornerShape(12.dp))
-                                        .clickable {
+                                        .clickable(
+                                            onClickLabel = "Copy domain to clipboard"
+                                        ) {
                                             val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                                             val clip = android.content.ClipData.newPlainText("domain", log.domain)
                                             clipboard.setPrimaryClip(clip)
