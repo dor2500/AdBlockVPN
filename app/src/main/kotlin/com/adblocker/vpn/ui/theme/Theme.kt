@@ -15,120 +15,115 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
-// Premium Core Colors
-val Blue500 = Color(0xFF0057FF)
-val Emerald500 = Color(0xFF00FF87)
-val Red500 = Color(0xFFFF0055)
+// --- Apple Minimal Theme ---
+val AppleSurface = Color(0xFFFFFFFF)
+val AppleBackground = Color(0xFFF2F2F7)
+val ApplePrimary = Color(0xFF007AFF)
+val AppleText = Color(0xFF000000)
+val AppleTextSecondary = Color(0xFF8E8E93)
+val AppleCard = Color(0xFFFFFFFF)
 
-val PremiumCyan = Color(0xFF00F0FF)
-val PremiumPurple = Color(0xFF8A2BE2)
-
-// Light Theme Colors
-val LightBackground = Color(0xFFF8FAFC)
-val LightSurface = Color(0xFFFFFFFF)
-
-// Slate Theme Colors
-val SlateBackground = Color(0xFF0F172A)
-val SlateSurface = Color(0xFF1E293B)
-
-// Midnight Theme Colors
-val MidnightBackground = Color(0xFF0A0E17)
-val MidnightSurface = Color(0xFF131A2A)
-
-// Glassmorphism 
-val GlassBackground = Color.White.copy(alpha = 0.03f)
-val GlassBorder = Color.White.copy(alpha = 0.1f)
-
-// Premium Gradients
-val PrimaryGradient = Brush.linearGradient(listOf(PremiumCyan, Blue500))
-val SuccessGradient = Brush.linearGradient(listOf(Emerald500, Color(0xFF00B359)))
-val DangerGradient = Brush.linearGradient(listOf(Red500, Color(0xFFCC0044)))
-
-// Legacy aliases for compilation compatibility in other files
-val NeonCyan = Blue500
-val NeonGreen = Emerald500
-val CyberRed = Red500
-
-val LightScheme = lightColorScheme(
-    primary = Blue500,
+val AppleMinimalScheme = lightColorScheme(
+    primary = ApplePrimary,
     onPrimary = Color.White,
-    secondary = Emerald500,
+    secondary = ApplePrimary,
     onSecondary = Color.White,
-    background = LightBackground,
-    surface = LightSurface,
-    onBackground = Color(0xFF0F172A),
-    onSurface = Color(0xFF0F172A),
-    onSurfaceVariant = Color(0xFF64748B)
+    background = AppleBackground,
+    surface = AppleSurface,
+    onBackground = AppleText,
+    onSurface = AppleText,
+    onSurfaceVariant = AppleTextSecondary
 )
 
-val SlateScheme = darkColorScheme(
-    primary = Blue500,
+// --- Neo Brutalism Theme ---
+val BrutalBackground = Color(0xFFFFF9E6) // Warm yellowish white
+val BrutalSurface = Color(0xFFFFFFFF)
+val BrutalPrimary = Color(0xFFFF5E5B) // Punchy Red
+val BrutalSecondary = Color(0xFF00E5FF) // Cyan
+val BrutalText = Color(0xFF000000)
+
+val NeoBrutalismScheme = lightColorScheme(
+    primary = BrutalPrimary,
     onPrimary = Color.White,
-    secondary = Emerald500,
-    onSecondary = Color.White,
-    background = SlateBackground,
-    surface = SlateSurface,
-    onBackground = Color.White,
-    onSurface = Color.White,
-    onSurfaceVariant = Color(0xFF94A3B8)
+    secondary = BrutalSecondary,
+    onSecondary = Color.Black,
+    background = BrutalBackground,
+    surface = BrutalSurface,
+    onBackground = BrutalText,
+    onSurface = BrutalText,
+    onSurfaceVariant = Color.Black
 )
 
-val MidnightScheme = darkColorScheme(
-    primary = Blue500,
-    onPrimary = Color.White,
-    secondary = Emerald500,
-    onSecondary = Color.White,
-    background = MidnightBackground,
-    surface = MidnightSurface,
-    onBackground = Color.White,
-    onSurface = Color.White,
-    onSurfaceVariant = Color(0xFF8B949E)
+// --- Cyberpunk Theme ---
+val CyberBackground = Color(0xFF0F0F1A) // Deep space black
+val CyberSurface = Color(0xFF1B1B2F) // Dark blue-grey
+val CyberPrimary = Color(0xFFE94560) // Neon pink/red
+val CyberSecondary = Color(0xFF00FFCC) // Neon cyan
+val CyberText = Color(0xFFFFFFFF)
+val CyberTextSecondary = Color(0xFFA0A0B5)
+
+val CyberpunkScheme = darkColorScheme(
+    primary = CyberPrimary,
+    onPrimary = Color.Black,
+    secondary = CyberSecondary,
+    onSecondary = Color.Black,
+    background = CyberBackground,
+    surface = CyberSurface,
+    onBackground = CyberText,
+    onSurface = CyberText,
+    onSurfaceVariant = CyberTextSecondary
 )
 
+// Standard Typography
 val ModernTypography = Typography(
     titleMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.ExtraBold,
-        fontSize = 22.sp,
-        letterSpacing = 1.2.sp
+        fontSize = 24.sp,
+        letterSpacing = (-0.5).sp
     ),
     headlineMedium = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-        letterSpacing = 1.5.sp
+        fontWeight = FontWeight.Black,
+        fontSize = 36.sp,
+        letterSpacing = (-1).sp
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
-        letterSpacing = 1.5.sp
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        letterSpacing = 0.5.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        letterSpacing = 0.5.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 17.sp,
+        letterSpacing = (-0.2).sp
     ),
     bodySmall = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Normal,
-        fontSize = 13.sp
+        fontSize = 14.sp
     )
 )
 
+// Legacy variables to not break compilation in untouched files while transitioning
+val PremiumCyan = BrutalSecondary
+val NeonGreen = Color(0xFF00FF87)
+val GlassBackground = Color.Transparent
+val GlassBorder = Color.Transparent
+val Blue500 = ApplePrimary
+
 @Composable
 fun AdBlockerTheme(
-    themeName: String = "system",
+    themeName: String = "cyberpunk", // Default to Cyberpunk
     content: @Composable () -> Unit
 ) {
-    val isSystemDark = isSystemInDarkTheme()
-    
     val colorScheme = when (themeName) {
-        "light" -> LightScheme
-        "slate" -> SlateScheme
-        "midnight" -> MidnightScheme
-        else -> if (isSystemDark) SlateScheme else LightScheme
+        "apple" -> AppleMinimalScheme
+        "brutal" -> NeoBrutalismScheme
+        "cyberpunk" -> CyberpunkScheme
+        else -> CyberpunkScheme
     }
 
     MaterialTheme(
@@ -138,7 +133,6 @@ fun AdBlockerTheme(
     )
 }
 
-// Keep this to not break existing modifiers, but point it to standard background
 @Composable
 fun Modifier.cyberBackground(): Modifier {
     return this.background(MaterialTheme.colorScheme.background)
