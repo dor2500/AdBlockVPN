@@ -334,11 +334,21 @@ fun DashboardScreen(
                         .padding(horizontal = 16.dp, vertical = 6.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        val dotAlphaValue by infiniteTransition.animateFloat(
+                            initialValue = 0.4f,
+                            targetValue = 1f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse
+                            ),
+                            label = "protectionDotPulse"
+                        )
+                        val finalAlpha = if (state.isRunning) dotAlphaValue else 1f
                         Box(
                             modifier = Modifier
                                 .size(6.dp)
                                 .clip(androidx.compose.foundation.shape.CircleShape)
-                                .background(protectionColor)
+                                .background(protectionColor.copy(alpha = finalAlpha))
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
