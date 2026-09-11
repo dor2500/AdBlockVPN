@@ -5,6 +5,7 @@
     <string name="app_name">Nexus VPN</string>
     <string name="block_rate">RATE</string>
     <string name="blocked">BLOCKED</string>
+    <string name="clear_search">Clear Search</string>
     <string name="connection_duration">CONNECTED</string>
     <string name="disconnected">DISCONNECTED</string>
     <string name="later">Later</string>

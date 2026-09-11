@@ -24,4 +24,5 @@
     <string name="start_vpn">Start VPN Protection</string>
     <string name="stop_vpn">Stop VPN Protection</string>
     <string name="search_domains_placeholder">Search domains...</string>
+    <string name="clear_search">Clear Search</string>
 </resources>

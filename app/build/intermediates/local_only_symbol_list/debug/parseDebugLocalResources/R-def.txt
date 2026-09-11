@@ -12,6 +12,7 @@ mipmap ic_launcher
 string app_name
 string block_rate
 string blocked
+string clear_search
 string connection_duration
 string disconnected
 string later

@@ -484,7 +484,7 @@ fun DashboardScreen(
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { searchQuery = "" }, modifier = Modifier.size(20.dp)) {
-                                Icon(Icons.Filled.Close, contentDescription = "Clear", tint = Color.Gray)
+                                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.clear_search), tint = Color.Gray)
                             }
                         }
                     },
