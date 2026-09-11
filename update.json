@@ -1,8 +1,9 @@
 {
   "isUpdateAvailable": true,
   "latestVersion": "v7.0.3",
-  "releaseNotes": "🚨 CRITICAL UPDATE (v7.0.3) 🚨\n\nMassive 'Liquid Glass' UI Redesign!\nAdded 40+ global servers with latency monitoring!\nFixed a critical crash on Android 14 devices.\n\nNOTE: If you are upgrading from v6.5.36 or older, the 'Update Now' button will fail. Please open your browser and go to:\ngithub.com/dor2500/AdBlockVPN/releases\nand install v7.0.3 manually.",
+  "releaseNotes": "🚨 CRITICAL UPDATE (v7.0.3) 🚨\n\nMassive 'Liquid Glass' UI Redesign!\nAdded 40+ global servers with latency monitoring!\nFixed a critical crash on Android 14 devices.\n\n(If you are on v7.0.1, you can just click Update Now! It will work!)",
   "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.3/AdBlockerVPN-v7.0.3.apk"
 }
+
 
 
