@@ -142,6 +142,8 @@ class AdBlockVpnService : VpnService() {
         val finalBypassedApps = bypassedApps.toMutableSet().apply {
             add("com.anydesk.anydeskandroid") // Prevent AnyDesk connection issues
             add("com.spotify.music") // Fix Spotify playback block
+            add("com.wolt.android") // Fix Wolt breaking when trackers are blocked
+            add("com.alibaba.aliexpresshd") // Fix AliExpress breaking when trackers are blocked
         }
         
         finalBypassedApps.forEach { packageName ->
