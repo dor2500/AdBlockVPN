@@ -457,6 +457,15 @@ fun DashboardScreen(
                     .padding(16.dp)
             ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        val threatPulse by infiniteTransition.animateFloat(
+                            initialValue = 0.8f,
+                            targetValue = 1.2f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse
+                            ),
+                            label = "threatPulse"
+                        )
                         Box(
                             modifier = Modifier
                                 .size(24.dp)
@@ -464,7 +473,7 @@ fun DashboardScreen(
                                 .background(brush = PrimaryGradient, alpha = 0.2f),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp))
+                            Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp).scale(threatPulse))
                         }
                         Spacer(Modifier.width(12.dp))
                         Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
