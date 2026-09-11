@@ -37,6 +37,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.IconButton
@@ -587,12 +588,20 @@ fun DashboardScreen(
                                         overflow = TextOverflow.Ellipsis,
                                         modifier = Modifier.weight(1f).padding(end = 8.dp)
                                     )
-                                    Box(
+                                    Row(
                                         modifier = Modifier
                                             .clip(RoundedCornerShape(8.dp))
                                             .background(if (log.isBlocked) DangerGradient else SuccessGradient)
-                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
+                                        Icon(
+                                            imageVector = if (log.isBlocked) Icons.Filled.Close else Icons.Filled.Check,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                        Spacer(Modifier.width(4.dp))
                                         Text(
                                             text = if (log.isBlocked) stringResource(R.string.log_blocked).uppercase() else stringResource(R.string.log_allowed).uppercase(),
                                             color = Color.White,
