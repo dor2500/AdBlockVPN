@@ -1,7 +1,8 @@
 {
   "isUpdateAvailable": true,
   "latestVersion": "v7.0.2",
-  "releaseNotes": "Fix update parsing error on older devices. Removed special Use manifest tags. Fixed Scoped Storage bug.",
+  "releaseNotes": "🚨 CRITICAL UPDATE (v7.0.2) 🚨\n\nDue to an Android security change in the previous version, the 'Update Now' button below WILL NOT WORK and will show a 'Problem parsing package' error.\n\nTO UPDATE, YOU MUST OPEN YOUR BROWSER AND GO TO:\ngithub.com/dor2500/AdBlockVPN/releases\n\nDownload and install v7.0.2 manually. Future updates will work normally after this.",
   "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.2/AdBlockerVPN-v7.0.2.apk"
 }
+
 
