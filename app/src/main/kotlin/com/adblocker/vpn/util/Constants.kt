@@ -35,50 +35,30 @@ object Constants {
     
     // Hardcoded Essential Whitelist (These will never be blocked, regardless of lists)
     val DEFAULT_WHITELIST = setOf(
-        "google.com",
-        "googleapis.com",
-        "gstatic.com",
-        "gemini.google.com",
-        "generativelanguage.googleapis.com",
-        "ai.google.dev",
-        "apple.com",
-        "icloud.com",
-        "whatsapp.com",
-        "whatsapp.net",
-        "cdn.whatsapp.net",
-        "wa.me",
-        "fbcdn.net",
-        "fbsbx.com",
-        "mmg.whatsapp.net",
-        "pps.whatsapp.net",
-        "media.whatsapp.net",
-        "microsoft.com",
-        "windowsupdate.com",
-        "office.com",
-        "youtube.com",
-        "googlevideo.com",
-        "ytimg.com",
-        "youtube-nocookie.com",
-        "tiktokcdn.com",
-        "tiktokv.com",
-        "byteoversea.com",
-        "netflix.com",
-        "spotify.com",
-        "amazon.com",
-        "aws.amazon.com",
-        "facebook.com",
-        "instagram.com",
-        "paypal.com",
-        "github.com",
-        "githubusercontent.com",
-        "android.com",
-        "aliexpress.com",
-        "alicdn.com",
-        "alibaba.com",
-        "aliexpress.ru",
-        "wolt.com",
-        "wolt.net",
-        "woltapi.com"
+        // Google & Core Services
+        "google.com", "googleapis.com", "gstatic.com", 
+        "gemini.google.com", "generativelanguage.googleapis.com", "ai.google.dev",
+        
+        // Apple & Cloud
+        "apple.com", "icloud.com", "microsoft.com", "windowsupdate.com", "office.com",
+        
+        // Social Media & Messaging
+        "whatsapp.com", "whatsapp.net", "cdn.whatsapp.net", "wa.me", 
+        "mmg.whatsapp.net", "pps.whatsapp.net", "media.whatsapp.net",
+        "facebook.com", "fbcdn.net", "fbsbx.com", "instagram.com",
+        "tiktokcdn.com", "tiktokv.com", "byteoversea.com",
+        
+        // Media & Entertainment
+        "youtube.com", "googlevideo.com", "ytimg.com", "youtube-nocookie.com",
+        "netflix.com", "spotify.com",
+        
+        // E-commerce & Delivery
+        "amazon.com", "aws.amazon.com", 
+        "aliexpress.com", "alicdn.com", "alibaba.com", "aliexpress.ru",
+        "wolt.com", "wolt.net", "woltapi.com",
+        
+        // Tech & Dev
+        "paypal.com", "github.com", "githubusercontent.com", "android.com"
     )
     
     const val NOTIFICATION_CHANNEL_ID = "vpn_status_channel"
