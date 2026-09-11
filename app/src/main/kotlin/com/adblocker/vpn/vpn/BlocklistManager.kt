@@ -58,9 +58,6 @@ class BlocklistManager(private val cacheDir: File) {
      */
     fun isWhitelisted(host: String): Boolean {
         val normalized = host.lowercase().removeSuffix(".")
-        // Check user whitelist with full subdomain matching
-        if (whitelist.any { normalized == it || normalized.endsWith(".$it") }) return true
-        if (com.adblocker.vpn.util.Constants.DEFAULT_WHITELIST.any { normalized == it || normalized.endsWith(".$it") }) return true
         
         // Also walk UP the domain tree: if the user whitelisted "sub.example.com",
         // make sure we also catch it when checking "sub.example.com" against "example.com" entries
