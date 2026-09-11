@@ -134,7 +134,7 @@ fun DashboardScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Filled.Shield,
-                            contentDescription = "Logo",
+                            contentDescription = null, // Decorative icon next to title
                             tint = topBarIconTint,
                             modifier = Modifier.size(24.dp)
                         )
