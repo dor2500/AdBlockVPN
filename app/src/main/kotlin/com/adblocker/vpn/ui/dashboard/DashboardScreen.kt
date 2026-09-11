@@ -143,7 +143,10 @@ fun DashboardScreen(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = stringResource(R.string.app_name).uppercase(),
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                brush = if (state.isRunning) PrimaryGradient else null
+                            ),
+                            color = if (state.isRunning) Color.Unspecified else MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.5.sp
                         )

@@ -34,7 +34,28 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun setUpstream(primary: String, secondary: String) =
         viewModelScope.launch { dataStore.setUpstream(primary, secondary) }
 
-    fun addWhitelist(domain: String) = viewModelScope.launch { dataStore.addToWhitelist(domain) }
+    private fun extractDomain(input: String): String {
+        var domain = input.trim().lowercase()
+        try {
+            if (domain.startsWith("http://") || domain.startsWith("https://")) {
+                val uri = java.net.URI(domain)
+                uri.host?.let { domain = it }
+            } else if (domain.contains("/")) {
+                domain = domain.substringBefore("/")
+            }
+        } catch (e: Exception) {
+            // ignore
+        }
+        domain = domain.removePrefix("www.")
+        return domain
+    }
+
+    fun addWhitelist(domain: String) = viewModelScope.launch { 
+        val cleanDomain = extractDomain(domain)
+        if (cleanDomain.isNotBlank()) {
+            dataStore.addToWhitelist(cleanDomain) 
+        }
+    }
     fun removeWhitelist(domain: String) = viewModelScope.launch { dataStore.removeFromWhitelist(domain) }
     fun addBlacklist(domain: String) = viewModelScope.launch { dataStore.addToBlacklist(domain) }
     fun removeBlacklist(domain: String) = viewModelScope.launch { dataStore.removeFromBlacklist(domain) }
