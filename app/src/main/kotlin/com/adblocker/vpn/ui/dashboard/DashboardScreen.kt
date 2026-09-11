@@ -223,7 +223,10 @@ fun DashboardScreen(
                     modifier = Modifier
                         .size(150.dp)
                         .clip(androidx.compose.foundation.shape.CircleShape)
-                        .clickable {
+                        .clickable(
+                            onClickLabel = if (state.isRunning) stringResource(R.string.stop_vpn) else stringResource(R.string.start_vpn),
+                            role = androidx.compose.ui.semantics.Role.Switch
+                        ) {
                             view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                             if (state.isRunning) stopVpnService(context) else requestStart()
                         },
