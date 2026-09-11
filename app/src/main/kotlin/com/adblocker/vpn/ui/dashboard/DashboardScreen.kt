@@ -229,7 +229,7 @@ fun DashboardScreen(
                             )
                             .border(
                                 width = 1.dp,
-                                color = GlassBorder,
+                                color = if (state.isRunning) GlassBorder else Red500.copy(alpha = 0.3f),
                                 shape = androidx.compose.foundation.shape.CircleShape
                             ),
                         contentAlignment = Alignment.Center
