@@ -61,6 +61,14 @@ object Constants {
         "paypal.com", "github.com", "githubusercontent.com", "android.com"
     )
     
+    // Apps that are automatically bypassed from the VPN to prevent them from breaking
+    val DEFAULT_BYPASSED_APPS = setOf(
+        "com.anydesk.anydeskandroid", // Prevent AnyDesk connection issues
+        "com.spotify.music",          // Fix Spotify playback block
+        "com.wolt.android",           // Fix Wolt breaking when trackers are blocked
+        "com.alibaba.aliexpresshd"    // Fix AliExpress breaking when trackers are blocked
+    )
+    
     const val NOTIFICATION_CHANNEL_ID = "vpn_status_channel"
     const val NOTIFICATION_ID = 4201
     const val ACTION_START = "com.adblocker.vpn.action.START"
