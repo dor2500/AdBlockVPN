@@ -25,6 +25,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -583,7 +585,12 @@ fun DashboardScreen(
 
 @Composable
 private fun StatItem(label: String, value: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.semantics(mergeDescendants = true) { 
+            contentDescription = "$label: $value"
+        }
+    ) {
         androidx.compose.animation.AnimatedContent(
             targetState = value,
             transitionSpec = {
