@@ -19,6 +19,8 @@ string later
 string live_threat_feed
 string log_allowed
 string log_blocked
+string no_domains_found
+string no_network_activity
 string notif_active
 string notif_channel_name
 string notif_disconnected

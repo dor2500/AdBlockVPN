@@ -282,6 +282,8 @@ string m3c_time_picker_pm
 string m3c_tooltip_long_press_label
 string m3c_tooltip_pane_description
 string navigation_menu
+string no_domains_found
+string no_network_activity
 string not_selected
 string notif_active
 string notif_channel_name

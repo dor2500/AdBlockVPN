@@ -12,6 +12,8 @@
     <string name="live_threat_feed">LIVE THREAT FEED</string>
     <string name="log_allowed">ALLOWED</string>
     <string name="log_blocked">[BLOCKED]</string>
+    <string name="no_domains_found">No domains found.</string>
+    <string name="no_network_activity">No network activity intercepted yet...</string>
     <string name="notif_active">Protection Active</string>
     <string name="notif_channel_name">VPN Status</string>
     <string name="notif_disconnected">Disconnected</string>

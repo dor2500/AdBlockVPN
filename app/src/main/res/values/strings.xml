@@ -26,4 +26,6 @@
     <string name="search_domains_placeholder">Search domains...</string>
     <string name="clear_search">Clear Search</string>
     <string name="settings">Settings</string>
+    <string name="no_domains_found">No domains found.</string>
+    <string name="no_network_activity">No network activity intercepted yet...</string>
 </resources>

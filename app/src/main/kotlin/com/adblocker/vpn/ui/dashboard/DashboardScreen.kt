@@ -548,7 +548,7 @@ fun DashboardScreen(
                                 )
                                 Spacer(Modifier.height(16.dp))
                                 Text(
-                                    text = if (searchQuery.isNotEmpty()) "No domains found." else "No network activity intercepted yet...",
+                                    text = if (searchQuery.isNotEmpty()) stringResource(R.string.no_domains_found) else stringResource(R.string.no_network_activity),
                                     color = Color.Gray.copy(alpha = emptyAlpha),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
