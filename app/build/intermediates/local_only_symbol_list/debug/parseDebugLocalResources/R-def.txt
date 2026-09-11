@@ -25,6 +25,8 @@ string notif_paused
 string protection_paused
 string queries
 string secured
+string start_vpn
+string stop_vpn
 string update_available
 string update_desc
 string update_now

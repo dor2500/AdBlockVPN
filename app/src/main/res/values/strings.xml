@@ -21,4 +21,6 @@
     <string name="notif_paused">Protection Paused</string>
     <string name="notif_active">Protection Active</string>
     <string name="notif_channel_name">VPN Status</string>
+    <string name="start_vpn">Start VPN Protection</string>
+    <string name="stop_vpn">Stop VPN Protection</string>
 </resources>

@@ -238,7 +238,7 @@ fun DashboardScreen(
                         ) {
                             Icon(
                                 if (state.isRunning) Icons.Filled.Shield else Icons.Filled.PowerSettingsNew,
-                                contentDescription = "Power",
+                                contentDescription = if (state.isRunning) stringResource(R.string.stop_vpn) else stringResource(R.string.start_vpn),
                                 modifier = Modifier.size(48.dp).scale(currentScale),
                                 tint = if (state.isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
                             )

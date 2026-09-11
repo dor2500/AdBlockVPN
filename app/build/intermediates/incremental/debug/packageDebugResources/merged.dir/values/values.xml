@@ -18,6 +18,8 @@
     <string name="protection_paused">PROTECTION PAUSED</string>
     <string name="queries">QUERIES</string>
     <string name="secured">SECURED</string>
+    <string name="start_vpn">Start VPN Protection</string>
+    <string name="stop_vpn">Stop VPN Protection</string>
     <string name="update_available">Update Available</string>
     <string name="update_desc">Version %1$s is available!\n\nRelease Notes:\n%2$s</string>
     <string name="update_now">Update Now</string>

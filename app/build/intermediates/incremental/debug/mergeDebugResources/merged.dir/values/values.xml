@@ -202,7 +202,9 @@
     <string name="range_start">"Range start"</string>
     <string name="secured">SECURED</string>
     <string name="selected">Selected</string>
+    <string name="start_vpn">Start VPN Protection</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="stop_vpn">Stop VPN Protection</string>
     <string name="switch_role">Switch</string>
     <string name="tab">Tab</string>
     <string name="template_percent"><ns2:g id="percentage">%1$d</ns2:g> percent.</string>
