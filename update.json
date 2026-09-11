@@ -1,6 +1,7 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.0.1",
-  "releaseNotes": "Fix update parsing error on older devices. Removed special Use manifest tags.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.1/AdBlockerVPN-v7.0.1.apk"
+  "latestVersion": "v7.0.2",
+  "releaseNotes": "Fix update parsing error on older devices. Removed special Use manifest tags. Fixed Scoped Storage bug.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.2/AdBlockerVPN-v7.0.2.apk"
 }
+

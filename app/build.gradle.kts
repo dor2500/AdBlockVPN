@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = "com.adblocker.vpn"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.adblocker.vpn.v2"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 117
-        versionName = "7.0.0"
+        targetSdk = 34
+        versionCode = 702
+        versionName = "7.0.2"
         vectorDrawables.useSupportLibrary = true
     }
 
