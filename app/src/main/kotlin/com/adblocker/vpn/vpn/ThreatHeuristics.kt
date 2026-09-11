@@ -18,11 +18,22 @@ object ThreatHeuristics {
         }
     }
 
+    private val cache = object : java.util.LinkedHashMap<String, Boolean>(1000, 0.75f, true) {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Boolean>?): Boolean {
+            return size > 1000
+        }
+    }
+
     /**
      * Checks if a domain is a potential Zero-Day threat.
      * Removes the TLD and calculates entropy of the main domain part.
+     * Uses LRU cache for performance.
      */
     fun isZeroDayThreat(domain: String): Boolean {
+        synchronized(cache) {
+            cache[domain]?.let { return it }
+        }
+
         // Strip common TLDs to avoid them artificially lowering entropy
         val parts = domain.split(".")
         if (parts.size < 2) return false
@@ -34,6 +45,12 @@ object ThreatHeuristics {
         val entropy = calculateEntropy(mainPart)
         
         // Threshold: 3.8 is quite random for a typical English dictionary domain
-        return entropy > 3.8
+        val isThreat = entropy > 3.8
+        
+        synchronized(cache) {
+            cache[domain] = isThreat
+        }
+        
+        return isThreat
     }
 }
