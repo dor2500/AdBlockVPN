@@ -527,7 +527,7 @@ fun DashboardScreen(
                                         .padding(vertical = 4.dp)
                                         .clip(RoundedCornerShape(12.dp))
                                         .background(GlassBackground)
-                                        .border(0.5.dp, GlassBorder, RoundedCornerShape(12.dp))
+                                        .border(0.5.dp, if (log.isBlocked) Color(0x33FF5252) else GlassBorder, RoundedCornerShape(12.dp))
                                         .clickable {
                                             val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                                             val clip = android.content.ClipData.newPlainText("domain", log.domain)

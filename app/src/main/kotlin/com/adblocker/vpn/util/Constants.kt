@@ -71,7 +71,14 @@ object Constants {
         "paypal.com",
         "github.com",
         "githubusercontent.com",
-        "android.com"
+        "android.com",
+        "aliexpress.com",
+        "alicdn.com",
+        "alibaba.com",
+        "aliexpress.ru",
+        "wolt.com",
+        "wolt.net",
+        "woltapi.com"
     )
     
     const val NOTIFICATION_CHANNEL_ID = "vpn_status_channel"
