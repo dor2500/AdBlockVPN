@@ -35,9 +35,9 @@ object ThreatHeuristics {
         }
 
         // Strip common TLDs to avoid them artificially lowering entropy
-        val parts = domain.split(".")
-        if (parts.size < 2) return false
-        val mainPart = parts.dropLast(1).joinToString("")
+        val lastDotIndex = domain.lastIndexOf('.')
+        if (lastDotIndex < 0) return false
+        val mainPart = domain.substring(0, lastDotIndex).replace(".", "")
         
         // Short domains don't have enough data for reliable entropy
         if (mainPart.length < 10) return false
