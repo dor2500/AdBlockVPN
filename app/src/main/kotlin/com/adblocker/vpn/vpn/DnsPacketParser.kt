@@ -48,17 +48,18 @@ object DnsPacketParser {
         return ParsedUdp(srcAddr, dstAddr, srcPort, dstPort, ihl, payload)
     }
 
-    /** Extracts the queried hostname from a DNS query payload (question section only). */
     fun extractQueryName(dnsPayload: ByteArray): String? {
         if (dnsPayload.size < 12) return null
         var pos = 12 // past the 12-byte DNS header
-        val sb = StringBuilder()
+        val sb = StringBuilder(32)
         while (pos < dnsPayload.size) {
             val len = dnsPayload[pos].toInt() and 0xFF
             if (len == 0) break
             if (pos + 1 + len > dnsPayload.size) return null
             if (sb.isNotEmpty()) sb.append('.')
-            sb.append(String(dnsPayload, pos + 1, len, Charsets.US_ASCII))
+            for (i in 0 until len) {
+                sb.append(dnsPayload[pos + 1 + i].toInt().toChar())
+            }
             pos += 1 + len
         }
         return if (sb.isEmpty()) null else sb.toString()
