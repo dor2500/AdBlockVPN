@@ -37,7 +37,7 @@ data class ReleaseInfo(
 
 object Updater {
     private const val TAG = "Updater"
-    private const val GITHUB_LATEST_RELEASE_URL = "https://api.github.com/repos/dor2500/AdBlockVPN/releases/latest"
+    private const val GITHUB_LATEST_RELEASE_URL = "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/update.json"
     private const val GITHUB_RELEASES_URL = "https://api.github.com/repos/dor2500/AdBlockVPN/releases"
 
     suspend fun fetchChangelog(): List<ReleaseInfo> = withContext(Dispatchers.IO) {
@@ -76,7 +76,7 @@ object Updater {
             val url = URL(GITHUB_LATEST_RELEASE_URL)
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
-            connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
+            connection.setRequestProperty("Accept", "application/json")
             connection.setRequestProperty("User-Agent", "AdBlockVPN-Updater")
 
             if (connection.responseCode == HttpURLConnection.HTTP_OK) {
@@ -85,30 +85,21 @@ object Updater {
                 reader.close()
 
                 val json = JSONObject(response)
-                var tagName = json.getString("tag_name")
+                var tagName = json.getString("latestVersion")
                 if (tagName.startsWith("v")) {
                     tagName = tagName.substring(1)
                 }
                 
-                val releaseNotes = json.optString("body", "No release notes available.")
-                val assets = json.getJSONArray("assets")
-                
-                var downloadUrl = ""
-                for (i in 0 until assets.length()) {
-                    val asset = assets.getJSONObject(i)
-                    if (asset.getString("name").endsWith(".apk")) {
-                        downloadUrl = asset.getString("browser_download_url")
-                        break
-                    }
-                }
+                val releaseNotes = json.optString("releaseNotes", "No release notes available.")
+                val downloadUrl = json.getString("downloadUrl")
 
                 val isUpdateAvailable = downloadUrl.isNotEmpty() && isVersionNewer(BuildConfig.VERSION_NAME, tagName)
                 return@withContext UpdateInfo(isUpdateAvailable, tagName, releaseNotes, downloadUrl)
             } else {
-                Log.w(TAG, "API returned code ${connection.responseCode}")
+                Log.w(TAG, "Update CDN returned code ${connection.responseCode}")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to check for updates", e)
+            Log.e(TAG, "Failed to check for updates via CDN", e)
         }
         return@withContext null
     }
