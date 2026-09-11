@@ -441,14 +441,14 @@ fun DashboardScreen(
                 Spacer(Modifier.height(24.dp))
             }
 
-            // Glassmorphic Live Threat Feed
+            // Modern Terminal Threat Feed
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(GlassBackground)
-                    .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFF0A0E17))
+                    .border(1.dp, Color(0xFF1E293B), RoundedCornerShape(12.dp))
                     .padding(16.dp)
             ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -471,7 +471,7 @@ fun DashboardScreen(
                             Icon(Icons.Filled.Security, contentDescription = null, tint = PremiumCyan, modifier = Modifier.size(14.dp).scale(threatPulse))
                         }
                         Spacer(Modifier.width(12.dp))
-                        Text(stringResource(R.string.live_threat_feed), style = MaterialTheme.typography.labelSmall, color = Color.White, letterSpacing = 1.sp)
+                        Text("TERMINAL // LIVE THREAT FEED", style = MaterialTheme.typography.labelSmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace), color = PremiumCyan, letterSpacing = 1.sp)
                         Spacer(Modifier.width(8.dp))
                         
                         // Count Badge
@@ -558,10 +558,7 @@ fun DashboardScreen(
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .background(GlassBackground)
-                                        .border(0.5.dp, if (log.isBlocked) Color(0x33FF5252) else GlassBorder, RoundedCornerShape(12.dp))
+                                        .padding(vertical = 2.dp)
                                         .clickable(
                                             onClickLabel = "Copy domain to clipboard"
                                         ) {
@@ -570,40 +567,34 @@ fun DashboardScreen(
                                             clipboard.setPrimaryClip(clip)
                                             android.widget.Toast.makeText(context, "Copied: ${log.domain}", android.widget.Toast.LENGTH_SHORT).show()
                                         }
-                                        .padding(12.dp),
+                                        .padding(horizontal = 4.dp, vertical = 6.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    Text(
-                                        text = log.domain,
-                                        color = Color.White.copy(alpha = 0.8f),
-                                        style = MaterialTheme.typography.bodySmall,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        modifier = Modifier.weight(1f).padding(end = 8.dp)
-                                    )
                                     Row(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .background(if (log.isBlocked) DangerGradient else SuccessGradient)
-                                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                                        modifier = Modifier.weight(1f).padding(end = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Icon(
-                                            imageVector = if (log.isBlocked) Icons.Filled.Close else Icons.Filled.Check,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                            modifier = Modifier.size(12.dp)
-                                        )
-                                        Spacer(Modifier.width(4.dp))
                                         Text(
-                                            text = if (log.isBlocked) stringResource(R.string.log_blocked).uppercase() else stringResource(R.string.log_allowed).uppercase(),
-                                            color = Color.White,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            fontWeight = FontWeight.Bold,
-                                            letterSpacing = 1.sp
+                                            text = "> ",
+                                            color = if (log.isBlocked) Red500 else Emerald500,
+                                            style = MaterialTheme.typography.bodySmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = log.domain,
+                                            color = Color(0xFFE2E8F0),
+                                            style = MaterialTheme.typography.bodySmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
                                         )
                                     }
+                                    Text(
+                                        text = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]",
+                                        color = if (log.isBlocked) Red500 else Emerald500,
+                                        style = MaterialTheme.typography.labelSmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace),
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                             }
                         }
