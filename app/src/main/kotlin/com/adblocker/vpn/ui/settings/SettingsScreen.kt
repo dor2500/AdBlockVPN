@@ -385,7 +385,7 @@ private fun SectionHeader(title: String) {
     Text(
         text = title,
         style = MaterialTheme.typography.labelMedium,
-        color = NeonGreen,
+        color = com.adblocker.vpn.ui.theme.PremiumCyan,
         fontWeight = FontWeight.Bold,
         letterSpacing = 1.sp,
         modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
@@ -396,10 +396,10 @@ private fun SectionHeader(title: String) {
 private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = GlassBackground),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF0F172A)),
         modifier = Modifier
             .fillMaxWidth()
-            .border(0.5.dp, GlassBorder, RoundedCornerShape(16.dp))
+            .border(1.dp, Color(0xFF1E293B), RoundedCornerShape(16.dp))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             content()
