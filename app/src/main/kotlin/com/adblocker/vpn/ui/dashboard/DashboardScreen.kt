@@ -162,6 +162,10 @@ fun DashboardScreen(
             
             Spacer(modifier = Modifier.weight(1f))
 
+            if (isRunning) {
+                ThreatLevelGauge(state.queriesBlocked, primaryColor)
+            }
+
             val latestLog by viewModel.dnsLogs.collectAsState(initial = null)
             val matrixLogs = AdBlockVpnService.dnsLogs.replayCache.reversed().take(4)
 
@@ -246,6 +250,9 @@ fun DashboardScreen(
                     }
                 }
             }
+            if (isRunning) {
+                AdEaterPet(state.queriesBlocked)
+            }
             
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -259,6 +266,7 @@ private fun StatItem(label: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
             color = if (isThreats) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.height(4.dp))
@@ -278,4 +286,56 @@ private fun startVpnService(context: android.content.Context) {
 private fun stopVpnService(context: android.content.Context) {
     val intent = Intent(context, AdBlockVpnService::class.java).setAction(Constants.ACTION_STOP)
     context.startService(intent)
+}
+
+@Composable
+fun ThreatLevelGauge(blockedCount: Long, primaryColor: Color) {
+    val level = when {
+        blockedCount < 100 -> "LOW"
+        blockedCount < 500 -> "MEDIUM"
+        else -> "HIGH"
+    }
+    val levelColor = when {
+        blockedCount < 100 -> Color(0xFF00FF00)
+        blockedCount < 500 -> Color(0xFFFFA500)
+        else -> Color.Red
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+        shape = RoundedCornerShape(24.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, levelColor.copy(alpha=0.5f))
+    ) {
+        Column(modifier = Modifier.padding(24.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("NETWORK THREAT LEVEL", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(level, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black), color = levelColor)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text("$blockedCount threats intercepted", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
+        }
+    }
+}
+
+@Composable
+fun AdEaterPet(blockedCount: Long) {
+    val face = when {
+        blockedCount == 0L -> "( - _ - ) Zzz"
+        blockedCount < 50 -> "( ^ _ ^ ) Yummy!"
+        blockedCount < 200 -> "\\( O _ O )/ MORE!"
+        else -> "((( 👾 ))) RAMPAGE!"
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+        shape = RoundedCornerShape(24.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha=0.2f))
+    ) {
+        Column(modifier = Modifier.padding(24.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("AD-EATER PET", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(face, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.primary)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text("LVL: ${blockedCount / 10}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
+        }
+    }
 }

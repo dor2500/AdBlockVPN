@@ -337,7 +337,7 @@ class AdBlockVpnService : VpnService() {
                 queriesZeroDay.incrementAndGet()
                 showThreatNotification("Zero-Day Threat Blocked", "Blocked: $hostname\nReason: Detected as procedurally generated malware domain (Zero-Day).")
             } else if (isAppFirewallBlocked) {
-                // Do not show notification for app firewall
+                showThreatNotification("App Firewall Blocked", "Blocked: $hostname\nReason: The app trying to access this site is in your App Firewall (Killswitch) list.")
                 _state.update { it.copy(
                     queriesBlocked = it.queriesBlocked + 1,
                     profilingBlocked = it.profilingBlocked + (if(isProfiling) 1 else 0),
@@ -447,7 +447,7 @@ class AdBlockVpnService : VpnService() {
 
     private fun showThreatNotification(title: String, message: String) {
         val now = System.currentTimeMillis()
-        if (now - lastNotificationTime < 5000) return // Debounce: Max 1 every 5s
+        if (now - lastNotificationTime < 60000) return // Debounce: Max 1 every 60s
         lastNotificationTime = now
 
         val nm = getSystemService(NotificationManager::class.java)

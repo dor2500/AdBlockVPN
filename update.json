@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.4.6",
-  "releaseNotes": "✨ NEW: Data Heist & Live Matrix Update (v7.4.6) ✨\n\n1. Fixed Notifications: No more spam! You will only get alerts for critical zero-day web links.\n2. Added the 'Live Matrix' feed to the dashboard to show real-time traffic.\n3. Added the 'Data Heist' UI to see exactly what trackers tried to steal (Profiling, Location, etc).",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.6/AdBlockVPN-v7.4.6.apk"
+  "latestVersion": "v7.4.7",
+  "releaseNotes": "✨ NEW: Ad-Eater Pet & Threat Gauge (v7.4.7) ✨\n\n1. Re-enabled App Firewall notifications with a smart 60-second mute to prevent spam.\n2. Added the 'Threat Level Gauge' to the dashboard for real-time risk assessment.\n3. Added the 'Ad-Eater Pet' - a cyber companion that feeds on blocked ads!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.7/AdBlockVPN-v7.4.7.apk"
 }
 
 
