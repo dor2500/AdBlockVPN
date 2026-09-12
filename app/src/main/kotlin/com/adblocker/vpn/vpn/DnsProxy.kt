@@ -62,12 +62,39 @@ class DnsProxy(private val vpnService: VpnService) {
         }
     }
 
+    private val cache = object : java.util.LinkedHashMap<String, ByteArray>(100, 0.75f, true) {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, ByteArray>?): Boolean {
+            return size > 1000 // Max 1000 items in cache
+        }
+    }
+
     private fun forwardHttps(
         queryPayload: ByteArray,
         upstreamHost: String
     ): ByteArray? {
+        // Simple cache key: Domain name (extracted from payload) + QType
+        // For DNS over HTTPS, we can just hash the query payload, BUT the payload contains a transaction ID.
+        // We can zero out the first two bytes (transaction ID) to create a cache key.
+        val cacheKeyBytes = queryPayload.copyOf()
+        if (cacheKeyBytes.size >= 2) {
+            cacheKeyBytes[0] = 0
+            cacheKeyBytes[1] = 0
+        }
+        val cacheKey = java.util.Base64.getEncoder().encodeToString(cacheKeyBytes)
+        
+        synchronized(cache) {
+            cache[cacheKey]?.let { cachedResponse ->
+                // Restore the transaction ID to the cached response
+                val responseCopy = cachedResponse.copyOf()
+                if (responseCopy.size >= 2 && queryPayload.size >= 2) {
+                    responseCopy[0] = queryPayload[0]
+                    responseCopy[1] = queryPayload[1]
+                }
+                return responseCopy
+            }
+        }
+
         return try {
-            // Use IP addresses directly to avoid DNS lookups that would loop back into our VPN
             val urlStr = when (upstreamHost) {
                 "1.1.1.1" -> "https://1.1.1.1/dns-query"
                 "8.8.8.8" -> "https://8.8.8.8/dns-query"
@@ -83,7 +110,19 @@ class DnsProxy(private val vpnService: VpnService) {
 
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
-                    response.body?.bytes()
+                    val bytes = response.body?.bytes()
+                    if (bytes != null) {
+                        // Strip transaction ID for caching
+                        val cacheValue = bytes.copyOf()
+                        if (cacheValue.size >= 2) {
+                            cacheValue[0] = 0
+                            cacheValue[1] = 0
+                        }
+                        synchronized(cache) {
+                            cache[cacheKey] = cacheValue
+                        }
+                    }
+                    bytes
                 } else {
                     Log.w(TAG, "DoH failed with code: ${response.code}")
                     null

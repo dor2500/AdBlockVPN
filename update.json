@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.1.0",
-  "releaseNotes": "🎨 NEW: Theme Engine & Notifications (v7.1.0) 🎨\n\nFixed the Theme Engine: You can now freely switch between Glass Dark, Aurora, and Eclipse themes in the Settings menu!\nAdded a Smart Notification system that pops up if a severe Zero-Day Threat is blocked.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.0/AdBlockVPN-v7.1.0.apk"
+  "latestVersion": "v7.1.1",
+  "releaseNotes": "🚀 NEW: Extreme Speed & DNS Cache (v7.1.1) 🚀\n\nAdded an in-memory DNS Cache: When you visit a website a second time, the lookup happens instantly with literally 0ms latency!\nAlso added smooth micro-animations to the numbers in the dashboard.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.1/AdBlockVPN-v7.1.1.apk"
 }
 
 
