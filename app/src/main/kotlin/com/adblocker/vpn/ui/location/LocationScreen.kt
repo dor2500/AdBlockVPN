@@ -1,5 +1,8 @@
 package com.adblocker.vpn.ui.location
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -33,8 +36,8 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         containerColor = Color.Transparent,
         topBar = {
-            TopAppBar(
-                title = { Text("Locations", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground) },
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(R.string.locations_title), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }

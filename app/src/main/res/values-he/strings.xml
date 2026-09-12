@@ -50,6 +50,36 @@
     <string name="dash_not_connected">לא מחובר</string>
     <string name="dash_threats">איומים</string>
     
+    <string name="update_available_title">עדכון זמין</string>
+    <string name="update_now_button">עדכן עכשיו</string>
+    <string name="later_button">אחר כך</string>
+    <string name="check_for_updates_title">בדיקת עדכונים</string>
+    <string name="ok">אישור</string>
+    <string name="cloudflare">Cloudflare</string>
+    <string name="google">Google</string>
+    <string name="quad9">Quad9</string>
+    <string name="adguard">AdGuard</string>
+    <string name="loaded_domains">נטענו %1$d דומיינים</string>
+    <string name="error_prefix">שגיאה: %1$s</string>
+    <string name="changelog_title">היסטוריית שינויים</string>
+    <string name="no_changelog">אין היסטוריית שינויים זמינה.</string>
+    <string name="locations_title">שרתים</string>
+    <string name="app_firewall_title">חומת אש לאפליקציות</string>
+    <string name="search_apps">חפש אפליקציות...</string>
+    <string name="force_stop_to_apply">יש לאלץ עצירה כדי להחיל</string>
+    <string name="excluded_networks_title">רשתות חריגות</string>
+    <string name="exclude_current_network">החרג רשת נוכחית</string>
+    <string name="no_excluded_networks">אין עדיין רשתות חריגות.</string>
+    <string name="add_excluded_network_title">הוסף רשת חריגה</string>
+    <string name="display_name">שם תצוגה</string>
+    <string name="match_by">התאם לפי</string>
+    <string name="add">הוסף</string>
+    <string name="cancel">ביטול</string>
+    <string name="app_bypass_title">מעקף אפליקציות</string>
+    <string name="app_crashed_title">האפליקציה קרסה!</string>
+    <string name="app_crashed_desc">האפליקציה נתקלה בשגיאה בלתי צפויה. אנא שלח את יומן השגיאה למפתח:</string>
+    <string name="example_domain">example.com</string>
+    
     <string name="settings_title">הגדרות</string>
     <string name="settings_appearance">תצוגה ושפה</string>
     <string name="settings_language">שפה</string>

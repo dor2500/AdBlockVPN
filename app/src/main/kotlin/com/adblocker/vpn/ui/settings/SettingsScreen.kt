@@ -63,19 +63,19 @@ fun SettingsScreen(
     if (showUpdateDialog && updateInfo != null) {
         AlertDialog(
             onDismissRequest = { showUpdateDialog = false },
-            title = { Text("Update Available") },
-            text = { Text("Version ${updateInfo!!.latestVersion} is available!\n\n${updateInfo!!.releaseNotes}") },
+            title = { Text(stringResource(R.string.update_available_title)) },
+            text = { Text(stringResource(R.string.update_desc, updateInfo!!.latestVersion, updateInfo!!.releaseNotes)) },
             confirmButton = {
                 Button(onClick = {
                     showUpdateDialog = false
                     Updater.downloadAndInstallUpdate(context, updateInfo!!.downloadUrl, updateInfo!!.latestVersion)
                 }) {
-                    Text("Update Now")
+                    Text(stringResource(R.string.update_now_button))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showUpdateDialog = false }) {
-                    Text("Later")
+                    Text(stringResource(R.string.later_button))
                 }
             }
         )
@@ -84,10 +84,10 @@ fun SettingsScreen(
     if (updateMessage != null) {
         AlertDialog(
             onDismissRequest = { updateMessage = null },
-            title = { Text("Check for Updates") },
+            title = { Text(stringResource(R.string.check_for_updates_title)) },
             text = { Text(updateMessage!!) },
             confirmButton = {
-                Button(onClick = { updateMessage = null }) { Text("OK") }
+                Button(onClick = { updateMessage = null }) { Text(stringResource(R.string.ok)) }
             }
         )
     }
@@ -274,19 +274,19 @@ fun SettingsScreen(
                 SettingsCard {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedButton(onClick = { upstreamPrimary = "1.1.1.1"; upstreamSecondary = "1.0.0.1" }, shape = RoundedCornerShape(12.dp), modifier = Modifier.weight(1f)) {
-                            Text("Cloudflare")
+                            Text(stringResource(R.string.cloudflare))
                         }
                         OutlinedButton(onClick = { upstreamPrimary = "8.8.8.8"; upstreamSecondary = "8.8.4.4" }, shape = RoundedCornerShape(12.dp), modifier = Modifier.weight(1f)) {
-                            Text("Google")
+                            Text(stringResource(R.string.google))
                         }
                     }
                     Spacer(Modifier.height(8.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedButton(onClick = { upstreamPrimary = "9.9.9.9"; upstreamSecondary = "149.112.112.112" }, shape = RoundedCornerShape(12.dp), modifier = Modifier.weight(1f)) {
-                            Text("Quad9")
+                            Text(stringResource(R.string.quad9))
                         }
                         OutlinedButton(onClick = { upstreamPrimary = "94.140.14.14"; upstreamSecondary = "94.140.15.15" }, shape = RoundedCornerShape(12.dp), modifier = Modifier.weight(1f)) {
-                            Text("AdGuard")
+                            Text(stringResource(R.string.adguard))
                         }
                     }
                     Spacer(Modifier.height(16.dp))
@@ -356,8 +356,8 @@ fun SettingsScreen(
                         Text(if (updateState is BlocklistUpdateState.Updating) stringResource(R.string.settings_updating) else stringResource(R.string.settings_sync_now), fontWeight = FontWeight.Bold)
                     }
                     when (val s = updateState) {
-                        is BlocklistUpdateState.Success -> Text("Loaded ${s.domainCount} domains", color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp))
-                        is BlocklistUpdateState.Error -> Text("Error: ${s.message}", color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 8.dp))
+                        is BlocklistUpdateState.Success -> Text(stringResource(R.string.loaded_domains, s.domainCount), color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp))
+                        is BlocklistUpdateState.Error -> Text(stringResource(R.string.error_prefix, s.message), color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 8.dp))
                         else -> {}
                     }
                 }
@@ -555,7 +555,7 @@ private fun DomainInputRow(value: String, onValueChange: (String) -> Unit, onAdd
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            placeholder = { Text("example.com") },
+            placeholder = { Text(stringResource(R.string.example_domain)) },
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier.weight(1f),
             singleLine = true

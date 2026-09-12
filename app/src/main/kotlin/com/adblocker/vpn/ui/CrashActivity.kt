@@ -1,5 +1,8 @@
 package com.adblocker.vpn.ui
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,7 +28,7 @@ class CrashActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("App Crashed!") },
+                            title = { Text(stringResource(R.string.app_crashed_title)) },
                             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Red, titleContentColor = Color.White)
                         )
                     }
@@ -37,7 +40,7 @@ class CrashActivity : ComponentActivity() {
                             .padding(16.dp)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        Text("The application has encountered an unexpected error. Please send this log to the developer:", 
+                        Text(stringResource(R.string.app_crashed_desc), 
                             color = MaterialTheme.colorScheme.onBackground)
                         Spacer(modifier = Modifier.height(16.dp))
                         SelectionContainer {

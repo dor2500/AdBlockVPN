@@ -1,5 +1,8 @@
 package com.adblocker.vpn.ui.excluded
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -49,7 +52,7 @@ fun ExcludedNetworksScreen(
         topBar = {
             @OptIn(ExperimentalMaterial3Api::class)
             CenterAlignedTopAppBar(
-                title = { Text("EXCLUDED NETWORKS", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 1.sp) },
+                title = { Text(stringResource(R.string.excluded_networks_title), fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 1.sp) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
@@ -84,14 +87,14 @@ fun ExcludedNetworksScreen(
             ) {
                 Icon(Icons.Filled.WifiFind, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("EXCLUDE CURRENT NETWORK", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.exclude_current_network), fontWeight = FontWeight.Bold)
             }
 
             Spacer(Modifier.height(24.dp))
 
             if (networks.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
-                    Text("No excluded networks yet.", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.no_excluded_networks), style = MaterialTheme.typography.bodyMedium)
                 }
             } else {
                 LazyColumnNetworks(networks, viewModel)

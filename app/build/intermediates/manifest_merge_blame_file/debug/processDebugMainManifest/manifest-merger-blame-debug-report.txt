@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.adblocker.vpn.v2.debug"
-4    android:versionCode="736"
-5    android:versionName="7.3.6" >
+4    android:versionCode="737"
+5    android:versionName="7.3.7" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="26"

@@ -1,5 +1,8 @@
 package com.adblocker.vpn.ui.excluded
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,13 +22,13 @@ fun AddNetworkDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Excluded Network") },
+        title = { Text(stringResource(R.string.add_excluded_network_title)) },
         text = {
             Column {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Display name") },
+                    label = { Text(stringResource(R.string.display_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(12.dp))
@@ -38,7 +41,7 @@ fun AddNetworkDialog(
                         readOnly = true,
                         value = typeDisplayName(type),
                         onValueChange = {},
-                        label = { Text("Match by") },
+                        label = { Text(stringResource(R.string.match_by)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeMenuExpanded) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -68,10 +71,10 @@ fun AddNetworkDialog(
             TextButton(
                 onClick = { onConfirm(name.ifBlank { value }, type, value) },
                 enabled = value.isNotBlank()
-            ) { Text("Add") }
+            ) { Text(stringResource(R.string.add)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
         }
     )
 }
