@@ -151,6 +151,20 @@ fun AppNavigation() {
                 composable(Routes.CHANGELOG) {
                     com.adblocker.vpn.ui.settings.ChangelogScreen(onBack = { navController.popBackStack() })
                 }
+                composable(
+                    route = "blocked_screen/{domain}/{reason}",
+                    deepLinks = listOf(androidx.navigation.navDeepLink { uriPattern = "adblockvpn://blocked/{domain}/{reason}" })
+                ) { backStackEntry ->
+                    val domain = backStackEntry.arguments?.getString("domain") ?: ""
+                    // Handle URL encoded reasons (e.g. spaces)
+                    val encodedReason = backStackEntry.arguments?.getString("reason") ?: ""
+                    val reason = java.net.URLDecoder.decode(encodedReason, "UTF-8")
+                    com.adblocker.vpn.ui.block.BlockedScreen(
+                        domain = domain,
+                        reason = reason,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
             }
         }
     }

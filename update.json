@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.1.3",
-  "releaseNotes": "✨ NEW: Expanded Threat Notifications & UX Polish (v7.1.3) ✨\n\nYou asked for it: Notifications will now pop up whenever a site/tracker is blocked, and will clearly explain WHY it was blocked! Also added a UX touch: the Threats number in the dashboard now highlights in red.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.3/AdBlockVPN-v7.1.3.apk"
+  "latestVersion": "v7.2.0",
+  "releaseNotes": "✨ NEW: Interactive Block Details Screen (v7.2.0) ✨\n\nTapping a block notification now opens a beautiful, interactive 'Block Details' screen directly in the app, showing the blocked domain, reason, and a 1-click button to add it to the whitelist!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.2.0/AdBlockVPN-v7.2.0.apk"
 }
 
 

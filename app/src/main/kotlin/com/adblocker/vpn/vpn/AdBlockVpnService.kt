@@ -413,14 +413,26 @@ class AdBlockVpnService : VpnService() {
         lastNotificationTime = now
 
         val nm = getSystemService(NotificationManager::class.java)
+        
+        // Extract domain and reason from the message string (format: "Blocked: domain.com\nReason: ...")
+        val lines = message.split("\n")
+        val domain = if (lines.isNotEmpty()) lines[0].removePrefix("Blocked: ") else "Unknown"
+        val reason = if (lines.size > 1) lines[1].removePrefix("Reason: ") else "Unknown"
+        val encodedReason = java.net.URLEncoder.encode(reason, "UTF-8")
+        
+        val intent = Intent(this, MainActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+            data = android.net.Uri.parse("adblockvpn://blocked/$domain/$encodedReason")
+        }
+
         val contentIntent = PendingIntent.getActivity(
-            this, 0, Intent(this, MainActivity::class.java),
-            PendingIntent.FLAG_IMMUTABLE
+            this, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
             .setContentTitle(title)
-            .setContentText("Blocked connection to: $message")
+            .setContentText(message)
             .setSmallIcon(R.drawable.ic_notification)
             .setPriority(NotificationCompat.PRIORITY_HIGH) // Pops up
             .setAutoCancel(true)
