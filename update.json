@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.3.5",
-  "releaseNotes": "✨ NEW: 🚀 Theme Crash Fix & UI Polish (v7.3.5) ✨\n\nFixed a major crash on app startup where the theme was incorrectly set to Material instead of AppCompat! Also translated the live traffic Monitor Screen to Hebrew!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.5/AdBlockVPN-v7.3.5.apk"
+  "latestVersion": "v7.3.6",
+  "releaseNotes": "✨ NEW: ⚡ Silent Updater (v7.3.6) ✨\n\nUpdates now download silently in the background and automatically prompt for installation, just like they used to! No more manual browser downloads.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.6/AdBlockVPN-v7.3.6.apk"
 }
 
 

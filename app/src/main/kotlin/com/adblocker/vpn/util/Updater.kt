@@ -121,12 +121,57 @@ object Updater {
 
     fun downloadAndInstallUpdate(context: Context, downloadUrl: String, version: String) {
         try {
+            val fileName = "AdBlockVPN-$version.apk"
+            val request = DownloadManager.Request(Uri.parse(downloadUrl))
+                .setTitle(context.getString(com.adblocker.vpn.R.string.app_name) + " Update")
+                .setDescription("Downloading version $version...")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, fileName)
+                .setMimeType("application/vnd.android.package-archive")
+
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadId = downloadManager.enqueue(request)
+
+            val onComplete = object : BroadcastReceiver() {
+                override fun onReceive(ctxt: Context, intent: Intent) {
+                    if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
+                        try {
+                            val file = File(ctxt.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
+                            if (file.exists()) {
+                                val uri = FileProvider.getUriForFile(
+                                    ctxt,
+                                    "${ctxt.packageName}.fileprovider",
+                                    file
+                                )
+                                val installIntent = Intent(Intent.ACTION_VIEW).apply {
+                                    setDataAndType(uri, "application/vnd.android.package-archive")
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                }
+                                ctxt.startActivity(installIntent)
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error installing update", e)
+                        }
+                        try {
+                            ctxt.unregisterReceiver(this)
+                        } catch (e: Exception) {}
+                    }
+                }
+            }
+
+            ContextCompat.registerReceiver(
+                context,
+                onComplete,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+                ContextCompat.RECEIVER_EXPORTED
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to start download", e)
+            // Fallback to browser
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl)).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
             context.startActivity(intent)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to open browser for update", e)
         }
     }
 
