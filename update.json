@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.0.8",
-  "releaseNotes": "🎨 NEW: Glassmorphism & Fast Updates (v7.0.8) 🎨\n\nAdded frosted glass effects to the dashboard cards and a floating bottom navigation bar.\nFixed an issue where the updater was caching old versions, so updates will now show up instantly!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.8/app-debug.apk"
+  "latestVersion": "v7.0.9",
+  "releaseNotes": "🚀 NEW: Massive Performance Boost (v7.0.9) 🚀\n\nBrowsing is now instantly fast! The VPN now uses connection pooling (HTTP/2) for DNS queries, eliminating handshake latency.\nAlso, downloaded APKs are now properly named (e.g. AdBlockVPN-v7.0.9.apk).",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.9/AdBlockVPN-v7.0.9.apk"
 }
 
 

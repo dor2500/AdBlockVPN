@@ -2,16 +2,30 @@ package com.adblocker.vpn.vpn
 
 import android.net.VpnService
 import android.util.Log
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetSocketAddress
+import java.util.concurrent.TimeUnit
 
 /**
- * Forwards a DNS query to an upstream resolver (1.1.1.1 / 8.8.8.8) using a plain
- * UDP socket that is "protected" via VpnService.protect() so the reply doesn't
- * get routed back into our own TUN interface (which would cause a loop).
+ * Forwards a DNS query to an upstream resolver (1.1.1.1 / 8.8.8.8).
+ * Uses OkHttp for DoH to enable connection pooling and HTTP/2 multiplexing,
+ * which drastically reduces latency compared to creating a new TCP connection
+ * for every query.
  */
 class DnsProxy(private val vpnService: VpnService) {
+
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(4, TimeUnit.SECONDS)
+        .readTimeout(4, TimeUnit.SECONDS)
+        .writeTimeout(4, TimeUnit.SECONDS)
+        .connectionPool(ConnectionPool(10, 5, TimeUnit.MINUTES))
+        .build()
+
+    private val dnsMediaType = "application/dns-message".toMediaType()
 
     fun forward(
         queryPayload: ByteArray,
@@ -20,7 +34,7 @@ class DnsProxy(private val vpnService: VpnService) {
         timeoutMs: Int = 4000
     ): ByteArray? {
         if (useDoh) {
-            return forwardHttps(queryPayload, upstreamHost, timeoutMs)
+            return forwardHttps(queryPayload, upstreamHost)
         }
         var socket: DatagramSocket? = null
         return try {
@@ -50,8 +64,7 @@ class DnsProxy(private val vpnService: VpnService) {
 
     private fun forwardHttps(
         queryPayload: ByteArray,
-        upstreamHost: String,
-        timeoutMs: Int
+        upstreamHost: String
     ): ByteArray? {
         return try {
             // Use IP addresses directly to avoid DNS lookups that would loop back into our VPN
@@ -61,24 +74,20 @@ class DnsProxy(private val vpnService: VpnService) {
                 "9.9.9.9" -> "https://9.9.9.9/dns-query"
                 else -> "https://$upstreamHost/dns-query"
             }
-            val url = java.net.URL(urlStr)
-            val connection = url.openConnection() as java.net.HttpURLConnection
-            connection.requestMethod = "POST"
-            connection.setRequestProperty("Content-Type", "application/dns-message")
-            connection.setRequestProperty("Accept", "application/dns-message")
-            connection.connectTimeout = timeoutMs
-            connection.readTimeout = timeoutMs
-            connection.doOutput = true
-            
-            connection.outputStream.use { os ->
-                os.write(queryPayload)
-            }
-            
-            if (connection.responseCode == 200) {
-                connection.inputStream.readBytes()
-            } else {
-                Log.w(TAG, "DoH failed with code: ${connection.responseCode}")
-                null
+
+            val request = Request.Builder()
+                .url(urlStr)
+                .post(queryPayload.toRequestBody(dnsMediaType))
+                .header("Accept", "application/dns-message")
+                .build()
+
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    response.body?.bytes()
+                } else {
+                    Log.w(TAG, "DoH failed with code: ${response.code}")
+                    null
+                }
             }
         } catch (e: Exception) {
             Log.w(TAG, "HTTPS forward failed for $upstreamHost: ${e.message}")

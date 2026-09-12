@@ -12,8 +12,8 @@ android {
         applicationId = "com.adblocker.vpn.v2"
         minSdk = 26
         targetSdk = 33
-        versionCode = 708
-        versionName = "7.0.8"
+        versionCode = 709
+        versionName = "7.0.9"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -57,6 +57,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("androidx.lifecycle:lifecycle-service:2.8.4")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.activity:activity-compose:1.9.1")
 
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
