@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.3.3",
-  "releaseNotes": "✨ NEW: 🌐 Hebrew Settings & Fast Updates (v7.3.3) ✨\n\n1. Fixed the 'Check for Updates' button caching issue (now uses GitHub API directly so updates show instantly without a 5-minute wait).\n2. Fully translated the entire Settings Screen into Hebrew for a seamless localized experience!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.3/AdBlockVPN-v7.3.3.apk"
+  "latestVersion": "v7.3.4",
+  "releaseNotes": "✨ NEW: 🐛 Crash Detector (v7.3.4) ✨\n\nAdded a Crash Diagnostics Screen so we can see why it's crashing.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.4/AdBlockVPN-v7.3.4.apk"
 }
 
 
