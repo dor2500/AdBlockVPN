@@ -14,9 +14,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+import android.graphics.drawable.Drawable
+
 data class AppInfo(
     val packageName: String,
-    val name: String
+    val name: String,
+    val icon: Drawable? = null
 )
 
 class AppBypassViewModel(application: Application) : AndroidViewModel(application) {
@@ -46,7 +49,8 @@ class AppBypassViewModel(application: Application) : AndroidViewModel(applicatio
                     .map { 
                         AppInfo(
                             packageName = it.packageName,
-                            name = it.loadLabel(pm).toString()
+                            name = it.loadLabel(pm).toString(),
+                            icon = it.loadIcon(pm)
                         )
                     }
                     .sortedBy { it.name.lowercase() }
