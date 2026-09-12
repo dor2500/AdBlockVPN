@@ -171,10 +171,11 @@ fun DashboardScreen(
 @Composable
 private fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        val isThreats = label == "Threats" && value != "0"
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = if (isThreats) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.height(4.dp))
         Text(

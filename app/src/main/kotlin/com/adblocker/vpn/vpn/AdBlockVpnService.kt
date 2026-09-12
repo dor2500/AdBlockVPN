@@ -273,6 +273,7 @@ class AdBlockVpnService : VpnService() {
         var isZeroDay = false
         var isWhitelisted = false
         
+        var isAppFirewallBlocked = false
         if (!isPassThrough.get() && hostname != null) {
             // Check if domain is explicitly whitelisted FIRST
             isWhitelisted = blocklistManager.isWhitelisted(hostname)
@@ -294,6 +295,7 @@ class AdBlockVpnService : VpnService() {
                         val packages = pm.getPackagesForUid(uid)
                         if (packages != null && packages.any { blockedInternetApps.contains(it) }) {
                             blocked = true
+                            isAppFirewallBlocked = true
                         }
                     }
                 } catch (e: Exception) {
@@ -314,13 +316,11 @@ class AdBlockVpnService : VpnService() {
             queriesBlocked.incrementAndGet()
             if (isZeroDay) {
                 queriesZeroDay.incrementAndGet()
-                showThreatNotification("Zero-Day Threat Blocked", hostname ?: "Unknown Domain")
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && blockedInternetApps.isNotEmpty()) {
-                // If it was blocked by the firewall (not zero-day and not whitelisted)
-                // We don't have the exact app name here, so we just say "App Firewall"
-                // But we only want to do this occasionally, let's just use showThreatNotification
-                // Actually, let's not spam App Firewall blocks. Only show it if they explicitly ask.
-                // For now, I will stick to Zero-Day as requested by option 1.
+                showThreatNotification("Zero-Day Threat Blocked", "Blocked: $hostname\nReason: Detected as procedurally generated malware domain (Zero-Day).")
+            } else if (isAppFirewallBlocked) {
+                showThreatNotification("App Firewall Blocked", "Blocked: $hostname\nReason: The app trying to access this site is in your App Firewall (Killswitch) list.")
+            } else if (!isWhitelisted && hostname != null) {
+                showThreatNotification("Ad/Tracker Blocked", "Blocked: $hostname\nReason: Found in your active blocklists.")
             }
             
             DnsPacketParser.buildBlockedResponse(packet, length)?.let { response ->

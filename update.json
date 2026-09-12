@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.1.2",
-  "releaseNotes": "✨ NEW: Settings Glass UI & AdBlock Engine Speedup (v7.1.2) ✨\n\nRedesigned the Settings screen to feature the beautiful Glass UI!\nWe also significantly improved the performance of the AdBlock Engine by adding a secondary positive/negative cache. Less CPU usage for your phone!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.2/AdBlockVPN-v7.1.2.apk"
+  "latestVersion": "v7.1.3",
+  "releaseNotes": "✨ NEW: Expanded Threat Notifications & UX Polish (v7.1.3) ✨\n\nYou asked for it: Notifications will now pop up whenever a site/tracker is blocked, and will clearly explain WHY it was blocked! Also added a UX touch: the Threats number in the dashboard now highlights in red.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.3/AdBlockVPN-v7.1.3.apk"
 }
 
 
