@@ -32,6 +32,9 @@ import com.adblocker.vpn.util.UpdateInfo
 import androidx.compose.ui.platform.LocalContext
 import com.adblocker.vpn.BuildConfig
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 @Composable
 fun SettingsScreen(
     onNavigateToExcluded: () -> Unit,
@@ -94,7 +97,7 @@ fun SettingsScreen(
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("SETTINGS", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground) },
+                title = { Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onBackground) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
@@ -109,9 +112,9 @@ fun SettingsScreen(
             
             // --- Appearance & Language Section ---
             item {
-                SectionHeader("APPEARANCE & LANGUAGE")
+                SectionHeader(stringResource(R.string.settings_appearance))
                 SettingsCard {
-                    Text("Language", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.settings_language), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.height(8.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         val currentLocales = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales()
@@ -126,7 +129,7 @@ fun SettingsScreen(
                                 contentColor = if (!isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
                             )
                         ) {
-                            Text("English", fontWeight = if (!isHe) FontWeight.Bold else FontWeight.Normal)
+                            Text(stringResource(R.string.settings_english), fontWeight = if (!isHe) FontWeight.Bold else FontWeight.Normal)
                         }
                         
                         OutlinedButton(
@@ -138,13 +141,13 @@ fun SettingsScreen(
                                 contentColor = if (isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
                             )
                         ) {
-                            Text("עברית", fontWeight = if (isHe) FontWeight.Bold else FontWeight.Normal)
+                            Text(stringResource(R.string.settings_hebrew), fontWeight = if (isHe) FontWeight.Bold else FontWeight.Normal)
                         }
                     }
                     
                     DividerItem()
                     
-                    Text("Theme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.settings_theme), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.height(8.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         ThemeButton(name = "Glass Dark", isSelected = settings.selectedTheme == "glass", onClick = { viewModel.setTheme("glass") }, modifier = Modifier.weight(1f))
@@ -156,22 +159,22 @@ fun SettingsScreen(
 
             // --- Network Control Section ---
             item {
-                SectionHeader("NETWORK CONTROL")
+                SectionHeader(stringResource(R.string.settings_network_control))
                 SettingsCard {
-                    NavigationRow(title = "Manage Excluded Networks", onClick = onNavigateToExcluded)
+                    NavigationRow(title = stringResource(R.string.settings_manage_excluded), onClick = onNavigateToExcluded)
                     DividerItem()
-                    NavigationRow(title = "App Bypass (Split Tunneling)", onClick = onNavigateToAppBypass)
+                    NavigationRow(title = stringResource(R.string.settings_app_bypass), onClick = onNavigateToAppBypass)
                     DividerItem()
-                    NavigationRow(title = "App Firewall (Killswitch)", onClick = onNavigateToAppFirewall, isDestructive = true)
+                    NavigationRow(title = stringResource(R.string.settings_app_firewall), onClick = onNavigateToAppFirewall, isDestructive = true)
                 }
             }
 
             // --- Pro Mode: Advanced Protocols ---
             item {
-                SectionHeader("PRO MODE (EXPERIMENTAL)")
+                SectionHeader(stringResource(R.string.settings_pro_mode))
                 SettingsCard {
-                    Text("VPN Protocol", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                    Text("Select tunneling technology", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.settings_vpn_protocol), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.settings_select_tunnel), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(12.dp))
                     
                     var expanded by remember { mutableStateOf(false) }
@@ -211,8 +214,8 @@ fun SettingsScreen(
                     DividerItem()
                     
                     SwitchRow(
-                        "Multi-Hop (Double VPN)", 
-                        "Route traffic through 2 servers for maximum anonymity", 
+                        stringResource(R.string.settings_multi_hop), 
+                        stringResource(R.string.settings_multi_hop_desc), 
                         settings.multiHopEnabled
                     ) {
                         viewModel.setMultiHopEnabled(it)
@@ -221,8 +224,8 @@ fun SettingsScreen(
                     DividerItem()
                     
                     SwitchRow(
-                        "Auto-connect on Insecure Wi-Fi", 
-                        "Automatically engage VPN on unknown networks", 
+                        stringResource(R.string.settings_auto_connect), 
+                        stringResource(R.string.settings_auto_connect_desc), 
                         settings.autoConnectInsecureWifi
                     ) {
                         viewModel.setAutoConnectWifi(it)
@@ -232,24 +235,24 @@ fun SettingsScreen(
 
             // --- Advanced Protection Section ---
             item {
-                SectionHeader("ADVANCED PROTECTION")
+                SectionHeader(stringResource(R.string.settings_advanced_protection))
                 SettingsCard {
-                    SwitchRow("DNS-over-HTTPS (DoH)", "Encrypts DNS queries (may increase latency)", settings.useDoh) {
+                    SwitchRow(stringResource(R.string.settings_doh), stringResource(R.string.settings_doh_desc), settings.useDoh) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setUseDoh(it)
                     }
                     DividerItem()
-                    SwitchRow("Zero-Day DGA Heuristics", "Blocks procedurally generated malware domains", settings.enableZeroDayProtection) {
+                    SwitchRow(stringResource(R.string.settings_zeroday_opt), stringResource(R.string.settings_zeroday_desc), settings.enableZeroDayProtection) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setEnableZeroDayProtection(it)
                     }
                     DividerItem()
-                    SwitchRow("Auto-start on boot", "Launch VPN service when device starts", settings.autoStartOnBoot) {
+                    SwitchRow(stringResource(R.string.settings_autostart), stringResource(R.string.settings_autostart_desc), settings.autoStartOnBoot) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setAutoStart(it)
                     }
                     DividerItem()
-                    SwitchRow("Aggressive Firewall", "Restart interface immediately on app rule change", settings.aggressiveFirewall) {
+                    SwitchRow(stringResource(R.string.settings_aggressive), stringResource(R.string.settings_aggressive_desc), settings.aggressiveFirewall) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         viewModel.setAggressiveFirewall(it)
                     }
@@ -260,14 +263,14 @@ fun SettingsScreen(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
                     ) {
-                        Text("Reset Query Statistics", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.settings_reset_stats), fontWeight = FontWeight.Bold)
                     }
                 }
             }
 
             // --- Upstream DNS Section ---
             item {
-                SectionHeader("UPSTREAM DNS")
+                SectionHeader(stringResource(R.string.settings_upstream))
                 SettingsCard {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedButton(onClick = { upstreamPrimary = "1.1.1.1"; upstreamSecondary = "1.0.0.1" }, shape = RoundedCornerShape(12.dp), modifier = Modifier.weight(1f)) {
@@ -290,7 +293,7 @@ fun SettingsScreen(
                     OutlinedTextField(
                         value = upstreamPrimary,
                         onValueChange = { upstreamPrimary = it },
-                        label = { Text("Primary resolver") },
+                        label = { Text(stringResource(R.string.settings_primary_resolver)) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     )
@@ -298,7 +301,7 @@ fun SettingsScreen(
                     OutlinedTextField(
                         value = upstreamSecondary,
                         onValueChange = { upstreamSecondary = it },
-                        label = { Text("Secondary resolver") },
+                        label = { Text(stringResource(R.string.settings_secondary_resolver)) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     )
@@ -309,14 +312,14 @@ fun SettingsScreen(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                     ) {
-                        Text("Save DNS Configuration", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.settings_save_dns), fontWeight = FontWeight.Bold)
                     }
                 }
             }
 
             // --- Blocklist Sources Section ---
             item {
-                SectionHeader("BLOCKLIST SOURCES")
+                SectionHeader(stringResource(R.string.settings_blocklists))
                 SettingsCard {
                     Constants.BLOCKLISTS.forEach { (name, url) ->
                         val isChecked = settings.activeBlocklists.contains(url)
@@ -350,7 +353,7 @@ fun SettingsScreen(
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth().height(50.dp)
                     ) {
-                        Text(if (updateState is BlocklistUpdateState.Updating) "UPDATING..." else "SYNC BLOCKLISTS NOW", fontWeight = FontWeight.Bold)
+                        Text(if (updateState is BlocklistUpdateState.Updating) stringResource(R.string.settings_updating) else stringResource(R.string.settings_sync_now), fontWeight = FontWeight.Bold)
                     }
                     when (val s = updateState) {
                         is BlocklistUpdateState.Success -> Text("Loaded ${s.domainCount} domains", color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp))
@@ -362,7 +365,7 @@ fun SettingsScreen(
 
             // --- Whitelist Section ---
             item {
-                SectionHeader("WHITELIST (NEVER BLOCK)")
+                SectionHeader(stringResource(R.string.settings_whitelist))
                 DomainInputRow(value = newWhitelistDomain, onValueChange = { newWhitelistDomain = it }) {
                     if (newWhitelistDomain.isNotBlank()) {
                         viewModel.addWhitelist(newWhitelistDomain)
@@ -386,7 +389,7 @@ fun SettingsScreen(
 
             // --- Custom Blacklist Section ---
             item {
-                SectionHeader("CUSTOM BLACKLIST (ALWAYS BLOCK)")
+                SectionHeader(stringResource(R.string.settings_blacklist))
                 DomainInputRow(value = newBlacklistDomain, onValueChange = { newBlacklistDomain = it }) {
                     if (newBlacklistDomain.isNotBlank()) {
                         viewModel.addBlacklist(newBlacklistDomain)
@@ -410,14 +413,14 @@ fun SettingsScreen(
 
             // --- About & Updates Section ---
             item {
-                SectionHeader("ABOUT & UPDATES")
+                SectionHeader(stringResource(R.string.settings_about))
                 SettingsCard {
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Current Version", color = MaterialTheme.colorScheme.onSurface)
+                        Text(stringResource(R.string.settings_current_version), color = MaterialTheme.colorScheme.onSurface)
                         Text("v${BuildConfig.VERSION_NAME}", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     Button(
@@ -447,7 +450,7 @@ fun SettingsScreen(
                         if (isCheckingUpdate) {
                             CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
                         } else {
-                            Text("Check for Updates", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Text(stringResource(R.string.settings_check_updates), fontWeight = FontWeight.Bold, fontSize = 16.sp)
                         }
                     }
                     Spacer(Modifier.height(16.dp))
@@ -457,7 +460,7 @@ fun SettingsScreen(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary)
                     ) {
-                        Text("View Changelog", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                        Text(stringResource(R.string.settings_view_changelog), fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     }
                 }
             }

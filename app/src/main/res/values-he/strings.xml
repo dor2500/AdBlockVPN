@@ -45,4 +45,52 @@
     <string name="dash_connection_secured">חיבור מאובטח</string>
     <string name="dash_not_connected">לא מחובר</string>
     <string name="dash_threats">איומים</string>
+    
+    <string name="settings_title">הגדרות</string>
+    <string name="settings_appearance">תצוגה ושפה</string>
+    <string name="settings_language">שפה</string>
+    <string name="settings_english">English</string>
+    <string name="settings_hebrew">עברית</string>
+    <string name="settings_theme">ערכת נושא</string>
+    
+    <string name="settings_network_control">שליטת רשת</string>
+    <string name="settings_manage_excluded">ניהול רשתות חריגות</string>
+    <string name="settings_app_bypass">מעקף אפליקציות (Split Tunneling)</string>
+    <string name="settings_app_firewall">חומת אש לאפליקציות (Killswitch)</string>
+    
+    <string name="settings_pro_mode">מצב מתקדם (ניסיוני)</string>
+    <string name="settings_vpn_protocol">פרוטוקול VPN</string>
+    <string name="settings_select_tunnel">בחר טכנולוגיית מנהור</string>
+    <string name="settings_multi_hop">מולטי-הופ (VPN כפול)</string>
+    <string name="settings_multi_hop_desc">נתב את התעבורה דרך 2 שרתים לאנונימיות מרבית</string>
+    <string name="settings_auto_connect">חיבור אוטומטי ב-Wi-Fi לא מאובטח</string>
+    <string name="settings_auto_connect_desc">הפעל VPN באופן אוטומטי ברשתות לא מוכרות</string>
+    
+    <string name="settings_advanced_protection">הגנה מתקדמת</string>
+    <string name="settings_doh">DNS מעל HTTPS (DoH)</string>
+    <string name="settings_doh_desc">מצפין בקשות DNS (עשוי להעלות פינג)</string>
+    <string name="settings_zeroday_opt">הגנת איומי אפס-ימים (Zero-Day)</string>
+    <string name="settings_zeroday_desc">חוסם דומיינים של תוכנות זדוניות שנוצרו אוטומטית</string>
+    <string name="settings_autostart">הפעלה אוטומטית בהדלקה</string>
+    <string name="settings_autostart_desc">הפעל את ה-VPN כשהמכשיר נדלק</string>
+    <string name="settings_aggressive">חומת אש אגרסיבית</string>
+    <string name="settings_aggressive_desc">אתחל את ממשק הרשת מיד לאחר שינוי בחוקי האפליקציות</string>
+    <string name="settings_reset_stats">אפס נתוני סטטיסטיקה</string>
+    
+    <string name="settings_upstream">שרתי DNS</string>
+    <string name="settings_primary_resolver">שרת ראשי</string>
+    <string name="settings_secondary_resolver">שרת משני</string>
+    <string name="settings_save_dns">שמור הגדרות DNS</string>
+    
+    <string name="settings_blocklists">מקורות חסימה</string>
+    <string name="settings_sync_now">סנכרן רשימות חסימה עכשיו</string>
+    <string name="settings_updating">מעדכן...</string>
+    
+    <string name="settings_whitelist">רשימה לבנה (אפשר תמיד)</string>
+    <string name="settings_blacklist">רשימה שחורה (חסום תמיד)</string>
+    
+    <string name="settings_about">אודות ועדכונים</string>
+    <string name="settings_current_version">גרסה נוכחית</string>
+    <string name="settings_check_updates">בדוק עדכונים</string>
+    <string name="settings_view_changelog">הצג היסטוריית שינויים</string>
 </resources>
