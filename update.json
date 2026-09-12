@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.4.0",
-  "releaseNotes": "✨ NEW: Deep Premium UI Update (v7.4.0) ✨\n\n1. Location Screen has been redesigned with sleek, floating server cards.\n2. Settings Screen upgraded to modern Glassmorphism aesthetics.\n3. Smooth animations added between screens.\n4. Updater is now cache-free and instant!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.0/AdBlockVPN-v7.4.0.apk"
+  "latestVersion": "v7.4.1",
+  "releaseNotes": "✨ NEW: Deep Premium UI Update (v7.4.1) ✨\n\n1. Location Screen has been redesigned with sleek, floating server cards.\n2. Settings Screen upgraded to modern Glassmorphism aesthetics.\n3. Smooth animations added between screens.\n4. Updater now downloads silently and prompts for installation seamlessly!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.1/AdBlockVPN-v7.4.1.apk"
 }
 
 

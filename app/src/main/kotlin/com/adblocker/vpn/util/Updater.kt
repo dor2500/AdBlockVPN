@@ -37,21 +37,33 @@ data class ReleaseInfo(
 
 object Updater {
     private const val TAG = "Updater"
-    private const val GITHUB_LATEST_RELEASE_URL = "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/update.json"
-    private const val GITHUB_RELEASES_URL = "https://api.github.com/repos/dor2500/AdBlockVPN/releases"
+    private const val GITHUB_UPDATE_JSON_URL = "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/update.json"
 
     suspend fun fetchChangelog(): List<ReleaseInfo> = withContext(Dispatchers.IO) {
         val releases = mutableListOf<ReleaseInfo>()
         try {
-            val url = URL(GITHUB_RELEASES_URL)
+            val timestamp = System.currentTimeMillis()
+            val url = URL("$GITHUB_UPDATE_JSON_URL?t=$timestamp")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
-            connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
-            connection.setRequestProperty("User-Agent", "AdBlockVPN-Updater")
-            // ... (keep rest unchanged)
+            connection.setRequestProperty("Cache-Control", "no-cache")
             
             if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                // ...
+                val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                val response = reader.readText()
+                reader.close()
+
+                val json = JSONObject(response)
+                var tagName = json.optString("latestVersion", "")
+                if (tagName.startsWith("v")) {
+                    tagName = tagName.substring(1)
+                }
+                
+                val releaseNotes = json.optString("releaseNotes", "No release notes available.")
+                // Add the current latest as the only release in the changelog, since update.json only holds latest.
+                if (tagName.isNotEmpty()) {
+                    releases.add(ReleaseInfo(tagName, "v$tagName", releaseNotes, ""))
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -63,11 +75,9 @@ object Updater {
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
             val timestamp = System.currentTimeMillis()
-            val url = URL("https://api.github.com/repos/dor2500/AdBlockVPN/releases/latest?t=$timestamp")
+            val url = URL("$GITHUB_UPDATE_JSON_URL?t=$timestamp")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
-            connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
-            connection.setRequestProperty("User-Agent", "AdBlockVPN-Updater")
             // Prevent any local caching
             connection.setRequestProperty("Cache-Control", "no-cache")
 
@@ -77,34 +87,21 @@ object Updater {
                 reader.close()
 
                 val json = JSONObject(response)
-                var tagName = json.getString("tag_name")
+                var tagName = json.optString("latestVersion", "")
                 if (tagName.startsWith("v")) {
                     tagName = tagName.substring(1)
                 }
                 
-                val releaseNotes = json.optString("body", "No release notes available.")
-                var downloadUrl = ""
-                
-                // Find the APK download URL in the assets
-                if (json.has("assets")) {
-                    val assets = json.getJSONArray("assets")
-                    for (i in 0 until assets.length()) {
-                        val asset = assets.getJSONObject(i)
-                        val assetName = asset.getString("name")
-                        if (assetName.endsWith(".apk")) {
-                            downloadUrl = asset.getString("browser_download_url")
-                            break
-                        }
-                    }
-                }
+                val releaseNotes = json.optString("releaseNotes", "No release notes available.")
+                val downloadUrl = json.optString("downloadUrl", "")
 
                 val isUpdateAvailable = downloadUrl.isNotEmpty() && isVersionNewer(BuildConfig.VERSION_NAME, tagName)
                 return@withContext UpdateInfo(isUpdateAvailable, tagName, releaseNotes, downloadUrl)
             } else {
-                Log.w(TAG, "Update GitHub API returned code ${connection.responseCode}")
+                Log.w(TAG, "Update JSON returned code ${connection.responseCode}")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to check for updates via GitHub API", e)
+            Log.e(TAG, "Failed to check for updates via update.json", e)
         }
         return@withContext null
     }
@@ -115,7 +112,7 @@ object Updater {
             val request = DownloadManager.Request(Uri.parse(downloadUrl))
                 .setTitle(context.getString(com.adblocker.vpn.R.string.app_name) + " Update")
                 .setDescription("Downloading version $version...")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
                 .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, fileName)
                 .setMimeType("application/vnd.android.package-archive")
 
