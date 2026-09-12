@@ -17,11 +17,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.adblocker.vpn.R
 import com.adblocker.vpn.ui.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +42,7 @@ fun BlockedScreen(
         containerColor = Color.Transparent,
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("ACCESS BLOCKED", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.error) },
+                title = { Text(stringResource(R.string.block_access_blocked), fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.error) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent)
             )
         }
@@ -91,7 +93,7 @@ fun BlockedScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Connection Prevented",
+                        text = stringResource(R.string.block_connection_prevented),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
@@ -121,34 +123,39 @@ fun BlockedScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = Color.Green, modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Domain added to Whitelist!", color = Color.Green, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.block_added_to_whitelist), color = Color.Green, fontWeight = FontWeight.Bold)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = onBack,
-                    modifier = Modifier.fillMaxWidth().height(56.dp),
-                    shape = RoundedCornerShape(16.dp)
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    )
                 ) {
-                    Text("Return to App")
+                    Text(stringResource(R.string.block_return_to_app), fontWeight = FontWeight.Bold)
                 }
             } else {
                 Button(
                     onClick = {
                         viewModel.addWhitelist(domain)
                         whitelisted = true
-                        Toast.makeText(context, "Added to Whitelist. You can now refresh the page in your browser.", Toast.LENGTH_LONG).show()
+                        val toastMsg = context.getString(R.string.block_toast_whitelisted)
+                        Toast.makeText(context, toastMsg, Toast.LENGTH_LONG).show()
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text("Trust this site (Whitelist)", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(stringResource(R.string.block_trust_this_site), fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
                 
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 TextButton(onClick = onBack) {
-                    Text("Go Back", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.block_go_back), color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }

@@ -107,10 +107,45 @@ fun SettingsScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             
-            // --- Appearance Section ---
+            // --- Appearance & Language Section ---
             item {
-                SectionHeader("APPEARANCE")
+                SectionHeader("APPEARANCE & LANGUAGE")
                 SettingsCard {
+                    Text("Language", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Spacer(Modifier.height(8.dp))
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val currentLocales = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales()
+                        val isHe = currentLocales.toLanguageTags().contains("he")
+                        
+                        OutlinedButton(
+                            onClick = { androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags("en")) },
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = if (!isHe) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                contentColor = if (!isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                            )
+                        ) {
+                            Text("English", fontWeight = if (!isHe) FontWeight.Bold else FontWeight.Normal)
+                        }
+                        
+                        OutlinedButton(
+                            onClick = { androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags("he")) },
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = if (isHe) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                contentColor = if (isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                            )
+                        ) {
+                            Text("עברית", fontWeight = if (isHe) FontWeight.Bold else FontWeight.Normal)
+                        }
+                    }
+                    
+                    DividerItem()
+                    
+                    Text("Theme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Spacer(Modifier.height(8.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         ThemeButton(name = "Glass Dark", isSelected = settings.selectedTheme == "glass", onClick = { viewModel.setTheme("glass") }, modifier = Modifier.weight(1f))
                         ThemeButton(name = "Aurora", isSelected = settings.selectedTheme == "aurora", onClick = { viewModel.setTheme("aurora") }, modifier = Modifier.weight(1f))

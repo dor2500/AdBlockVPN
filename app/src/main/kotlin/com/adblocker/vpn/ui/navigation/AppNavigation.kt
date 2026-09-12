@@ -13,21 +13,29 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import com.adblocker.vpn.R
+import com.adblocker.vpn.ui.block.BlockedScreen
+import com.adblocker.vpn.ui.bypass.AppBypassScreen
 import com.adblocker.vpn.ui.dashboard.DashboardScreen
 import com.adblocker.vpn.ui.excluded.ExcludedNetworksScreen
+import com.adblocker.vpn.ui.firewall.AppFirewallScreen
+import com.adblocker.vpn.ui.location.LocationScreen
 import com.adblocker.vpn.ui.monitor.MonitorScreen
+import com.adblocker.vpn.ui.settings.ChangelogScreen
 import com.adblocker.vpn.ui.settings.SettingsScreen
-import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.unit.dp
 
 private object Routes {
     const val DASHBOARD = "dashboard"
@@ -42,15 +50,15 @@ private object Routes {
 
 private data class BottomNavItem(
     val route: String,
-    val title: String,
+    val titleResId: Int,
     val icon: ImageVector
 )
 
 private val bottomNavItems = listOf(
-    BottomNavItem(Routes.DASHBOARD, "Home", Icons.Filled.Home),
-    BottomNavItem(Routes.LOCATION, "Servers", Icons.Filled.Public),
-    BottomNavItem(Routes.MONITOR, "Traffic", Icons.Filled.Timeline),
-    BottomNavItem(Routes.SETTINGS, "Settings", Icons.Filled.Settings)
+    BottomNavItem(Routes.DASHBOARD, R.string.nav_home, Icons.Filled.Home),
+    BottomNavItem(Routes.LOCATION, R.string.nav_servers, Icons.Filled.Public),
+    BottomNavItem(Routes.MONITOR, R.string.nav_traffic, Icons.Filled.Timeline),
+    BottomNavItem(Routes.SETTINGS, R.string.nav_settings, Icons.Filled.Settings)
 )
 
 @Composable
@@ -88,8 +96,8 @@ fun AppNavigation() {
                         bottomNavItems.forEach { item ->
                             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
                             NavigationBarItem(
-                                icon = { Icon(item.icon, contentDescription = item.title) },
-                                label = { Text(item.title, style = MaterialTheme.typography.labelSmall) },
+                                icon = { Icon(item.icon, contentDescription = stringResource(item.titleResId)) },
+                                label = { Text(stringResource(item.titleResId), style = MaterialTheme.typography.labelSmall) },
                                 selected = selected,
                                 onClick = {
                                     navController.navigate(item.route) {

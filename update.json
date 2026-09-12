@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.2.0",
-  "releaseNotes": "✨ NEW: Interactive Block Details Screen (v7.2.0) ✨\n\nTapping a block notification now opens a beautiful, interactive 'Block Details' screen directly in the app, showing the blocked domain, reason, and a 1-click button to add it to the whitelist!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.2.0/AdBlockVPN-v7.2.0.apk"
+  "latestVersion": "v7.3.0",
+  "releaseNotes": "✨ NEW: 🇮🇱 Hebrew Language Support & Settings Toggle (v7.3.0) ✨\n\nAdded a brand new Language Selector in the Settings tab to let you instantly switch between English and Hebrew! The Dashboard, Block Screen, and Bottom Navigation have been fully translated.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.0/AdBlockVPN-v7.3.0.apk"
 }
 
 

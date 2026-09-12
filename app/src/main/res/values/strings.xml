@@ -28,4 +28,21 @@
     <string name="settings">Settings</string>
     <string name="no_domains_found">No domains found.</string>
     <string name="no_network_activity">No network activity intercepted yet...</string>
+    
+    <string name="nav_home">Home</string>
+    <string name="nav_servers">Servers</string>
+    <string name="nav_traffic">Traffic</string>
+    <string name="nav_settings">Settings</string>
+    
+    <string name="block_access_blocked">ACCESS BLOCKED</string>
+    <string name="block_connection_prevented">Connection Prevented</string>
+    <string name="block_added_to_whitelist">Domain added to Whitelist!</string>
+    <string name="block_return_to_app">Return to App</string>
+    <string name="block_trust_this_site">Trust this site (Whitelist)</string>
+    <string name="block_go_back">Go Back</string>
+    <string name="block_toast_whitelisted">Added to Whitelist. You can now refresh the page in your browser.</string>
+    
+    <string name="dash_connection_secured">Connection secured</string>
+    <string name="dash_not_connected">Not connected</string>
+    <string name="dash_threats">Threats</string>
 </resources>

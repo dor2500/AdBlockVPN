@@ -15,9 +15,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.adblocker.vpn.ui.settings.SettingsViewModel
 
+import androidx.appcompat.app.AppCompatActivity
+
 import androidx.activity.enableEdgeToEdge
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* no-op */ }

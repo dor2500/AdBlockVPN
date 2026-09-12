@@ -37,6 +37,8 @@ import com.adblocker.vpn.util.Constants
 import com.adblocker.vpn.vpn.AdBlockVpnService
 import android.view.HapticFeedbackConstants
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
 
 @Composable
 fun DashboardScreen(
@@ -88,7 +90,7 @@ fun DashboardScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = if (isRunning) "Connection secured" else "Not connected",
+                text = if (isRunning) stringResource(R.string.dash_connection_secured) else stringResource(R.string.dash_not_connected),
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (isRunning) secondaryColor else MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -158,9 +160,9 @@ fun DashboardScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
-                StatItem("Queries", format.format(state.queriesTotal))
-                StatItem("Blocked", format.format(state.queriesBlocked))
-                StatItem("Threats", format.format(state.queriesZeroDayBlocked))
+                StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
+                StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
+                StatItem(stringResource(R.string.dash_threats), format.format(state.queriesZeroDayBlocked))
             }
         }
         
@@ -171,7 +173,7 @@ fun DashboardScreen(
 @Composable
 private fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        val isThreats = label == "Threats" && value != "0"
+        val isThreats = label == stringResource(R.string.dash_threats) && value != "0"
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium,
