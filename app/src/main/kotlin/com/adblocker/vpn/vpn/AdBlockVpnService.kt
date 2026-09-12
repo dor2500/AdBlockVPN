@@ -279,8 +279,8 @@ class AdBlockVpnService : VpnService() {
             // Check if domain is explicitly whitelisted FIRST
             isWhitelisted = blocklistManager.isWhitelisted(hostname)
 
-            // App Firewall Killswitch Check
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && blockedInternetApps.isNotEmpty()) {
+            var requestingPackages: Array<String>? = null
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 try {
                     val srcAddr = InetAddress.getByAddress(parsed.sourceAddress)
                     val dstAddr = InetAddress.getByAddress(parsed.destAddress)
@@ -293,8 +293,9 @@ class AdBlockVpnService : VpnService() {
                     
                     if (uid > 0) {
                         val pm = applicationContext.packageManager
-                        val packages = pm.getPackagesForUid(uid)
-                        if (packages != null && packages.any { blockedInternetApps.contains(it) }) {
+                        requestingPackages = pm.getPackagesForUid(uid)
+                        
+                        if (blockedInternetApps.isNotEmpty() && requestingPackages != null && requestingPackages.any { blockedInternetApps.contains(it) }) {
                             blocked = true
                             isAppFirewallBlocked = true
                         }
@@ -335,7 +336,17 @@ class AdBlockVpnService : VpnService() {
                 ) }
                 queriesBlocked.incrementAndGet()
                 queriesZeroDay.incrementAndGet()
-                showThreatNotification("Zero-Day Threat Blocked", "Blocked: $hostname\nReason: Detected as procedurally generated malware domain (Zero-Day).")
+                
+                val isBrowser = requestingPackages?.any { pkg ->
+                    val lowerPkg = pkg.lowercase()
+                    lowerPkg.contains("chrome") || lowerPkg.contains("firefox") || 
+                    lowerPkg.contains("opera") || lowerPkg.contains("brave") || 
+                    lowerPkg.contains("duckduckgo") || lowerPkg.contains("browser")
+                } == true
+                
+                if (isBrowser) {
+                    showThreatNotification("Zero-Day Threat Blocked", "Blocked: $hostname\nReason: Detected as procedurally generated malware domain (Zero-Day).")
+                }
             } else if (isAppFirewallBlocked) {
                 showThreatNotification("App Firewall Blocked", "Blocked: $hostname\nReason: The app trying to access this site is in your App Firewall (Killswitch) list.")
                 _state.update { it.copy(

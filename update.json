@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.4.7",
-  "releaseNotes": "✨ NEW: Ad-Eater Pet & Threat Gauge (v7.4.7) ✨\n\n1. Re-enabled App Firewall notifications with a smart 60-second mute to prevent spam.\n2. Added the 'Threat Level Gauge' to the dashboard for real-time risk assessment.\n3. Added the 'Ad-Eater Pet' - a cyber companion that feeds on blocked ads!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.7/AdBlockVPN-v7.4.7.apk"
+  "latestVersion": "v7.4.8",
+  "releaseNotes": "✨ NEW: Smart Browser Detection (v7.4.8) ✨\n\n- Zero-Day Phishing notifications will now ONLY alert you if you are actively browsing in a Web Browser (Chrome, Firefox, etc).\n- Includes all the huge Dashboard updates from v7.4.7 (Threat Gauge, Ad-Eater Pet, Smart Notifications)!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.8/AdBlockVPN-v7.4.8.apk"
 }
 
 
