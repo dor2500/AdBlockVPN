@@ -64,8 +64,8 @@ fun DashboardScreen(
     }
 
     val isRunning = state.isRunning
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val successColor = MaterialTheme.colorScheme.secondary
+    val primaryColor = MaterialTheme.colorScheme.primary // Purple #7C5CFF
+    val secondaryColor = MaterialTheme.colorScheme.secondary // Cyan #00D4FF
 
     Column(
         modifier = Modifier
@@ -79,7 +79,7 @@ fun DashboardScreen(
         // Header
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "AdBlock VPN",
@@ -90,38 +90,66 @@ fun DashboardScreen(
             Text(
                 text = if (isRunning) "Connection secured" else "Not connected",
                 style = MaterialTheme.typography.bodyLarge,
-                color = if (isRunning) successColor else MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (isRunning) secondaryColor else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
         Spacer(modifier = Modifier.weight(1f))
         
-        // Status Icon / Visualizer
+        // NovaMind Glowing Button
+        val infiniteTransition = rememberInfiniteTransition()
+        val glowRadius by infiniteTransition.animateFloat(
+            initialValue = if (isRunning) 20f else 0f,
+            targetValue = if (isRunning) 40f else 0f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(2000, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "glow_anim"
+        )
+
         Box(
             modifier = Modifier
-                .size(160.dp)
+                .size(200.dp)
                 .background(
-                    if (isRunning) successColor.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surfaceVariant,
+                    if (isRunning) Brush.linearGradient(listOf(primaryColor, secondaryColor))
+                    else Brush.linearGradient(listOf(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.surfaceVariant)),
                     shape = androidx.compose.foundation.shape.CircleShape
-                ),
+                )
+                .border(
+                    width = 2.dp,
+                    color = if (isRunning) secondaryColor.copy(alpha = 0.5f) else MaterialTheme.colorScheme.outline,
+                    shape = androidx.compose.foundation.shape.CircleShape
+                )
+                .shadow(
+                    elevation = glowRadius.dp,
+                    shape = androidx.compose.foundation.shape.CircleShape,
+                    spotColor = if (isRunning) primaryColor else Color.Transparent,
+                    ambientColor = if (isRunning) secondaryColor else Color.Transparent
+                )
+                .clickable {
+                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                    if (isRunning) stopVpnService(context) else requestStart()
+                },
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.Shield,
-                contentDescription = "Status",
-                modifier = Modifier.size(64.dp),
-                tint = if (isRunning) successColor else MaterialTheme.colorScheme.onSurfaceVariant
+                imageVector = Icons.Filled.PowerSettingsNew,
+                contentDescription = "Toggle",
+                modifier = Modifier.size(80.dp),
+                tint = if (isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         
         Spacer(modifier = Modifier.weight(1f))
 
-        // Stats
+        // Stats (NovaMind Card)
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
         ) {
             Row(
                 modifier = Modifier
@@ -134,30 +162,6 @@ fun DashboardScreen(
                 StatItem("Blocked", format.format(state.queriesBlocked))
                 StatItem("Threats", format.format(state.queriesZeroDayBlocked))
             }
-        }
-        
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Wide Connect Button
-        Button(
-            onClick = {
-                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-                if (isRunning) stopVpnService(context) else requestStart()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (isRunning) MaterialTheme.colorScheme.surfaceVariant else primaryColor,
-                contentColor = if (isRunning) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onPrimary
-            ),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text(
-                text = if (isRunning) "Disconnect" else "Connect",
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold
-            )
         }
         
         Spacer(modifier = Modifier.height(16.dp))

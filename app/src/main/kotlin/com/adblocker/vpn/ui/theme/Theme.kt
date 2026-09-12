@@ -12,28 +12,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
-// --- Executive Professional Theme ---
-val ExecutiveBackground = Color(0xFF121212) 
-val ExecutiveSurface = Color(0xFF1E1E1E) 
-val ExecutiveSurfaceVariant = Color(0xFF2C2C2C)
-val ExecutivePrimary = Color(0xFF0A84FF) // Professional iOS-like Blue
-val ExecutiveSecondary = Color(0xFF30D158) // Success Green
-val ExecutiveText = Color(0xFFFFFFFF)
-val ExecutiveTextSecondary = Color(0xFF8E8E93)
-val ExecutiveBorder = Color(0xFF38383A)
+// --- NovaMind AI Theme ---
+val NovaBackground = Color(0xFF0A0A0F) 
+val NovaSurface = Color(0xFF0E0E16) 
+val NovaSurfaceVariant = Color(0xFF12121C)
+val NovaPrimary = Color(0xFF7C5CFF) // Purple
+val NovaSecondary = Color(0xFF00D4FF) // Cyan
+val NovaText = Color(0xFFE8E6F0)
+val NovaTextSecondary = Color(0xFF9896A8)
+val NovaBorder = Color(0x1F7C5CFF) // rgba(124, 92, 255, 0.12)
 
-val ExecutiveScheme = darkColorScheme(
-    primary = ExecutivePrimary,
+val NovaScheme = darkColorScheme(
+    primary = NovaPrimary,
     onPrimary = Color.White,
-    secondary = ExecutiveSecondary,
-    onSecondary = Color.White,
-    background = ExecutiveBackground,
-    surface = ExecutiveSurface,
-    surfaceVariant = ExecutiveSurfaceVariant,
-    onBackground = ExecutiveText,
-    onSurface = ExecutiveText,
-    onSurfaceVariant = ExecutiveTextSecondary,
-    outline = ExecutiveBorder
+    secondary = NovaSecondary,
+    onSecondary = Color.Black,
+    background = NovaBackground,
+    surface = NovaSurface,
+    surfaceVariant = NovaSurfaceVariant,
+    onBackground = NovaText,
+    onSurface = NovaText,
+    onSurfaceVariant = NovaTextSecondary,
+    outline = NovaBorder
 )
 
 // Professional Typography
@@ -71,17 +71,17 @@ val ProfessionalTypography = Typography(
 )
 
 // Legacy compatibility
-val PremiumCyan = ExecutivePrimary
-val NeonGreen = ExecutiveSecondary
-val Blue500 = ExecutivePrimary
+val PremiumCyan = NovaSecondary
+val NeonGreen = NovaSecondary
+val Blue500 = NovaPrimary
 
 @Composable
 fun AdBlockerTheme(
-    themeName: String = "executive", 
+    themeName: String = "novamind", 
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = ExecutiveScheme,
+        colorScheme = NovaScheme,
         typography = ProfessionalTypography,
         content = content
     )
