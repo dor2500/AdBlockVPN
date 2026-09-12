@@ -78,21 +78,17 @@ private fun getFlagEmoji(countryCode: String): String {
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
     val animatedBgColor by androidx.compose.animation.animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
         label = "bgColorAnim"
     )
-    val animatedBorderColor by androidx.compose.animation.animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-        label = "borderColorAnim"
-    )
 
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(androidx.compose.foundation.shape.RoundedCornerShape(20.dp))
-            .background(animatedBgColor)
-            .border(2.dp, animatedBorderColor, androidx.compose.foundation.shape.RoundedCornerShape(20.dp))
-            .clickable { onSelect(server) }
+            .clickable { onSelect(server) },
+        colors = CardDefaults.cardColors(containerColor = animatedBgColor),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 4.dp else 0.dp)
     ) {
         Row(
             modifier = Modifier.padding(20.dp),
@@ -106,8 +102,8 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = server.name, 
-                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface, 
-                    fontWeight = FontWeight.Black,
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface, 
+                    fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
                 Spacer(Modifier.height(4.dp))
@@ -122,24 +118,12 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
                     Text(
                         text = "${server.latencyMs} ms", 
                         color = MaterialTheme.colorScheme.onSurfaceVariant, 
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                        fontSize = 14.sp
                     )
                 }
             }
-            androidx.compose.animation.AnimatedVisibility(
-                visible = isSelected,
-                enter = androidx.compose.animation.fadeIn() + androidx.compose.animation.scaleIn(),
-                exit = androidx.compose.animation.fadeOut() + androidx.compose.animation.scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(MaterialTheme.colorScheme.primary, androidx.compose.foundation.shape.CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Default.Check, contentDescription = "Selected", tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(20.dp))
-                }
+            if (isSelected) {
+                Icon(Icons.Default.Check, contentDescription = "Selected", tint = MaterialTheme.colorScheme.primary)
             }
         }
     }
