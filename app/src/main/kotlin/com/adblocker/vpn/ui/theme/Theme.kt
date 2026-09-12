@@ -12,28 +12,76 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
-// --- NovaMind AI Theme ---
-val NovaBackground = Color(0xFF0A0A0F) 
-val NovaSurface = Color(0xFF0E0E16) 
-val NovaSurfaceVariant = Color(0xFF12121C)
-val NovaPrimary = Color(0xFF7C5CFF) // Purple
-val NovaSecondary = Color(0xFF00D4FF) // Cyan
-val NovaText = Color(0xFFE8E6F0)
-val NovaTextSecondary = Color(0xFF9896A8)
-val NovaBorder = Color(0x1F7C5CFF) // rgba(124, 92, 255, 0.12)
+// --- Glass Dark Theme (NovaMind AI) ---
+val GlassPrimary = Color(0xFF7C5CFF) // Purple
+val GlassSecondary = Color(0xFF00D4FF) // Cyan
+val GlassBackground = Color(0xFF0A0A0F) 
+val GlassSurface = Color(0xFF0E0E16) 
+val GlassSurfaceVariant = Color(0xFF12121C)
+val GlassText = Color(0xFFE8E6F0)
+val GlassTextSecondary = Color(0xFF9896A8)
+val GlassBorder = Color(0x1F7C5CFF)
 
-val NovaScheme = darkColorScheme(
-    primary = NovaPrimary,
+val GlassScheme = darkColorScheme(
+    primary = GlassPrimary,
     onPrimary = Color.White,
-    secondary = NovaSecondary,
+    secondary = GlassSecondary,
     onSecondary = Color.Black,
-    background = NovaBackground,
-    surface = NovaSurface,
-    surfaceVariant = NovaSurfaceVariant,
-    onBackground = NovaText,
-    onSurface = NovaText,
-    onSurfaceVariant = NovaTextSecondary,
-    outline = NovaBorder
+    background = GlassBackground,
+    surface = GlassSurface,
+    surfaceVariant = GlassSurfaceVariant,
+    onBackground = GlassText,
+    onSurface = GlassText,
+    onSurfaceVariant = GlassTextSecondary,
+    outline = GlassBorder
+)
+
+// --- Aurora Theme ---
+val AuroraPrimary = Color(0xFF00E676) // Neon Green
+val AuroraSecondary = Color(0xFF00B0FF) // Neon Blue
+val AuroraBackground = Color(0xFF05100B) 
+val AuroraSurface = Color(0xFF0A1811) 
+val AuroraSurfaceVariant = Color(0xFF0F2018)
+val AuroraText = Color(0xFFE0F2E9)
+val AuroraTextSecondary = Color(0xFF8DAA9B)
+val AuroraBorder = Color(0x1F00E676)
+
+val AuroraScheme = darkColorScheme(
+    primary = AuroraPrimary,
+    onPrimary = Color.Black,
+    secondary = AuroraSecondary,
+    onSecondary = Color.Black,
+    background = AuroraBackground,
+    surface = AuroraSurface,
+    surfaceVariant = AuroraSurfaceVariant,
+    onBackground = AuroraText,
+    onSurface = AuroraText,
+    onSurfaceVariant = AuroraTextSecondary,
+    outline = AuroraBorder
+)
+
+// --- Eclipse Theme ---
+val EclipsePrimary = Color(0xFFFF3D00) // Crimson/Orange
+val EclipseSecondary = Color(0xFFFFB300) // Amber
+val EclipseBackground = Color(0xFF000000) // Pure Black (OLED)
+val EclipseSurface = Color(0xFF080808) 
+val EclipseSurfaceVariant = Color(0xFF101010)
+val EclipseText = Color(0xFFFFF0ED)
+val EclipseTextSecondary = Color(0xFF998A87)
+val EclipseBorder = Color(0x1FFFF3D00)
+
+val EclipseScheme = darkColorScheme(
+    primary = EclipsePrimary,
+    onPrimary = Color.White,
+    secondary = EclipseSecondary,
+    onSecondary = Color.Black,
+    background = EclipseBackground,
+    surface = EclipseSurface,
+    surfaceVariant = EclipseSurfaceVariant,
+    onBackground = EclipseText,
+    onSurface = EclipseText,
+    onSurfaceVariant = EclipseTextSecondary,
+    outline = EclipseBorder
 )
 
 // Professional Typography
@@ -70,18 +118,20 @@ val ProfessionalTypography = Typography(
     )
 )
 
-// Legacy compatibility
-val PremiumCyan = NovaSecondary
-val NeonGreen = NovaSecondary
-val Blue500 = NovaPrimary
-
 @Composable
 fun AdBlockerTheme(
-    themeName: String = "novamind", 
+    themeName: String = "glass", 
     content: @Composable () -> Unit
 ) {
+    val colorScheme = when (themeName.lowercase()) {
+        "aurora" -> AuroraScheme
+        "eclipse" -> EclipseScheme
+        "glass" -> GlassScheme
+        else -> GlassScheme // default to Glass (NovaMind)
+    }
+
     MaterialTheme(
-        colorScheme = NovaScheme,
+        colorScheme = colorScheme,
         typography = ProfessionalTypography,
         content = content
     )

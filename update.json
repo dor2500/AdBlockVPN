@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.0.9",
-  "releaseNotes": "🚀 NEW: Massive Performance Boost (v7.0.9) 🚀\n\nBrowsing is now instantly fast! The VPN now uses connection pooling (HTTP/2) for DNS queries, eliminating handshake latency.\nAlso, downloaded APKs are now properly named (e.g. AdBlockVPN-v7.0.9.apk).",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.9/AdBlockVPN-v7.0.9.apk"
+  "latestVersion": "v7.1.0",
+  "releaseNotes": "🎨 NEW: Theme Engine & Notifications (v7.1.0) 🎨\n\nFixed the Theme Engine: You can now freely switch between Glass Dark, Aurora, and Eclipse themes in the Settings menu!\nAdded a Smart Notification system that pops up if a severe Zero-Day Threat is blocked.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.0/AdBlockVPN-v7.1.0.apk"
 }
 
 

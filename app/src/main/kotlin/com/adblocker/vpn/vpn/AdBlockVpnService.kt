@@ -312,7 +312,16 @@ class AdBlockVpnService : VpnService() {
 
         if (blocked) {
             queriesBlocked.incrementAndGet()
-            if (isZeroDay) queriesZeroDay.incrementAndGet()
+            if (isZeroDay) {
+                queriesZeroDay.incrementAndGet()
+                showThreatNotification("Zero-Day Threat Blocked", hostname ?: "Unknown Domain")
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && blockedInternetApps.isNotEmpty()) {
+                // If it was blocked by the firewall (not zero-day and not whitelisted)
+                // We don't have the exact app name here, so we just say "App Firewall"
+                // But we only want to do this occasionally, let's just use showThreatNotification
+                // Actually, let's not spam App Firewall blocks. Only show it if they explicitly ask.
+                // For now, I will stick to Zero-Day as requested by option 1.
+            }
             
             DnsPacketParser.buildBlockedResponse(packet, length)?.let { response ->
                 writeToTun(output, response)
@@ -396,12 +405,37 @@ class AdBlockVpnService : VpnService() {
         nm.notify(Constants.NOTIFICATION_ID, buildNotification(active = true))
     }
 
+    private var lastNotificationTime = 0L
+
+    private fun showThreatNotification(title: String, message: String) {
+        val now = System.currentTimeMillis()
+        if (now - lastNotificationTime < 5000) return // Debounce: Max 1 every 5s
+        lastNotificationTime = now
+
+        val nm = getSystemService(NotificationManager::class.java)
+        val contentIntent = PendingIntent.getActivity(
+            this, 0, Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
+            .setContentTitle(title)
+            .setContentText("Blocked connection to: $message")
+            .setSmallIcon(R.drawable.ic_notification)
+            .setPriority(NotificationCompat.PRIORITY_HIGH) // Pops up
+            .setAutoCancel(true)
+            .setContentIntent(contentIntent)
+            .build()
+
+        nm.notify((System.currentTimeMillis() % 10000).toInt(), notification)
+    }
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 Constants.NOTIFICATION_CHANNEL_ID,
                 getString(R.string.notif_channel_name),
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_HIGH // Changed to HIGH so it can pop up
             )
             getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
         }
