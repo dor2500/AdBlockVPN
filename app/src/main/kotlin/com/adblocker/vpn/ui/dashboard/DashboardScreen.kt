@@ -162,24 +162,88 @@ fun DashboardScreen(
             
             Spacer(modifier = Modifier.weight(1f))
 
-            // Stats (Glassmorphism Card)
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                shape = RoundedCornerShape(24.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = if (isRunning) 8.dp else 0.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+            val latestLog by viewModel.dnsLogs.collectAsState(initial = null)
+            val matrixLogs = AdBlockVpnService.dnsLogs.replayCache.reversed().take(4)
+
+            // Live Matrix Feed
+            if (isRunning && matrixLogs.isNotEmpty()) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha=0.6f)),
+                    shape = RoundedCornerShape(16.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF00).copy(alpha=0.3f))
                 ) {
-                    val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
-                    StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
-                    StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
-                    StatItem(stringResource(R.string.dash_threats), format.format(state.queriesZeroDayBlocked))
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("LIVE MATRIX FEED", color = Color(0xFF00FF00), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        matrixLogs.forEach { log ->
+                            val color = if (log.isBlocked) MaterialTheme.colorScheme.error else Color(0xFF00FF00).copy(alpha=0.7f)
+                            val prefix = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]"
+                            Text(
+                                text = "$prefix ${log.hostname}",
+                                color = color,
+                                style = MaterialTheme.typography.bodySmall,
+                                maxLines = 1,
+                                modifier = Modifier.padding(vertical = 2.dp)
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            // Data Heist Shield UI
+            if (isRunning) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                    shape = RoundedCornerShape(24.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp)
+                    ) {
+                        Text(
+                            text = "DATA HEIST PREVENTED",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Black,
+                            color = MaterialTheme.colorScheme.primary,
+                            letterSpacing = 1.sp,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        
+                        val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            StatItem("Profiling", format.format(state.profilingBlocked))
+                            StatItem("Location", format.format(state.locationBlocked))
+                            StatItem("Zero-Day", format.format(state.queriesZeroDayBlocked))
+                            StatItem("Total Ads", format.format(state.queriesBlocked))
+                        }
+                    }
+                }
+            } else {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                    shape = RoundedCornerShape(24.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text("Connect VPN to see live protection stats", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
                 }
             }
             

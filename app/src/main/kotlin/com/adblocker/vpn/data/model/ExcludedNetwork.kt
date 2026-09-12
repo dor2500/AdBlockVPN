@@ -10,6 +10,8 @@ data class VpnEngineState(
     val queriesTotal: Long = 0,
     val queriesBlocked: Long = 0,
     val queriesZeroDayBlocked: Long = 0,
+    val profilingBlocked: Long = 0,
+    val locationBlocked: Long = 0,
     val rxSpeed: Long = 0,
     val txSpeed: Long = 0
 )

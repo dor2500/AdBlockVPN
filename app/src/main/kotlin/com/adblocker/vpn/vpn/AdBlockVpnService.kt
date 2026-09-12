@@ -313,14 +313,51 @@ class AdBlockVpnService : VpnService() {
         }
 
         if (blocked) {
-            queriesBlocked.incrementAndGet()
-            if (isZeroDay) {
+            val reason = if (isZeroDay) "Procedurally Generated (Zero-Day)" else ""
+            var isProfiling = false
+            var isLocation = false
+            if (hostname != null) {
+                val lowerHost = hostname.lowercase()
+                if (lowerHost.contains("google-analytics") || lowerHost.contains("facebook") || lowerHost.contains("appboy") || lowerHost.contains("mixpanel") || lowerHost.contains("scorecardresearch")) {
+                    isProfiling = true
+                } else if (lowerHost.contains("location") || lowerHost.contains("map") || lowerHost.contains("geotrust")) {
+                    isLocation = true
+                }
+            }
+
+            if (reason == "Procedurally Generated (Zero-Day)") {
+                _state.update { it.copy(
+                    queriesZeroDayBlocked = it.queriesZeroDayBlocked + 1,
+                    queriesBlocked = it.queriesBlocked + 1,
+                    profilingBlocked = it.profilingBlocked + (if(isProfiling) 1 else 0),
+                    locationBlocked = it.locationBlocked + (if(isLocation) 1 else 0)
+                ) }
+                queriesBlocked.incrementAndGet()
                 queriesZeroDay.incrementAndGet()
                 showThreatNotification("Zero-Day Threat Blocked", "Blocked: $hostname\nReason: Detected as procedurally generated malware domain (Zero-Day).")
             } else if (isAppFirewallBlocked) {
-                showThreatNotification("App Firewall Blocked", "Blocked: $hostname\nReason: The app trying to access this site is in your App Firewall (Killswitch) list.")
+                // Do not show notification for app firewall
+                _state.update { it.copy(
+                    queriesBlocked = it.queriesBlocked + 1,
+                    profilingBlocked = it.profilingBlocked + (if(isProfiling) 1 else 0),
+                    locationBlocked = it.locationBlocked + (if(isLocation) 1 else 0)
+                ) }
+                queriesBlocked.incrementAndGet()
             } else if (!isWhitelisted && hostname != null) {
-                showThreatNotification("Ad/Tracker Blocked", "Blocked: $hostname\nReason: Found in your active blocklists.")
+                // Do not show notification for standard ads/trackers
+                _state.update { it.copy(
+                    queriesBlocked = it.queriesBlocked + 1,
+                    profilingBlocked = it.profilingBlocked + (if(isProfiling) 1 else 0),
+                    locationBlocked = it.locationBlocked + (if(isLocation) 1 else 0)
+                ) }
+                queriesBlocked.incrementAndGet()
+            } else {
+                _state.update { it.copy(
+                    queriesBlocked = it.queriesBlocked + 1,
+                    profilingBlocked = it.profilingBlocked + (if(isProfiling) 1 else 0),
+                    locationBlocked = it.locationBlocked + (if(isLocation) 1 else 0)
+                ) }
+                queriesBlocked.incrementAndGet()
             }
             
             DnsPacketParser.buildBlockedResponse(packet, length)?.let { response ->
