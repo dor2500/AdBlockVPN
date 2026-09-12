@@ -158,7 +158,16 @@ fun SettingsScreen(
                     
                     Spacer(Modifier.height(8.dp))
                     
-                    // Row 3 of themes (just 1 to fill out)
+                    // Row 3 of themes
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        ThemeButton(name = "Ocean", isSelected = settings.selectedTheme == "ocean", onClick = { viewModel.setTheme("ocean") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Forest", isSelected = settings.selectedTheme == "forest", onClick = { viewModel.setTheme("forest") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Sunset", isSelected = settings.selectedTheme == "sunset", onClick = { viewModel.setTheme("sunset") }, modifier = Modifier.weight(1f))
+                    }
+
+                    Spacer(Modifier.height(8.dp))
+
+                    // Row 4 of themes (Monochrome on its own line)
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         ThemeButton(name = "Monochrome", isSelected = settings.selectedTheme == "monochrome", onClick = { viewModel.setTheme("monochrome") }, modifier = Modifier.weight(1f))
                     }

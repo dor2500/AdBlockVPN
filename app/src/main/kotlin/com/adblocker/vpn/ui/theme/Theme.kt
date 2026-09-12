@@ -229,6 +229,78 @@ val MonochromeScheme = darkColorScheme(
     outline = MonochromeBorder
 )
 
+// --- Ocean Theme ---
+val OceanPrimary = Color(0xFF00B4D8)
+val OceanSecondary = Color(0xFF03045E)
+val OceanBackground = Color(0xFF020E1A)
+val OceanSurface = Color(0xFF05192D)
+val OceanSurfaceVariant = Color(0xFF0B2A4A)
+val OceanText = Color(0xFFE0F7FA)
+val OceanTextSecondary = Color(0xFF81D4FA)
+val OceanBorder = Color(0x3300B4D8)
+
+val OceanScheme = darkColorScheme(
+    primary = OceanPrimary,
+    onPrimary = Color.Black,
+    secondary = OceanSecondary,
+    onSecondary = Color.White,
+    background = OceanBackground,
+    surface = OceanSurface,
+    surfaceVariant = OceanSurfaceVariant,
+    onBackground = OceanText,
+    onSurface = OceanText,
+    onSurfaceVariant = OceanTextSecondary,
+    outline = OceanBorder
+)
+
+// --- Forest Theme ---
+val ForestPrimary = Color(0xFF76C893)
+val ForestSecondary = Color(0xFF1A759F)
+val ForestBackground = Color(0xFF061409)
+val ForestSurface = Color(0xFF0D2513)
+val ForestSurfaceVariant = Color(0xFF153A1F)
+val ForestText = Color(0xFFD8F3DC)
+val ForestTextSecondary = Color(0xFF95D5B2)
+val ForestBorder = Color(0x3376C893)
+
+val ForestScheme = darkColorScheme(
+    primary = ForestPrimary,
+    onPrimary = Color.Black,
+    secondary = ForestSecondary,
+    onSecondary = Color.White,
+    background = ForestBackground,
+    surface = ForestSurface,
+    surfaceVariant = ForestSurfaceVariant,
+    onBackground = ForestText,
+    onSurface = ForestText,
+    onSurfaceVariant = ForestTextSecondary,
+    outline = ForestBorder
+)
+
+// --- Sunset Theme ---
+val SunsetPrimary = Color(0xFFFF5400)
+val SunsetSecondary = Color(0xFFFF0054)
+val SunsetBackground = Color(0xFF1A0500)
+val SunsetSurface = Color(0xFF2E0900)
+val SunsetSurfaceVariant = Color(0xFF4A1000)
+val SunsetText = Color(0xFFFFE5D9)
+val SunsetTextSecondary = Color(0xFFFFCAD4)
+val SunsetBorder = Color(0x33FF5400)
+
+val SunsetScheme = darkColorScheme(
+    primary = SunsetPrimary,
+    onPrimary = Color.Black,
+    secondary = SunsetSecondary,
+    onSecondary = Color.White,
+    background = SunsetBackground,
+    surface = SunsetSurface,
+    surfaceVariant = SunsetSurfaceVariant,
+    onBackground = SunsetText,
+    onSurface = SunsetText,
+    onSurfaceVariant = SunsetTextSecondary,
+    outline = SunsetBorder
+)
+
 @Composable
 fun AdBlockerTheme(
     themeName: String = "glass", 
@@ -241,6 +313,9 @@ fun AdBlockerTheme(
         "luxury" -> LuxuryScheme
         "amethyst" -> AmethystScheme
         "monochrome" -> MonochromeScheme
+        "ocean" -> OceanScheme
+        "forest" -> ForestScheme
+        "sunset" -> SunsetScheme
         "glass" -> GlassScheme
         else -> GlassScheme // default to Glass (NovaMind)
     }
