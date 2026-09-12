@@ -20,17 +20,20 @@ class BlocklistManager(private val cacheDir: File) {
     fun setWhitelist(domains: Set<String>) {
         whitelist.clear()
         whitelist.addAll(domains.map { it.lowercase() })
+        synchronized(domainResultCache) { domainResultCache.clear() }
     }
 
     fun setUserBlacklist(domains: Set<String>) {
         userBlacklist.clear()
         userBlacklist.addAll(domains.map { it.lowercase() })
+        synchronized(domainResultCache) { domainResultCache.clear() }
     }
 
     suspend fun setActiveLists(urls: Set<String>) {
         if (urls == activeUrls) return
         activeUrls = urls
         loadActiveListsFromDisk()
+        synchronized(domainResultCache) { domainResultCache.clear() }
     }
 
     private suspend fun loadActiveListsFromDisk() = withContext(Dispatchers.IO) {
@@ -72,24 +75,39 @@ class BlocklistManager(private val cacheDir: File) {
         return false
     }
 
+    private val domainResultCache = object : java.util.LinkedHashMap<String, Boolean>(500, 0.75f, true) {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Boolean>?): Boolean = size > 2000
+    }
+
     fun isBlocked(host: String): Boolean {
         val normalized = host.lowercase().removeSuffix(".")
+        
+        synchronized(domainResultCache) {
+            domainResultCache[normalized]?.let { return it }
+        }
+
         // Check whitelist first (with full subdomain + parent matching)
-        if (isWhitelisted(normalized)) return false
-        if (userBlacklist.contains(normalized)) return true
+        if (isWhitelisted(normalized)) {
+            synchronized(domainResultCache) { domainResultCache[normalized] = false }
+            return false
+        }
+        if (userBlacklist.contains(normalized)) {
+            synchronized(domainResultCache) { domainResultCache[normalized] = true }
+            return true
+        }
 
         var domain = normalized
         while (true) {
             if (blockedDomains.contains(domain)) {
-                // Before confirming blocked, verify parent isn't whitelisted
-                // This handles the case where blocklist has "tracker.example.com"
-                // but user whitelisted "example.com"
+                synchronized(domainResultCache) { domainResultCache[normalized] = true }
                 return true
             }
             val dot = domain.indexOf('.')
             if (dot < 0) break
             domain = domain.substring(dot + 1)
         }
+        
+        synchronized(domainResultCache) { domainResultCache[normalized] = false }
         return false
     }
 

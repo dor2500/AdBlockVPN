@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.1.1",
-  "releaseNotes": "🚀 NEW: Extreme Speed & DNS Cache (v7.1.1) 🚀\n\nAdded an in-memory DNS Cache: When you visit a website a second time, the lookup happens instantly with literally 0ms latency!\nAlso added smooth micro-animations to the numbers in the dashboard.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.1/AdBlockVPN-v7.1.1.apk"
+  "latestVersion": "v7.1.2",
+  "releaseNotes": "✨ NEW: Settings Glass UI & AdBlock Engine Speedup (v7.1.2) ✨\n\nRedesigned the Settings screen to feature the beautiful Glass UI!\nWe also significantly improved the performance of the AdBlock Engine by adding a secondary positive/negative cache. Less CPU usage for your phone!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.1.2/AdBlockVPN-v7.1.2.apk"
 }
 
 
