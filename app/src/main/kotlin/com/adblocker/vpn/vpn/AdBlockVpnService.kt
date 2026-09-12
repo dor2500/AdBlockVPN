@@ -275,11 +275,12 @@ class AdBlockVpnService : VpnService() {
         var isWhitelisted = false
         
         var isAppFirewallBlocked = false
+        var requestingPackages: Array<String>? = null
         if (!isPassThrough.get() && hostname != null) {
             // Check if domain is explicitly whitelisted FIRST
             isWhitelisted = blocklistManager.isWhitelisted(hostname)
 
-            var requestingPackages: Array<String>? = null
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 try {
                     val srcAddr = InetAddress.getByAddress(parsed.sourceAddress)
