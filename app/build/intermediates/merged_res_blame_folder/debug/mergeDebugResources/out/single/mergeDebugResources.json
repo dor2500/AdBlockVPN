@@ -1,42 +1,46 @@
 [
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\drawable_widget_background.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\drawable\\widget_background.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/xml_backup_rules.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\drawable_ic_notification.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\drawable\\ic_notification.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/layout_widget_vpn.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/layout/widget_vpn.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\drawable_custom_icon.jpg.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\drawable\\custom_icon.jpg"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/drawable_custom_icon.jpg.flat",
-        "source": "com.adblocker.vpn.app-main-6:/drawable/custom_icon.jpg"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\xml_filepaths.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\xml\\filepaths.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/drawable_widget_background.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/drawable/widget_background.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/drawable_ic_notification.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/drawable/ic_notification.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\xml_vpn_widget_info.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\xml\\vpn_widget_info.xml"
     },
     {
         "merged": "com.adblocker.vpn.app-debug-4:/xml_locales_config.xml.flat",
         "source": "com.adblocker.vpn.app-main-6:/xml/locales_config.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/xml_vpn_widget_info.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/xml/vpn_widget_info.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\layout_widget_vpn.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\layout\\widget_vpn.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/xml_data_extraction_rules.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.adblocker.vpn.app-debug-4:/xml_filepaths.xml.flat",
-        "source": "com.adblocker.vpn.app-main-6:/xml/filepaths.xml"
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\xml_locales_config.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\xml\\locales_config.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-debug-4:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\Dorp\\.gradle\\daemon\\8.7\\com.adblocker.vpn.app-main-6:\\xml\\data_extraction_rules.xml"
     }
 ]
