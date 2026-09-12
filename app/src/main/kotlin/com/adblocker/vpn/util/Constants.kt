@@ -70,6 +70,7 @@ object Constants {
     )
     
     const val NOTIFICATION_CHANNEL_ID = "vpn_status_channel"
+    const val THREAT_CHANNEL_ID = "vpn_threat_channel"
     const val NOTIFICATION_ID = 4201
     const val ACTION_START = "com.adblocker.vpn.action.START"
     const val ACTION_STOP = "com.adblocker.vpn.action.STOP"

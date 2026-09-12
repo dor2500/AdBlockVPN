@@ -430,7 +430,7 @@ class AdBlockVpnService : VpnService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(this, Constants.THREAT_CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_notification)
@@ -444,12 +444,23 @@ class AdBlockVpnService : VpnService() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
+            val nm = getSystemService(NotificationManager::class.java)
+            
+            // Foreground Service Channel (Must NOT be HIGH importance to avoid constant popups)
+            val fgChannel = NotificationChannel(
                 Constants.NOTIFICATION_CHANNEL_ID,
                 getString(R.string.notif_channel_name),
-                NotificationManager.IMPORTANCE_HIGH // Changed to HIGH so it can pop up
+                NotificationManager.IMPORTANCE_LOW 
             )
-            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+            nm.createNotificationChannel(fgChannel)
+            
+            // Threats Channel (HIGH importance to allow popups)
+            val threatChannel = NotificationChannel(
+                Constants.THREAT_CHANNEL_ID,
+                "Threat Alerts",
+                NotificationManager.IMPORTANCE_HIGH 
+            )
+            nm.createNotificationChannel(threatChannel)
         }
     }
 

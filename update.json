@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.3.1",
-  "releaseNotes": "✨ NEW: 💎 NovaMind UI Overhaul & Hebrew Support (v7.3.1) ✨\n\nRedesigned the Dashboard to match the sleek, tech-focused 'NovaMind AI' aesthetic with Deep Blue and Cyan neon accents, replacing the old toy-like glowing button with a precise tech ring toggle! Also configured the APK to output with the exact version name automatically.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.1/AdBlockVPN-v7.3.1.apk"
+  "latestVersion": "v7.3.2",
+  "releaseNotes": "✨ NEW: 💎 NovaMind UI Overhaul & 🐛 Critical Bug Fixes (v7.3.2) ✨\n\nFixed a critical issue where the VPN would constantly pop up notifications and sound alerts when updating its stats, preventing a smooth experience. Also includes the brand new NovaMind AI sleek UI overhaul with Deep Blue and Cyan neon accents!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.2/AdBlockVPN-v7.3.2.apk"
 }
 
 
