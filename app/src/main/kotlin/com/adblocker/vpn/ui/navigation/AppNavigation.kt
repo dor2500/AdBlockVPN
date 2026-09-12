@@ -14,9 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -150,7 +154,7 @@ fun AppNavigation() {
                     DashboardScreen()
                 }
                 composable(Routes.LOCATION) {
-                    com.adblocker.vpn.ui.location.LocationScreen()
+                    LocationScreen()
                 }
                 composable(Routes.MONITOR) {
                     MonitorScreen()
@@ -168,13 +172,13 @@ fun AppNavigation() {
                     ExcludedNetworksScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Routes.APP_BYPASS) {
-                    com.adblocker.vpn.ui.bypass.AppBypassScreen(onBack = { navController.popBackStack() })
+                    AppBypassScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Routes.APP_FIREWALL) {
-                    com.adblocker.vpn.ui.firewall.AppFirewallScreen(onBack = { navController.popBackStack() })
+                    AppFirewallScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Routes.CHANGELOG) {
-                    com.adblocker.vpn.ui.settings.ChangelogScreen(onBack = { navController.popBackStack() })
+                    ChangelogScreen(onBack = { navController.popBackStack() })
                 }
                 composable(
                     route = "blocked_screen/{domain}/{reason}",
@@ -184,7 +188,7 @@ fun AppNavigation() {
                     // Handle URL encoded reasons (e.g. spaces)
                     val encodedReason = backStackEntry.arguments?.getString("reason") ?: ""
                     val reason = java.net.URLDecoder.decode(encodedReason, "UTF-8")
-                    com.adblocker.vpn.ui.block.BlockedScreen(
+                    BlockedScreen(
                         domain = domain,
                         reason = reason,
                         onBack = { navController.popBackStack() }
@@ -194,4 +198,3 @@ fun AppNavigation() {
         }
     }
 }
-

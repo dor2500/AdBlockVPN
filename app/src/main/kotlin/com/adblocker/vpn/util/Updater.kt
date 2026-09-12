@@ -59,35 +59,6 @@ object Updater {
         releases
     }
 
-    suspend fun checkForUpdate(): UpdateInfo? {
-        return try {
-            val timestamp = System.currentTimeMillis()
-            val url = java.net.URL("$GITHUB_LATEST_RELEASE_URL?t=$timestamp")
-            val connection = withContext(Dispatchers.IO) {
-                url.openConnection() as HttpURLConnection
-            }
-
-            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                val reader = BufferedReader(InputStreamReader(connection.inputStream))
-                val response = reader.readText()
-                reader.close()
-
-                val jsonArray = org.json.JSONArray(response)
-                for (i in 0 until jsonArray.length()) {
-                    val json = jsonArray.getJSONObject(i)
-                    var tagName = json.getString("tag_name")
-                    if (tagName.startsWith("v")) tagName = tagName.substring(1)
-                    val name = json.optString("name", tagName)
-                    val body = json.optString("body", "No release notes available.")
-                    val date = json.optString("published_at", "")
-                    releases.add(ReleaseInfo(tagName, name, body, date))
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to fetch changelog", e)
-        }
-        releases
-    }
 
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
