@@ -29,6 +29,9 @@ import androidx.compose.foundation.border
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 
+import androidx.compose.ui.res.stringResource
+import com.adblocker.vpn.R
+
 @Composable
 fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
     val logs by AdBlockVpnService.dnsLogs.collectAsState(initial = null)
@@ -60,7 +63,7 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            "LIVE TRAFFIC", 
+                            stringResource(R.string.live_traffic), 
                             style = MaterialTheme.typography.titleMedium, 
                             color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Black
@@ -73,7 +76,7 @@ fun MonitorScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = a
     ) { padding ->
         if (logsList.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                Text("No DNS queries yet.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.no_dns_queries), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         } else {
             LazyColumn(
@@ -129,14 +132,14 @@ private fun LogItemCard(log: DnsLog, onWhitelist: (String) -> Unit, onBlacklist:
             IconButton(onClick = { onWhitelist(log.domain) }) {
                 Icon(
                     androidx.compose.material.icons.Icons.Default.CheckCircle,
-                    contentDescription = "Whitelist",
+                    contentDescription = stringResource(R.string.whitelist_action),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
             IconButton(onClick = { onBlacklist(log.domain) }) {
                 Icon(
                     androidx.compose.material.icons.Icons.Default.Cancel,
-                    contentDescription = "Blacklist",
+                    contentDescription = stringResource(R.string.blacklist_action),
                     tint = MaterialTheme.colorScheme.error
                 )
             }

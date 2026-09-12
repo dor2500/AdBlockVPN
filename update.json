@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.3.4",
-  "releaseNotes": "✨ NEW: 🐛 Crash Detector (v7.3.4) ✨\n\nAdded a Crash Diagnostics Screen so we can see why it's crashing.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.4/AdBlockVPN-v7.3.4.apk"
+  "latestVersion": "v7.3.5",
+  "releaseNotes": "✨ NEW: 🚀 Theme Crash Fix & UI Polish (v7.3.5) ✨\n\nFixed a major crash on app startup where the theme was incorrectly set to Material instead of AppCompat! Also translated the live traffic Monitor Screen to Hebrew!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.5/AdBlockVPN-v7.3.5.apk"
 }
 
 

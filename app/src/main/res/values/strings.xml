@@ -28,6 +28,10 @@
     <string name="settings">Settings</string>
     <string name="no_domains_found">No domains found.</string>
     <string name="no_network_activity">No network activity intercepted yet...</string>
+    <string name="live_traffic">LIVE TRAFFIC</string>
+    <string name="no_dns_queries">No DNS queries yet.</string>
+    <string name="whitelist_action">Whitelist</string>
+    <string name="blacklist_action">Blacklist</string>
     
     <string name="nav_home">Home</string>
     <string name="nav_servers">Servers</string>

@@ -948,6 +948,7 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string androidx_startup
 string app_name
+string blacklist_action
 string block_access_blocked
 string block_added_to_whitelist
 string block_connection_prevented
@@ -979,6 +980,7 @@ string in_progress
 string indeterminate
 string later
 string live_threat_feed
+string live_traffic
 string log_allowed
 string log_blocked
 string m3c_bottom_sheet_collapse_description
@@ -1042,6 +1044,7 @@ string nav_servers
 string nav_settings
 string nav_traffic
 string navigation_menu
+string no_dns_queries
 string no_domains_found
 string no_network_activity
 string not_selected
@@ -1111,6 +1114,7 @@ string tooltip_label
 string update_available
 string update_desc
 string update_now
+string whitelist_action
 string zero_day
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

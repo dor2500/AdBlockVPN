@@ -27,7 +27,11 @@
     <string name="clear_search">נקה חיפוש</string>
     <string name="settings">הגדרות</string>
     <string name="no_domains_found">לא נמצאו דומיינים.</string>
-    <string name="no_network_activity">עדיין לא נרשמה פעילות רשת...</string>
+    <string name="no_network_activity">טרם זוהתה פעילות רשת...</string>
+    <string name="live_traffic">תעבורה בזמן אמת</string>
+    <string name="no_dns_queries">אין עדיין בקשות DNS.</string>
+    <string name="whitelist_action">אפשר תמיד</string>
+    <string name="blacklist_action">חסום תמיד</string>
     
     <string name="nav_home">ראשי</string>
     <string name="nav_servers">שרתים</string>

@@ -314,6 +314,7 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">Nexus VPN</string>
+    <string name="blacklist_action">Blacklist</string>
     <string name="block_access_blocked">ACCESS BLOCKED</string>
     <string name="block_added_to_whitelist">Domain added to Whitelist!</string>
     <string name="block_connection_prevented">Connection Prevented</string>
@@ -345,6 +346,7 @@
     <string name="indeterminate">Partially checked</string>
     <string name="later">Later</string>
     <string name="live_threat_feed">LIVE THREAT FEED</string>
+    <string name="live_traffic">LIVE TRAFFIC</string>
     <string name="log_allowed">ALLOWED</string>
     <string name="log_blocked">[BLOCKED]</string>
     <string name="m3c_bottom_sheet_collapse_description">Collapse bottom sheet</string>
@@ -412,6 +414,7 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_traffic">Traffic</string>
     <string name="navigation_menu">"Navigation menu"</string>
+    <string name="no_dns_queries">No DNS queries yet.</string>
     <string name="no_domains_found">No domains found.</string>
     <string name="no_network_activity">No network activity intercepted yet...</string>
     <string name="not_selected">Not selected</string>
@@ -481,6 +484,7 @@
     <string name="update_available">Update Available</string>
     <string name="update_desc">Version %1$s is available!\n\nRelease Notes:\n%2$s</string>
     <string name="update_now">Update Now</string>
+    <string name="whitelist_action">Whitelist</string>
     <string name="zero_day">ZERO-DAY</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
@@ -1868,7 +1872,7 @@
     </style>
     <style name="TextAppearance.Widget.AppCompat.Toolbar.Title" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
     </style>
-    <style name="Theme.AdBlockerVPN" parent="android:Theme.Material.Light.NoActionBar"/>
+    <style name="Theme.AdBlockerVPN" parent="Theme.AppCompat.Light.NoActionBar"/>
     <style name="Theme.AppCompat" parent="Base.Theme.AppCompat"/>
     <style name="Theme.AppCompat.CompactMenu" parent="Base.Theme.AppCompat.CompactMenu"/>
     <style name="Theme.AppCompat.DayNight" parent="Theme.AppCompat.Light"/>
