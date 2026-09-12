@@ -98,36 +98,15 @@ fun DashboardScreen(
 
         Spacer(modifier = Modifier.weight(1f))
         
-        // NovaMind Glowing Button
-        val infiniteTransition = rememberInfiniteTransition()
-        val glowRadius by infiniteTransition.animateFloat(
-            initialValue = if (isRunning) 20f else 0f,
-            targetValue = if (isRunning) 40f else 0f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(2000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse
-            ),
-            label = "glow_anim"
-        )
-
+        // Sleek NovaMind-style Toggle
         Box(
             modifier = Modifier
-                .size(200.dp)
-                .background(
-                    if (isRunning) Brush.linearGradient(listOf(primaryColor, secondaryColor))
-                    else Brush.linearGradient(listOf(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.surfaceVariant)),
-                    shape = androidx.compose.foundation.shape.CircleShape
-                )
+                .size(160.dp)
+                .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
                 .border(
-                    width = 2.dp,
-                    color = if (isRunning) secondaryColor.copy(alpha = 0.5f) else MaterialTheme.colorScheme.outline,
+                    width = if (isRunning) 3.dp else 1.dp,
+                    color = if (isRunning) secondaryColor else MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
                     shape = androidx.compose.foundation.shape.CircleShape
-                )
-                .shadow(
-                    elevation = glowRadius.dp,
-                    shape = androidx.compose.foundation.shape.CircleShape,
-                    spotColor = if (isRunning) primaryColor else Color.Transparent,
-                    ambientColor = if (isRunning) secondaryColor else Color.Transparent
                 )
                 .clickable {
                     view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
@@ -136,10 +115,10 @@ fun DashboardScreen(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.PowerSettingsNew,
-                contentDescription = "Toggle",
-                modifier = Modifier.size(80.dp),
-                tint = if (isRunning) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+                imageVector = Icons.Filled.Shield,
+                contentDescription = "Toggle Shield",
+                modifier = Modifier.size(64.dp),
+                tint = if (isRunning) secondaryColor else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         

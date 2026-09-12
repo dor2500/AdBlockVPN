@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 730,
-      "versionName": "7.3.0",
-      "outputFile": "app-debug.apk"
+      "versionCode": 731,
+      "versionName": "7.3.1",
+      "outputFile": "AdBlockVPN-v7.3.1.apk"
     }
   ],
   "elementType": "File",

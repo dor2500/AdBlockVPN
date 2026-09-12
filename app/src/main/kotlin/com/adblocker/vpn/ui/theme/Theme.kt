@@ -12,15 +12,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
-// --- Glass Dark Theme (NovaMind AI) ---
-val GlassPrimary = Color(0xFF7C5CFF) // Purple
-val GlassSecondary = Color(0xFF00D4FF) // Cyan
-val GlassBackground = Color(0xFF0A0A0F) 
-val GlassSurface = Color(0xFF0E0E16) 
-val GlassSurfaceVariant = Color(0xFF12121C)
-val GlassText = Color(0xFFE8E6F0)
-val GlassTextSecondary = Color(0xFF9896A8)
-val GlassBorder = Color(0x1F7C5CFF)
+// --- NovaBlue Theme (NovaMind AI Style) ---
+val GlassPrimary = Color(0xFF007BFF) // Deep Blue
+val GlassSecondary = Color(0xFF00E5FF) // Neon Cyan
+val GlassBackground = Color(0xFF07070A) // Very Dark Tech Blue/Black
+val GlassSurface = Color(0xFF0C0C14) 
+val GlassSurfaceVariant = Color(0xFF13131F)
+val GlassText = Color(0xFFE0E5F0)
+val GlassTextSecondary = Color(0xFF8A93A6)
+val GlassBorder = Color(0x3300E5FF)
 
 val GlassScheme = darkColorScheme(
     primary = GlassPrimary,

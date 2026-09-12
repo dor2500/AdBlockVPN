@@ -12,9 +12,17 @@ android {
         applicationId = "com.adblocker.vpn.v2"
         minSdk = 26
         targetSdk = 33
-        versionCode = 730
-        versionName = "7.3.0"
+        versionCode = 731
+        versionName = "7.3.1"
         vectorDrawables.useSupportLibrary = true
+    }
+
+    applicationVariants.all {
+        val variant = this
+        variant.outputs.all {
+            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            output.outputFileName = "AdBlockVPN-v${variant.versionName}.apk"
+        }
     }
 
     buildTypes {
