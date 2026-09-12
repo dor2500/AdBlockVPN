@@ -38,7 +38,6 @@ import com.adblocker.vpn.vpn.AdBlockVpnService
 import android.view.HapticFeedbackConstants
 import androidx.compose.ui.platform.LocalView
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = viewModel()
@@ -65,73 +64,64 @@ fun DashboardScreen(
     }
 
     val isRunning = state.isRunning
-    val primaryColor = if (isRunning) Color(0xFF00E676) else Color(0xFF9E9E9E)
+    val primaryColor = MaterialTheme.colorScheme.primary
+    val successColor = MaterialTheme.colorScheme.secondary
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(48.dp)
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         
         // Header
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
             Text(
                 text = "AdBlock VPN",
                 style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = if (isRunning) "Protected & Anonymous" else "Ready to Connect",
+                text = if (isRunning) "Connection secured" else "Not connected",
                 style = MaterialTheme.typography.bodyLarge,
-                color = if (isRunning) primaryColor else MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (isRunning) successColor else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
-        // Clean Circular Connect Button
+        Spacer(modifier = Modifier.weight(1f))
+        
+        // Status Icon / Visualizer
         Box(
             modifier = Modifier
-                .size(240.dp)
-                .clip(RoundedCornerShape(120.dp))
+                .size(160.dp)
                 .background(
-                    if (isRunning) primaryColor.copy(alpha = 0.15f) 
-                    else MaterialTheme.colorScheme.surfaceVariant
-                )
-                .border(
-                    width = 4.dp,
-                    color = primaryColor.copy(alpha = 0.5f),
-                    shape = RoundedCornerShape(120.dp)
-                )
-                .shadow(
-                    elevation = if (isRunning) 16.dp else 4.dp,
-                    shape = RoundedCornerShape(120.dp),
-                    spotColor = primaryColor
-                )
-                .clickable {
-                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-                    if (isRunning) stopVpnService(context) else requestStart()
-                },
+                    if (isRunning) successColor.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surfaceVariant,
+                    shape = androidx.compose.foundation.shape.CircleShape
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.PowerSettingsNew,
-                contentDescription = "Toggle VPN",
-                modifier = Modifier.size(100.dp),
-                tint = primaryColor
+                imageVector = Icons.Filled.Shield,
+                contentDescription = "Status",
+                modifier = Modifier.size(64.dp),
+                tint = if (isRunning) successColor else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         
+        Spacer(modifier = Modifier.weight(1f))
+
         // Stats
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -140,10 +130,34 @@ fun DashboardScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
-                StatItem("SCANNED", format.format(state.queriesTotal))
-                StatItem("BLOCKED", format.format(state.queriesBlocked))
-                StatItem("THREATS", format.format(state.queriesZeroDayBlocked))
+                StatItem("Queries", format.format(state.queriesTotal))
+                StatItem("Blocked", format.format(state.queriesBlocked))
+                StatItem("Threats", format.format(state.queriesZeroDayBlocked))
             }
+        }
+        
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Wide Connect Button
+        Button(
+            onClick = {
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                if (isRunning) stopVpnService(context) else requestStart()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (isRunning) MaterialTheme.colorScheme.surfaceVariant else primaryColor,
+                contentColor = if (isRunning) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onPrimary
+            ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = if (isRunning) "Disconnect" else "Connect",
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
+            )
         }
         
         Spacer(modifier = Modifier.height(16.dp))
@@ -156,15 +170,13 @@ private fun StatItem(label: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Black,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.height(4.dp))
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            letterSpacing = 1.sp
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

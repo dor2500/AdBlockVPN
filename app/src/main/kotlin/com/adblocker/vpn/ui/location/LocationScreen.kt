@@ -34,7 +34,7 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
         containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
-                title = { Text("GLOBAL NETWORK", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground, letterSpacing = 2.sp, fontWeight = FontWeight.Black) },
+                title = { Text("Locations", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
@@ -43,14 +43,13 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp)
         ) {
             item {
                 Text(
                     text = "Select a region to route your traffic. Low latency servers are recommended for best performance.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(bottom = 24.dp, top = 8.dp)
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
                 )
             }
             items(servers) { server ->
@@ -59,7 +58,6 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
                     isSelected = server.id == selectedId,
                     onSelect = { viewModel.setVpnLocation(it.id) }
                 )
-                Spacer(modifier = Modifier.height(16.dp))
             }
             item {
                 Spacer(modifier = Modifier.height(48.dp))
@@ -68,57 +66,40 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
     }
 }
 
-private fun getFlagEmoji(countryCode: String): String {
-    if (countryCode.length != 2) return "🌍"
-    val firstLetter = Character.codePointAt(countryCode, 0) - 0x41 + 0x1F1E6
-    val secondLetter = Character.codePointAt(countryCode, 1) - 0x41 + 0x1F1E6
-    return String(Character.toChars(firstLetter)) + String(Character.toChars(secondLetter))
-}
-
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
-    val animatedBgColor by androidx.compose.animation.animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-        label = "bgColorAnim"
-    )
-
-    Card(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onSelect(server) },
-        colors = CardDefaults.cardColors(containerColor = animatedBgColor),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 4.dp else 0.dp)
+            .clickable { onSelect(server) }
+            .background(if (isSelected) MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f) else Color.Transparent)
     ) {
         Row(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = getFlagEmoji(server.countryCode),
-                fontSize = 32.sp,
-                modifier = Modifier.padding(end = 16.dp)
-            )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = server.name, 
-                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface, 
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    color = MaterialTheme.colorScheme.onBackground, 
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
                 )
                 Spacer(Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Rounded.SignalCellularAlt, 
                         contentDescription = "Ping", 
-                        tint = if (server.latencyMs < 50) Color(0xFF00FF87) else if (server.latencyMs < 120) Color(0xFFFFC107) else Color(0xFFFF5252),
+                        tint = if (server.latencyMs < 50) MaterialTheme.colorScheme.secondary else if (server.latencyMs < 120) Color(0xFFFFCC00) else Color(0xFFFF3B30),
                         modifier = Modifier.size(14.dp)
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
                         text = "${server.latencyMs} ms", 
                         color = MaterialTheme.colorScheme.onSurfaceVariant, 
-                        fontSize = 14.sp
+                        style = MaterialTheme.typography.labelSmall
                     )
                 }
             }
@@ -126,6 +107,11 @@ fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> 
                 Icon(Icons.Default.Check, contentDescription = "Selected", tint = MaterialTheme.colorScheme.primary)
             }
         }
+        Divider(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+            thickness = 0.5.dp
+        )
     }
 }
 

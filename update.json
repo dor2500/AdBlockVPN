@@ -1,9 +1,10 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.0.5",
-  "releaseNotes": "🌟 NEW: Clean & Classic UI Redesign (v7.0.5) 🌟\n\nBrought back the bottom navigation bar for easier use!\nCleaned up the interface with a sleek, minimalist dark theme.\nFixed all bugs. Faster and better than ever.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.5/app-debug.apk"
+  "latestVersion": "v7.0.6",
+  "releaseNotes": "👔 NEW: Executive Professional Redesign (v7.0.6) 👔\n\nCompletely redesigned the app to look like a premium, top-tier security application.\nRemoved toy-like neon colors and emojis.\nAdded a clean, wide connect button and a sophisticated dark mode palette.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.6/app-debug.apk"
 }
+
 
 
 
