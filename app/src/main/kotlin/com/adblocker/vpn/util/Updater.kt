@@ -105,56 +105,16 @@ object Updater {
     }
 
     fun downloadAndInstallUpdate(context: Context, downloadUrl: String, version: String) {
-        val fileName = "AdBlockVPN_update_$version.apk"
-        // Use the public Downloads directory so PackageInstaller can read it on Android 11+
-        val request = DownloadManager.Request(Uri.parse(downloadUrl))
-            .setTitle("Downloading AdBlockVPN Update")
-            .setDescription("Version $version")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-            .setMimeType("application/vnd.android.package-archive")
-
-
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val downloadId = manager.enqueue(request)
-
-        val onComplete = object : BroadcastReceiver() {
-            override fun onReceive(ctxt: Context, intent: Intent) {
-                if (intent.action == DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
-                    val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                    if (downloadId == id) {
-                        installApk(context, downloadId)
-                        context.unregisterReceiver(this)
-                    }
-                }
-            }
-        }
-        
-        ContextCompat.registerReceiver(
-            context,
-            onComplete,
-            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-            ContextCompat.RECEIVER_EXPORTED
-        )
-    }
-
-    private fun installApk(context: Context, downloadId: Long) {
         try {
-            val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val uri = manager.getUriForDownloadedFile(downloadId)
-            if (uri != null) {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    setDataAndType(uri, "application/vnd.android.package-archive")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                }
-                context.startActivity(intent)
-            } else {
-                Log.e(TAG, "Failed to get URI for downloaded file")
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(downloadUrl)).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
+            context.startActivity(intent)
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to install APK", e)
+            Log.e(TAG, "Failed to open browser for update", e)
         }
     }
+
 
     private fun isVersionNewer(currentVersion: String, newVersion: String): Boolean {
         val currentParts = currentVersion.split(".").map { it.toIntOrNull() ?: 0 }
