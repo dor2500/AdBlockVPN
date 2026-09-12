@@ -5,6 +5,7 @@ color teal_500
 drawable custom_icon
 drawable ic_notification
 drawable widget_background
+font outfit
 id widget_icon
 id widget_status_text
 layout widget_vpn

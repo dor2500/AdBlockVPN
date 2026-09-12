@@ -77,27 +77,39 @@ fun AppNavigation() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
+                        .padding(start = 24.dp, end = 24.dp, bottom = 32.dp),
+                    contentAlignment = androidx.compose.ui.Alignment.Center
                 ) {
                     NavigationBar(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(24.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
+                            .fillMaxWidth(0.9f)
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(32.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
                             .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
-                                shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
+                                width = 1.5.dp,
+                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(32.dp)
+                            )
+                            .shadow(
+                                elevation = 12.dp,
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(32.dp),
+                                ambientColor = MaterialTheme.colorScheme.primary,
+                                spotColor = MaterialTheme.colorScheme.primary
                             ),
                         containerColor = androidx.compose.ui.graphics.Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.onSurface,
-                        tonalElevation = 0.dp
+                        tonalElevation = 0.dp,
+                        windowInsets = WindowInsets(0,0,0,0) // Remove default insets for perfect pill shape
                     ) {
                         bottomNavItems.forEach { item ->
                             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
                             NavigationBarItem(
                                 icon = { Icon(item.icon, contentDescription = stringResource(item.titleResId)) },
-                                label = { Text(stringResource(item.titleResId), style = MaterialTheme.typography.labelSmall) },
+                                label = { 
+                                    if (selected) {
+                                        Text(stringResource(item.titleResId), style = MaterialTheme.typography.labelSmall, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                                    }
+                                },
                                 selected = selected,
                                 onClick = {
                                     navController.navigate(item.route) {
@@ -108,12 +120,13 @@ fun AppNavigation() {
                                         restoreState = true
                                     }
                                 },
+                                alwaysShowLabel = false, // Only show label when selected for a cleaner look
                                 colors = NavigationBarItemDefaults.colors(
                                     selectedIconColor = MaterialTheme.colorScheme.primary,
                                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
                                 )
                             )
                         }

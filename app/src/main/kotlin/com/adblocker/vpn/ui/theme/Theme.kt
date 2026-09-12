@@ -12,21 +12,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Typography
 
+import androidx.compose.ui.text.font.Font
+import com.adblocker.vpn.R
+
+val OutfitFontFamily = FontFamily(
+    Font(R.font.outfit, FontWeight.Normal),
+    Font(R.font.outfit, FontWeight.Medium),
+    Font(R.font.outfit, FontWeight.SemiBold),
+    Font(R.font.outfit, FontWeight.Bold)
+)
+
 // --- NovaBlue Theme (NovaMind AI Style) ---
-val GlassPrimary = Color(0xFF007BFF) // Deep Blue
-val GlassSecondary = Color(0xFF00E5FF) // Neon Cyan
+val GlassPrimary = Color(0xFF00D4FF) // Glowing Cyan
+val GlassSecondary = Color(0xFF7C5CFF) // Deep Neon Purple
 val GlassBackground = Color(0xFF07070A) // Very Dark Tech Blue/Black
 val GlassSurface = Color(0xFF0C0C14) 
 val GlassSurfaceVariant = Color(0xFF13131F)
-val GlassText = Color(0xFFE0E5F0)
+val GlassText = Color(0xFFFFFFFF)
 val GlassTextSecondary = Color(0xFF8A93A6)
-val GlassBorder = Color(0x3300E5FF)
+val GlassBorder = Color(0x3300D4FF)
 
 val GlassScheme = darkColorScheme(
     primary = GlassPrimary,
-    onPrimary = Color.White,
+    onPrimary = Color.Black,
     secondary = GlassSecondary,
-    onSecondary = Color.Black,
+    onSecondary = Color.White,
     background = GlassBackground,
     surface = GlassSurface,
     surfaceVariant = GlassSurfaceVariant,
@@ -87,33 +97,38 @@ val EclipseScheme = darkColorScheme(
 // Professional Typography
 val ProfessionalTypography = Typography(
     titleMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = OutfitFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         letterSpacing = 0.sp
     ),
     headlineLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = OutfitFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
         letterSpacing = (-0.5).sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = OutfitFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         letterSpacing = (-0.2).sp
     ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = OutfitFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp,
         letterSpacing = (-0.1).sp
     ),
+    bodyMedium = TextStyle(
+        fontFamily = OutfitFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = OutfitFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 13.sp,
+        fontSize = 12.sp,
         letterSpacing = 0.5.sp
     )
 )

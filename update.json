@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.3.8",
-  "releaseNotes": "🌍 FIX: Hebrew Translation (v7.3.8) 🌍\n\nFixed an issue where Hebrew language wouldn't apply on some devices.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.8/AdBlockVPN-v7.3.8.apk"
+  "latestVersion": "v7.3.9",
+  "releaseNotes": "🎨 NEW: Modern UI Overhaul (v7.3.9) 🎨\n\nMassive visual upgrade! Featuring a glowing animated shield, a floating pill-shaped navigation bar, new typography (Outfit), and a glassmorphism dashboard.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.3.9/AdBlockVPN-v7.3.9.apk"
 }
 
 

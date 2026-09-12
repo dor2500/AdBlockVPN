@@ -66,86 +66,115 @@ fun DashboardScreen(
     }
 
     val isRunning = state.isRunning
-    val primaryColor = MaterialTheme.colorScheme.primary // Purple #7C5CFF
-    val secondaryColor = MaterialTheme.colorScheme.secondary // Cyan #00D4FF
+    val primaryColor = MaterialTheme.colorScheme.primary // Glow
+    val secondaryColor = MaterialTheme.colorScheme.secondary // Accent
+    val bg = MaterialTheme.colorScheme.background
 
-    Column(
+    // Background gradient animation when running
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.8f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ), label = "alpha"
+    )
+
+    // A subtle gradient background
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                if (isRunning) Brush.radialGradient(
+                    colors = listOf(primaryColor.copy(alpha = 0.15f * pulseAlpha), bg),
+                    radius = 800f
+                ) else Brush.verticalGradient(listOf(bg, bg))
+            )
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.TopCenter
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        // Header
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = if (isRunning) stringResource(R.string.dash_connection_secured) else stringResource(R.string.dash_not_connected),
-                style = MaterialTheme.typography.bodyLarge,
-                color = if (isRunning) secondaryColor else MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-        
-        // Sleek NovaMind-style Toggle
-        Box(
-            modifier = Modifier
-                .size(160.dp)
-                .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
-                .border(
-                    width = if (isRunning) 3.dp else 1.dp,
-                    color = if (isRunning) secondaryColor else MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
-                    shape = androidx.compose.foundation.shape.CircleShape
-                )
-                .clickable {
-                    view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-                    if (isRunning) stopVpnService(context) else requestStart()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Shield,
-                contentDescription = "Toggle Shield",
-                modifier = Modifier.size(64.dp),
-                tint = if (isRunning) secondaryColor else MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Stats (Glassmorphism Card)
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)),
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            // Header
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
-                StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
-                StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
-                StatItem(stringResource(R.string.dash_threats), format.format(state.queriesZeroDayBlocked))
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = if (isRunning) stringResource(R.string.dash_connection_secured) else stringResource(R.string.dash_not_connected),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (isRunning) primaryColor else MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+            
+            // Animated Glowing Shield Toggle
+            Box(
+                modifier = Modifier
+                    .size(180.dp)
+                    .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
+                    .shadow(
+                        elevation = if (isRunning) 32.dp * pulseAlpha else 0.dp,
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                        spotColor = primaryColor,
+                        ambientColor = primaryColor
+                    )
+                    .border(
+                        width = if (isRunning) 4.dp else 1.dp,
+                        color = if (isRunning) primaryColor.copy(alpha = 0.8f) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                        shape = androidx.compose.foundation.shape.CircleShape
+                    )
+                    .clickable {
+                        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                        if (isRunning) stopVpnService(context) else requestStart()
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Shield,
+                    contentDescription = "Toggle Shield",
+                    modifier = Modifier.size(72.dp),
+                    tint = if (isRunning) primaryColor else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            
+            Spacer(modifier = Modifier.weight(1f))
+
+            // Stats (Glassmorphism Card)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                shape = RoundedCornerShape(24.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = if (isRunning) 8.dp else 0.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val format = java.text.NumberFormat.getNumberInstance(java.util.Locale.US)
+                    StatItem(stringResource(R.string.queries), format.format(state.queriesTotal))
+                    StatItem(stringResource(R.string.blocked), format.format(state.queriesBlocked))
+                    StatItem(stringResource(R.string.dash_threats), format.format(state.queriesZeroDayBlocked))
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
