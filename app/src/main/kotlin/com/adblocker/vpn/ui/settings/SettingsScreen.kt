@@ -139,10 +139,28 @@ fun SettingsScreen(
                     
                     Text(stringResource(R.string.settings_theme), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.height(8.dp))
+                    
+                    // Row 1 of themes
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         ThemeButton(name = "Glass Dark", isSelected = settings.selectedTheme == "glass", onClick = { viewModel.setTheme("glass") }, modifier = Modifier.weight(1f))
                         ThemeButton(name = "Aurora", isSelected = settings.selectedTheme == "aurora", onClick = { viewModel.setTheme("aurora") }, modifier = Modifier.weight(1f))
                         ThemeButton(name = "Eclipse", isSelected = settings.selectedTheme == "eclipse", onClick = { viewModel.setTheme("eclipse") }, modifier = Modifier.weight(1f))
+                    }
+                    
+                    Spacer(Modifier.height(8.dp))
+                    
+                    // Row 2 of themes
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        ThemeButton(name = "Cyberpunk", isSelected = settings.selectedTheme == "cyberpunk", onClick = { viewModel.setTheme("cyberpunk") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Luxury", isSelected = settings.selectedTheme == "luxury", onClick = { viewModel.setTheme("luxury") }, modifier = Modifier.weight(1f))
+                        ThemeButton(name = "Amethyst", isSelected = settings.selectedTheme == "amethyst", onClick = { viewModel.setTheme("amethyst") }, modifier = Modifier.weight(1f))
+                    }
+                    
+                    Spacer(Modifier.height(8.dp))
+                    
+                    // Row 3 of themes (just 1 to fill out)
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        ThemeButton(name = "Monochrome", isSelected = settings.selectedTheme == "monochrome", onClick = { viewModel.setTheme("monochrome") }, modifier = Modifier.weight(1f))
                     }
                 }
             }

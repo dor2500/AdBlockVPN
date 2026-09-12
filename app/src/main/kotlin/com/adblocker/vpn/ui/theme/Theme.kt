@@ -133,6 +133,102 @@ val ProfessionalTypography = Typography(
     )
 )
 
+// --- Cyberpunk Theme ---
+val CyberpunkPrimary = Color(0xFFFF007F) // Neon Pink
+val CyberpunkSecondary = Color(0xFF00F0FF) // Cyan
+val CyberpunkBackground = Color(0xFF0D0221) 
+val CyberpunkSurface = Color(0xFF140333) 
+val CyberpunkSurfaceVariant = Color(0xFF1E054C)
+val CyberpunkText = Color(0xFFFFF0F5)
+val CyberpunkTextSecondary = Color(0xFF9A8C98)
+val CyberpunkBorder = Color(0x33FF007F)
+
+val CyberpunkScheme = darkColorScheme(
+    primary = CyberpunkPrimary,
+    onPrimary = Color.Black,
+    secondary = CyberpunkSecondary,
+    onSecondary = Color.Black,
+    background = CyberpunkBackground,
+    surface = CyberpunkSurface,
+    surfaceVariant = CyberpunkSurfaceVariant,
+    onBackground = CyberpunkText,
+    onSurface = CyberpunkText,
+    onSurfaceVariant = CyberpunkTextSecondary,
+    outline = CyberpunkBorder
+)
+
+// --- Luxury Theme ---
+val LuxuryPrimary = Color(0xFFFFD700) // Gold
+val LuxurySecondary = Color(0xFFC0C0C0) // Silver
+val LuxuryBackground = Color(0xFF121212) 
+val LuxurySurface = Color(0xFF1C1C1C) 
+val LuxurySurfaceVariant = Color(0xFF282828)
+val LuxuryText = Color(0xFFFAFAD2)
+val LuxuryTextSecondary = Color(0xFFA9A9A9)
+val LuxuryBorder = Color(0x33FFD700)
+
+val LuxuryScheme = darkColorScheme(
+    primary = LuxuryPrimary,
+    onPrimary = Color.Black,
+    secondary = LuxurySecondary,
+    onSecondary = Color.Black,
+    background = LuxuryBackground,
+    surface = LuxurySurface,
+    surfaceVariant = LuxurySurfaceVariant,
+    onBackground = LuxuryText,
+    onSurface = LuxuryText,
+    onSurfaceVariant = LuxuryTextSecondary,
+    outline = LuxuryBorder
+)
+
+// --- Amethyst Theme ---
+val AmethystPrimary = Color(0xFF9966CC) // Amethyst Purple
+val AmethystSecondary = Color(0xFFFF69B4) // Hot Pink
+val AmethystBackground = Color(0xFF0F0A1A) 
+val AmethystSurface = Color(0xFF181028) 
+val AmethystSurfaceVariant = Color(0xFF221538)
+val AmethystText = Color(0xFFF3E8FF)
+val AmethystTextSecondary = Color(0xFFA197B0)
+val AmethystBorder = Color(0x339966CC)
+
+val AmethystScheme = darkColorScheme(
+    primary = AmethystPrimary,
+    onPrimary = Color.White,
+    secondary = AmethystSecondary,
+    onSecondary = Color.Black,
+    background = AmethystBackground,
+    surface = AmethystSurface,
+    surfaceVariant = AmethystSurfaceVariant,
+    onBackground = AmethystText,
+    onSurface = AmethystText,
+    onSurfaceVariant = AmethystTextSecondary,
+    outline = AmethystBorder
+)
+
+// --- Monochrome Theme ---
+val MonochromePrimary = Color(0xFFFFFFFF) // Pure White
+val MonochromeSecondary = Color(0xFFCCCCCC) // Light Grey
+val MonochromeBackground = Color(0xFF000000) 
+val MonochromeSurface = Color(0xFF111111) 
+val MonochromeSurfaceVariant = Color(0xFF222222)
+val MonochromeText = Color(0xFFFFFFFF)
+val MonochromeTextSecondary = Color(0xFF888888)
+val MonochromeBorder = Color(0x33FFFFFF)
+
+val MonochromeScheme = darkColorScheme(
+    primary = MonochromePrimary,
+    onPrimary = Color.Black,
+    secondary = MonochromeSecondary,
+    onSecondary = Color.Black,
+    background = MonochromeBackground,
+    surface = MonochromeSurface,
+    surfaceVariant = MonochromeSurfaceVariant,
+    onBackground = MonochromeText,
+    onSurface = MonochromeText,
+    onSurfaceVariant = MonochromeTextSecondary,
+    outline = MonochromeBorder
+)
+
 @Composable
 fun AdBlockerTheme(
     themeName: String = "glass", 
@@ -141,6 +237,10 @@ fun AdBlockerTheme(
     val colorScheme = when (themeName.lowercase()) {
         "aurora" -> AuroraScheme
         "eclipse" -> EclipseScheme
+        "cyberpunk" -> CyberpunkScheme
+        "luxury" -> LuxuryScheme
+        "amethyst" -> AmethystScheme
+        "monochrome" -> MonochromeScheme
         "glass" -> GlassScheme
         else -> GlassScheme // default to Glass (NovaMind)
     }
