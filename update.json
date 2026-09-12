@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.0.7",
-  "releaseNotes": "🌌 NEW: NovaMind AI Theme (v7.0.7) 🌌\n\nBrought over the stunning futuristic design from NovaMind AI!\nFeatures deep dark violet backgrounds, rich purple and cyan gradients, and a glowing connect button.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.7/app-debug.apk"
+  "latestVersion": "v7.0.8",
+  "releaseNotes": "🎨 NEW: Glassmorphism & Fast Updates (v7.0.8) 🎨\n\nAdded frosted glass effects to the dashboard cards and a floating bottom navigation bar.\nFixed an issue where the updater was caching old versions, so updates will now show up instantly!",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.0.8/app-debug.apk"
 }
 
 

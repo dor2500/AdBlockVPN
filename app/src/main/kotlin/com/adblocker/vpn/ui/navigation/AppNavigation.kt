@@ -24,6 +24,10 @@ import com.adblocker.vpn.ui.dashboard.DashboardScreen
 import com.adblocker.vpn.ui.excluded.ExcludedNetworksScreen
 import com.adblocker.vpn.ui.monitor.MonitorScreen
 import com.adblocker.vpn.ui.settings.SettingsScreen
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.unit.dp
 
 private object Routes {
     const val DASHBOARD = "dashboard"
@@ -59,35 +63,52 @@ fun AppNavigation() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
                 ) {
-                    bottomNavItems.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-                        NavigationBarItem(
-                            icon = { Icon(item.icon, contentDescription = item.title) },
-                            label = { Text(item.title) },
-                            selected = selected,
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                    NavigationBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(24.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
+                            ),
+                        containerColor = androidx.compose.ui.graphics.Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        tonalElevation = 0.dp
+                    ) {
+                        bottomNavItems.forEach { item ->
+                            val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+                            NavigationBarItem(
+                                icon = { Icon(item.icon, contentDescription = item.title) },
+                                label = { Text(item.title, style = MaterialTheme.typography.labelSmall) },
+                                selected = selected,
+                                onClick = {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.primary,
-                                selectedTextColor = MaterialTheme.colorScheme.primary,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                                },
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -95,8 +116,7 @@ fun AppNavigation() {
     ) { innerPadding ->
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(innerPadding)) {
+            .padding(bottom = if (showBottomBar) 90.dp else 0.dp)) {
             NavHost(
                 navController = navController, 
                 startDestination = Routes.DASHBOARD

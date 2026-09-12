@@ -73,7 +73,8 @@ object Updater {
 
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
-            val url = URL(GITHUB_LATEST_RELEASE_URL)
+            val timestamp = System.currentTimeMillis()
+            val url = URL("$GITHUB_LATEST_RELEASE_URL?t=$timestamp")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
             connection.setRequestProperty("Accept", "application/json")
