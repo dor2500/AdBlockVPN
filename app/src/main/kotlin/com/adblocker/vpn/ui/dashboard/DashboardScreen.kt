@@ -180,7 +180,7 @@ fun DashboardScreen(
                             val color = if (log.isBlocked) MaterialTheme.colorScheme.error else Color(0xFF00FF00).copy(alpha=0.7f)
                             val prefix = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]"
                             Text(
-                                text = "$prefix ${log.hostname}",
+                                text = "$prefix ${log.domain}",
                                 color = color,
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
