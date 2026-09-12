@@ -1,8 +1,8 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.4.4",
-  "releaseNotes": "✨ NEW: Theme Expansion Pack Part 2 (v7.4.4) ✨\n\n1. Added 3 MORE themes: Ocean (Deep Teal & Blue), Forest (Deep Green & Lime), and Sunset (Magenta & Orange gradient style).\n2. Settings screen updated to support 10 amazing themes total.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.4/AdBlockVPN-v7.4.4.apk"
+  "latestVersion": "v7.4.5",
+  "releaseNotes": "✨ NEW: Dynamic UI Polish (v7.4.5) ✨\n\n1. App Firewall screen now features gorgeous Glassmorphism cards matching the Bypass screen.\n2. The main connect button now pulses beautifully like a heartbeat when connected, giving an incredibly dynamic and live feel to the dashboard.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.5/AdBlockVPN-v7.4.5.apk"
 }
 
 

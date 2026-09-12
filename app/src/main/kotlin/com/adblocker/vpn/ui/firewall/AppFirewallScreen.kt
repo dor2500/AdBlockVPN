@@ -108,16 +108,16 @@ fun AppFirewallScreen(
 
             items(filteredApps) { app ->
                 val isBlocked = blockedApps.contains(app.packageName)
-                val cardColor = if (isBlocked) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surface
-                val borderColor = if (isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground.copy(alpha=0.1f)
+                val cardColor = if (isBlocked) MaterialTheme.colorScheme.errorContainer.copy(alpha=0.4f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha=0.3f)
+                val borderColor = if (isBlocked) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline.copy(alpha=0.2f)
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 6.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .background(cardColor)
-                        .border(2.dp, borderColor, RoundedCornerShape(16.dp))
+                        .border(1.dp, borderColor, RoundedCornerShape(20.dp))
                 ) {
                     Row(
                         modifier = Modifier
@@ -131,7 +131,7 @@ fun AppFirewallScreen(
                             contentDescription = app.name,
                             modifier = Modifier
                                 .size(48.dp)
-                                .clip(RoundedCornerShape(8.dp)),
+                                .clip(RoundedCornerShape(10.dp)),
                             contentScale = ContentScale.Crop
                         )
                         

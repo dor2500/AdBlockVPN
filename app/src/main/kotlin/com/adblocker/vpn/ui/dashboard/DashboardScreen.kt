@@ -81,6 +81,15 @@ fun DashboardScreen(
         ), label = "alpha"
     )
 
+    val pulseScale by infiniteTransition.animateFloat(
+        initialValue = 0.95f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ), label = "scale"
+    )
+
     // A subtle gradient background
     Box(
         modifier = Modifier
@@ -124,6 +133,7 @@ fun DashboardScreen(
             Box(
                 modifier = Modifier
                     .size(180.dp)
+                    .scale(if (isRunning) pulseScale else 1f)
                     .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
                     .shadow(
                         elevation = if (isRunning) 32.dp * pulseAlpha else 0.dp,
