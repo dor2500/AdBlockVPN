@@ -140,7 +140,11 @@ fun AppNavigation() {
             .padding(bottom = if (showBottomBar) 90.dp else 0.dp)) {
             NavHost(
                 navController = navController, 
-                startDestination = Routes.DASHBOARD
+                startDestination = Routes.DASHBOARD,
+                enterTransition = { androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(300)) + androidx.compose.animation.slideInVertically(initialOffsetY = { 50 }, animationSpec = androidx.compose.animation.core.tween(300)) },
+                exitTransition = { androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(300)) },
+                popEnterTransition = { androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(300)) },
+                popExitTransition = { androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(300)) + androidx.compose.animation.slideOutVertically(targetOffsetY = { 50 }, animationSpec = androidx.compose.animation.core.tween(300)) }
             ) {
                 composable(Routes.DASHBOARD) {
                     DashboardScreen()

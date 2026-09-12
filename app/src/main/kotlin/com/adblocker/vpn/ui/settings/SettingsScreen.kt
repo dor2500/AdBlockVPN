@@ -120,29 +120,19 @@ fun SettingsScreen(
                         val currentLocales = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales()
                         val isHe = currentLocales.toLanguageTags().contains("he")
                         
-                        OutlinedButton(
+                        ThemeButton(
+                            name = stringResource(R.string.settings_english),
+                            isSelected = !isHe,
                             onClick = { androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags("en")) },
-                            shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = if (!isHe) MaterialTheme.colorScheme.primary else Color.Transparent,
-                                contentColor = if (!isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                            )
-                        ) {
-                            Text(stringResource(R.string.settings_english), fontWeight = if (!isHe) FontWeight.Bold else FontWeight.Normal)
-                        }
+                            modifier = Modifier.weight(1f)
+                        )
                         
-                        OutlinedButton(
+                        ThemeButton(
+                            name = stringResource(R.string.settings_hebrew),
+                            isSelected = isHe,
                             onClick = { androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags("he")) },
-                            shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = if (isHe) MaterialTheme.colorScheme.primary else Color.Transparent,
-                                contentColor = if (isHe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                            )
-                        ) {
-                            Text(stringResource(R.string.settings_hebrew), fontWeight = if (isHe) FontWeight.Bold else FontWeight.Normal)
-                        }
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                     
                     DividerItem()
@@ -482,12 +472,16 @@ private fun SectionHeader(title: String) {
 @Composable
 private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(24.dp)
+            )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             content()
@@ -497,16 +491,19 @@ private fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
 
 @Composable
 private fun ThemeButton(name: String, isSelected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val targetContainerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
-    val targetContentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+    val targetContainerColor = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else Color.Transparent
+    val targetContentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+    val targetBorderColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
     
     val containerColor by androidx.compose.animation.animateColorAsState(targetContainerColor, label = "theme_bg")
     val contentColor by androidx.compose.animation.animateColorAsState(targetContentColor, label = "theme_text")
+    val borderColor by androidx.compose.animation.animateColorAsState(targetBorderColor, label = "theme_border")
     
     OutlinedButton(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.outlinedButtonColors(containerColor = containerColor, contentColor = contentColor),
+        border = androidx.compose.foundation.BorderStroke(if (isSelected) 2.dp else 1.dp, borderColor),
         modifier = modifier
     ) {
         Text(name, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal)

@@ -48,6 +48,24 @@ object Updater {
             connection.requestMethod = "GET"
             connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
             connection.setRequestProperty("User-Agent", "AdBlockVPN-Updater")
+            // ... (keep rest unchanged)
+            
+            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                // ...
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        releases
+    }
+
+    suspend fun checkForUpdate(): UpdateInfo? {
+        return try {
+            val timestamp = System.currentTimeMillis()
+            val url = java.net.URL("$GITHUB_LATEST_RELEASE_URL?t=$timestamp")
+            val connection = withContext(Dispatchers.IO) {
+                url.openConnection() as HttpURLConnection
+            }
 
             if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                 val reader = BufferedReader(InputStreamReader(connection.inputStream))
@@ -73,7 +91,8 @@ object Updater {
 
     suspend fun checkForUpdate(): UpdateInfo? = withContext(Dispatchers.IO) {
         try {
-            val url = URL("https://api.github.com/repos/dor2500/AdBlockVPN/releases/latest")
+            val timestamp = System.currentTimeMillis()
+            val url = URL("https://api.github.com/repos/dor2500/AdBlockVPN/releases/latest?t=$timestamp")
             val connection = url.openConnection() as HttpURLConnection
             connection.requestMethod = "GET"
             connection.setRequestProperty("Accept", "application/vnd.github.v3+json")
