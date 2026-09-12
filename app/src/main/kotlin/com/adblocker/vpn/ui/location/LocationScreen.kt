@@ -24,6 +24,7 @@ import com.adblocker.vpn.data.model.VpnServer
 import com.adblocker.vpn.data.model.VpnServerProvider
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,6 +64,11 @@ fun LocationScreen(viewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = 
                 )
             }
             item {
+                Spacer(modifier = Modifier.height(48.dp))
+            }
+        }
+    }
+}
 
 @Composable
 fun ServerItem(server: VpnServer, isSelected: Boolean, onSelect: (VpnServer) -> Unit) {
