@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "7.7.2",
-  "latestVersionCode": 772,
-  "releaseNotes": "🌌 Animated Aurora Mesh Gradient: The entire background now features a slowly flowing, dual-color Mesh Gradient that breathes life into the UI!",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.2.apk",
+  "latestVersion": "7.7.3",
+  "latestVersionCode": 773,
+  "releaseNotes": "🌟 Shimmering Text: The 'Secured' status text now features a smooth, animated light reflection passing over it!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.3.apk",
   "mandatory": false
 }
 
