@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "7.6.3",
-  "latestVersionCode": 763,
-  "releaseNotes": "🚀 AdEater Level Progress and Double Radar gamification update!",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.6.3.apk",
+  "latestVersion": "7.6.4",
+  "latestVersionCode": 764,
+  "releaseNotes": "🏅 Threat Gamification Badges: Unlock Cyber Ninja & Matrix Lord titles based on threats blocked!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.6.4.apk",
   "mandatory": false
 }
 
