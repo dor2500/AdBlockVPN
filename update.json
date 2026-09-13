@@ -1,9 +1,11 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.4.8",
-  "releaseNotes": "✨ NEW: Smart Browser Detection (v7.4.8) ✨\n\n- Zero-Day Phishing notifications will now ONLY alert you if you are actively browsing in a Web Browser (Chrome, Firefox, etc).\n- Includes all the huge Dashboard updates from v7.4.7 (Threat Gauge, Ad-Eater Pet, Smart Notifications)!",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.4.8/AdBlockVPN-v7.4.8.apk"
+  "latestVersion": "v7.5.0",
+  "releaseNotes": "📡 Active Radar Sweep & Matrix Pulse animations added to the connection shield.",
+  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.5.0/AdBlockVPN-v7.5.0.apk",
+  "mandatory": false
 }
+
 
 
 
