@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -144,7 +145,7 @@ fun DashboardScreen(
                         ), label = "radar"
                     )
                     androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
-                        androidx.compose.ui.graphics.drawscope.rotate(radarRotation) {
+                        rotate(radarRotation) {
                             drawArc(
                                 brush = Brush.sweepGradient(
                                     0f to Color.Transparent,
@@ -203,7 +204,13 @@ fun DashboardScreen(
             // Live Matrix Feed
             if (isRunning && matrixLogs.isNotEmpty()) {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .shadow(
+                            elevation = 16.dp * pulseAlpha,
+                            shape = RoundedCornerShape(16.dp),
+                            spotColor = Color(0xFF00FF00),
+                            ambientColor = Color(0xFF00FF00)
+                        ),
                     colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha=0.6f)),
                     shape = RoundedCornerShape(16.dp),
                     border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF00).copy(alpha=0.3f))
