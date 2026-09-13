@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "7.7.1",
-  "latestVersionCode": 771,
-  "releaseNotes": "✨ VisionOS Shield: The main connection shield and radar are now styled as soft, frosted glowing glass with subtle radial gradients!",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.1.apk",
+  "latestVersion": "7.7.2",
+  "latestVersionCode": 772,
+  "releaseNotes": "🌌 Animated Aurora Mesh Gradient: The entire background now features a slowly flowing, dual-color Mesh Gradient that breathes life into the UI!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.2.apk",
   "mandatory": false
 }
 
