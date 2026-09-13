@@ -243,6 +243,7 @@ fun DashboardScreen(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
+            }
 
             // Data Heist Shield UI
             if (isRunning) {
