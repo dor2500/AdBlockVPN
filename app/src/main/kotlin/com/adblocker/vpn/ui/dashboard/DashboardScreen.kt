@@ -117,14 +117,19 @@ fun DashboardScreen(
             ) {
                 Text(
                     text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        shadow = androidx.compose.ui.graphics.Shadow(
+                            color = primaryColor.copy(alpha = if (isRunning) pulseAlpha else 0.2f),
+                            blurRadius = if (isRunning) 16f else 4f
+                        )
+                    ),
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = if (isRunning) stringResource(R.string.dash_connection_secured) else stringResource(R.string.dash_not_connected),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = if (isRunning) primaryColor else MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isRunning) primaryColor else MaterialTheme.colorScheme.error.copy(alpha = 0.5f + (pulseAlpha * 0.5f))
                 )
             }
 
