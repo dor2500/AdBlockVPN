@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "7.7.0",
-  "latestVersionCode": 770,
-  "releaseNotes": "✨ VisionOS Redesign: Replaced heavy borders with ultra-modern Glassmorphism transparency effects for a premium aesthetic!",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.0.apk",
+  "latestVersion": "7.7.1",
+  "latestVersionCode": 771,
+  "releaseNotes": "✨ VisionOS Shield: The main connection shield and radar are now styled as soft, frosted glowing glass with subtle radial gradients!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.7.1.apk",
   "mandatory": false
 }
 
