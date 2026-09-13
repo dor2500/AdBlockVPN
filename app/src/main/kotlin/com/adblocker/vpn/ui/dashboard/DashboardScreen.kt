@@ -195,44 +195,54 @@ fun DashboardScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             if (isRunning) {
-                ThreatLevelGauge(state.queriesBlocked, primaryColor)
-            }
-
-            val latestLog by viewModel.dnsLogs.collectAsState(initial = null)
-            val matrixLogs = AdBlockVpnService.dnsLogs.replayCache.reversed().take(4)
-
-            // Live Matrix Feed
-            if (isRunning && matrixLogs.isNotEmpty()) {
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                        .shadow(
-                            elevation = 16.dp * pulseAlpha,
-                            shape = RoundedCornerShape(16.dp),
-                            spotColor = Color(0xFF00FF00),
-                            ambientColor = Color(0xFF00FF00)
-                        ),
-                    colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha=0.6f)),
-                    shape = RoundedCornerShape(16.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF00).copy(alpha=0.3f))
+                // Bento Grid
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("LIVE MATRIX FEED", color = Color(0xFF00FF00), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
-                        Spacer(modifier = Modifier.height(8.dp))
-                        matrixLogs.forEach { log ->
-                            val color = if (log.isBlocked) MaterialTheme.colorScheme.error else Color(0xFF00FF00).copy(alpha=0.7f)
-                            val prefix = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]"
-                            Text(
-                                text = "$prefix ${log.domain}",
-                                color = color,
-                                style = MaterialTheme.typography.bodySmall,
-                                maxLines = 1,
-                                modifier = Modifier.padding(vertical = 2.dp)
-                            )
-                        }
+                    Box(modifier = Modifier.weight(1f)) {
+                        ThreatLevelGauge(state.queriesBlocked, primaryColor)
+                    }
+                    Box(modifier = Modifier.weight(1f)) {
+                        AdEaterPet(state.queriesBlocked)
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-            }
+
+                val matrixLogs = AdBlockVpnService.dnsLogs.replayCache.reversed().take(4)
+                
+                // Live Matrix Feed (Bento Style)
+                if (matrixLogs.isNotEmpty()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                            .shadow(
+                                elevation = 16.dp * pulseAlpha,
+                                shape = RoundedCornerShape(24.dp),
+                                spotColor = Color(0xFF00FF00),
+                                ambientColor = Color(0xFF00FF00)
+                            ),
+                        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha=0.7f)),
+                        shape = RoundedCornerShape(24.dp),
+                        border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFF00FF00).copy(alpha=0.4f))
+                    ) {
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            Text("LIVE MATRIX FEED", color = Color(0xFF00FF00), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                            Spacer(modifier = Modifier.height(8.dp))
+                            matrixLogs.forEach { log ->
+                                val color = if (log.isBlocked) MaterialTheme.colorScheme.error else Color(0xFF00FF00).copy(alpha=0.7f)
+                                val prefix = if (log.isBlocked) "[BLOCKED]" else "[ALLOWED]"
+                                Text(
+                                    text = "$prefix ${log.domain}",
+                                    color = color,
+                                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace),
+                                    maxLines = 1,
+                                    modifier = Modifier.padding(vertical = 2.dp)
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
 
             // Data Heist Shield UI
             if (isRunning) {
@@ -272,11 +282,11 @@ fun DashboardScreen(
                 }
             } else {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
                     shape = RoundedCornerShape(24.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                    border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 ) {
                     Row(
                         modifier = Modifier
@@ -287,9 +297,6 @@ fun DashboardScreen(
                         Text("Connect VPN to see live protection stats", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
-            }
-            if (isRunning) {
-                AdEaterPet(state.queriesBlocked)
             }
             
             Spacer(modifier = Modifier.height(16.dp))
@@ -339,17 +346,17 @@ fun ThreatLevelGauge(blockedCount: Long, primaryColor: Color) {
         else -> Color.Red
     }
     Card(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, levelColor.copy(alpha=0.5f))
+        border = androidx.compose.foundation.BorderStroke(2.dp, levelColor.copy(alpha=0.5f))
     ) {
-        Column(modifier = Modifier.padding(24.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("NETWORK THREAT LEVEL", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Column(modifier = Modifier.padding(20.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Text("THREATS", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(level, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black), color = levelColor)
+            Text(level, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black), color = levelColor)
             Spacer(modifier = Modifier.height(4.dp))
-            Text("$blockedCount threats intercepted", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
+            Text("$blockedCount BLOCKED", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
         }
     }
 }
@@ -363,15 +370,15 @@ fun AdEaterPet(blockedCount: Long) {
         else -> "((( 👾 ))) RAMPAGE!"
     }
     Card(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha=0.2f))
+        border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.primary.copy(alpha=0.3f))
     ) {
-        Column(modifier = Modifier.padding(24.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("AD-EATER PET", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Column(modifier = Modifier.padding(20.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Text("AD-EATER", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(face, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.primary)
+            Text(face, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
             Spacer(modifier = Modifier.height(4.dp))
             Text("LVL: ${blockedCount / 10}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
         }
