@@ -149,7 +149,16 @@ fun DashboardScreen(
                             repeatMode = RepeatMode.Restart
                         ), label = "radar"
                     )
+                    val reverseRadarRotation by infiniteTransition.animateFloat(
+                        initialValue = 360f,
+                        targetValue = 0f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(3000, easing = LinearEasing),
+                            repeatMode = RepeatMode.Restart
+                        ), label = "radar_reverse"
+                    )
                     androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+                        // Outer fast sweep
                         rotate(radarRotation) {
                             drawArc(
                                 brush = Brush.sweepGradient(
@@ -159,7 +168,24 @@ fun DashboardScreen(
                                 ),
                                 startAngle = 0f,
                                 sweepAngle = 360f,
-                                useCenter = true
+                                useCenter = true,
+                                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4f)
+                            )
+                        }
+                        // Inner slow reverse sweep
+                        rotate(reverseRadarRotation) {
+                            val inset = size.width * 0.15f
+                            drawArc(
+                                brush = Brush.sweepGradient(
+                                    0f to Color.Transparent,
+                                    0.8f to primaryColor.copy(alpha = 0.1f),
+                                    1f to primaryColor.copy(alpha = 0.8f)
+                                ),
+                                startAngle = 0f,
+                                sweepAngle = 360f,
+                                useCenter = true,
+                                topLeft = androidx.compose.ui.geometry.Offset(inset, inset),
+                                size = androidx.compose.ui.geometry.Size(size.width - inset*2, size.height - inset*2)
                             )
                         }
                     }
@@ -231,7 +257,14 @@ fun DashboardScreen(
                         border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFF00FF00).copy(alpha=0.4f))
                     ) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            Text("LIVE MATRIX FEED", color = Color(0xFF00FF00), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("LIVE MATRIX FEED", color = Color(0xFF00FF00), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Box(
+                                    modifier = Modifier.size(8.dp).clip(androidx.compose.foundation.shape.CircleShape)
+                                        .background(Color(0xFF00FF00).copy(alpha = pulseAlpha))
+                                )
+                            }
                             Spacer(modifier = Modifier.height(8.dp))
                             matrixLogs.forEach { log ->
                                 val color = if (log.isBlocked) MaterialTheme.colorScheme.error else Color(0xFF00FF00).copy(alpha=0.7f)
