@@ -1,8 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "v7.5.0",
-  "releaseNotes": "📡 Active Radar Sweep & Matrix Pulse animations added to the connection shield.",
-  "downloadUrl": "https://github.com/dor2500/AdBlockVPN/releases/download/v7.5.0/AdBlockVPN-v7.5.0.apk",
+  "latestVersion": "7.6.3",
+  "latestVersionCode": 763,
+  "releaseNotes": "🚀 AdEater Level Progress and Double Radar gamification update!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v7.6.3.apk",
   "mandatory": false
 }
 
