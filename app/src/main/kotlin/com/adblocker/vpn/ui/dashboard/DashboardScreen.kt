@@ -420,6 +420,14 @@ fun AdEaterPet(blockedCount: Long) {
             Text(face, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
             Spacer(modifier = Modifier.height(4.dp))
             Text("LVL: ${blockedCount / 10}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
+            Spacer(modifier = Modifier.height(8.dp))
+            val progress = (blockedCount % 10) / 10f
+            androidx.compose.material3.LinearProgressIndicator(
+                progress = progress,
+                modifier = Modifier.fillMaxWidth(0.7f).height(4.dp).clip(RoundedCornerShape(2.dp)),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
+            )
         }
     }
 }
