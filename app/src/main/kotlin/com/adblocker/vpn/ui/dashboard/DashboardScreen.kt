@@ -129,23 +129,53 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.weight(1f))
             
-            // Animated Glowing Shield Toggle
+            // Radar Animation Box wrapping the Shield
             Box(
-                modifier = Modifier
-                    .size(180.dp)
-                    .scale(if (isRunning) pulseScale else 1f)
-                    .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
-                    .shadow(
-                        elevation = if (isRunning) 32.dp * pulseAlpha else 0.dp,
-                        shape = androidx.compose.foundation.shape.CircleShape,
-                        spotColor = primaryColor,
-                        ambientColor = primaryColor
+                modifier = Modifier.size(240.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isRunning) {
+                    val radarRotation by infiniteTransition.animateFloat(
+                        initialValue = 0f,
+                        targetValue = 360f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(2000, easing = LinearEasing),
+                            repeatMode = RepeatMode.Restart
+                        ), label = "radar"
                     )
-                    .border(
-                        width = if (isRunning) 4.dp else 1.dp,
-                        color = if (isRunning) primaryColor.copy(alpha = 0.8f) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
-                        shape = androidx.compose.foundation.shape.CircleShape
-                    )
+                    androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+                        androidx.compose.ui.graphics.drawscope.rotate(radarRotation) {
+                            drawArc(
+                                brush = Brush.sweepGradient(
+                                    0f to Color.Transparent,
+                                    0.8f to primaryColor.copy(alpha = 0.1f),
+                                    1f to primaryColor.copy(alpha = 0.6f)
+                                ),
+                                startAngle = 0f,
+                                sweepAngle = 360f,
+                                useCenter = true
+                            )
+                        }
+                    }
+                }
+
+                // Animated Glowing Shield Toggle
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .scale(if (isRunning) pulseScale else 1f)
+                        .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
+                        .shadow(
+                            elevation = if (isRunning) 32.dp * pulseAlpha else 0.dp,
+                            shape = androidx.compose.foundation.shape.CircleShape,
+                            spotColor = primaryColor,
+                            ambientColor = primaryColor
+                        )
+                        .border(
+                            width = if (isRunning) 4.dp else 1.dp,
+                            color = if (isRunning) primaryColor.copy(alpha = 0.8f) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                            shape = androidx.compose.foundation.shape.CircleShape
+                        )
                     .clickable {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         if (isRunning) stopVpnService(context) else requestStart()
@@ -158,6 +188,7 @@ fun DashboardScreen(
                     modifier = Modifier.size(72.dp),
                     tint = if (isRunning) primaryColor else MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
             }
             
             Spacer(modifier = Modifier.weight(1f))
