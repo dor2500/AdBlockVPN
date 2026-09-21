@@ -8,6 +8,14 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -48,6 +56,7 @@ fun DashboardScreen(
     val context = LocalContext.current
     val state by viewModel.engineState.collectAsState()
     val view = LocalView.current
+    val settingsViewModel: com.adblocker.vpn.ui.settings.SettingsViewModel = viewModel()
 
     val vpnPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -92,18 +101,50 @@ fun DashboardScreen(
     )
 
     // A subtle gradient background
+    val infiniteBgTransition = rememberInfiniteTransition(label = "bg_anim")
+    val bgOffset1 by infiniteBgTransition.animateFloat(
+        initialValue = 0f, targetValue = 2000f,
+        animationSpec = infiniteRepeatable(tween(15000, easing = LinearEasing), RepeatMode.Reverse),
+        label = "bg_offset1"
+    )
+    val bgOffset2 by infiniteBgTransition.animateFloat(
+        initialValue = 2000f, targetValue = 0f,
+        animationSpec = infiniteRepeatable(tween(12000, easing = LinearEasing), RepeatMode.Reverse),
+        label = "bg_offset2"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                if (isRunning) Brush.radialGradient(
-                    colors = listOf(primaryColor.copy(alpha = 0.15f * pulseAlpha), bg),
-                    radius = 800f
-                ) else Brush.verticalGradient(listOf(bg, bg))
+                if (isRunning) {
+                    val c1 = primaryColor.copy(alpha = 0.15f * pulseAlpha)
+                    val c2 = secondaryColor.copy(alpha = 0.15f * pulseAlpha)
+                    Brush.linearGradient(
+                        colors = listOf(c1, bg, c2, bg),
+                        start = androidx.compose.ui.geometry.Offset(bgOffset1, bgOffset2),
+                        end = androidx.compose.ui.geometry.Offset(bgOffset2, bgOffset1)
+                    )
+                } else {
+                    Brush.verticalGradient(listOf(bg, bg))
+                }
             )
             .padding(24.dp),
         contentAlignment = Alignment.TopCenter
     ) {
+        val settingsState by settingsViewModel.settings.collectAsState()
+        val themes = listOf("glass", "aurora", "cyberpunk", "amethyst", "ocean", "sunset", "luxury", "monochrome", "forest")
+        IconButton(
+            onClick = {
+                val currentIndex = themes.indexOf(settingsState.selectedTheme.lowercase()).takeIf { it >= 0 } ?: 0
+                val nextIndex = (currentIndex + 1) % themes.size
+                settingsViewModel.updateTheme(themes[nextIndex])
+            },
+            modifier = Modifier.align(Alignment.TopEnd)
+        ) {
+            Icon(Icons.Filled.Settings, contentDescription = "Change Theme", tint = MaterialTheme.colorScheme.onBackground.copy(alpha=0.5f))
+        }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -115,6 +156,18 @@ fun DashboardScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val shimmerOffset by infiniteBgTransition.animateFloat(
+                    initialValue = -500f,
+                    targetValue = 2000f,
+                    animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing), RepeatMode.Restart),
+                    label = "shimmer"
+                )
+                val shimmerBrush = Brush.linearGradient(
+                    colors = listOf(primaryColor.copy(alpha=0.8f), Color.White, primaryColor.copy(alpha=0.8f)),
+                    start = androidx.compose.ui.geometry.Offset(shimmerOffset, 0f),
+                    end = androidx.compose.ui.geometry.Offset(shimmerOffset + 400f, 0f)
+                )
+
                 Text(
                     text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.headlineLarge.copy(
@@ -126,11 +179,18 @@ fun DashboardScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = if (isRunning) stringResource(R.string.dash_connection_secured) else stringResource(R.string.dash_not_connected),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = if (isRunning) primaryColor else MaterialTheme.colorScheme.error.copy(alpha = 0.5f + (pulseAlpha * 0.5f))
-                )
+                if (isRunning) {
+                    Text(
+                        text = stringResource(R.string.dash_connection_secured),
+                        style = MaterialTheme.typography.bodyLarge.copy(brush = shimmerBrush)
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.dash_not_connected),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.error.copy(alpha = 0.5f + (pulseAlpha * 0.5f))
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -163,8 +223,8 @@ fun DashboardScreen(
                             drawArc(
                                 brush = Brush.sweepGradient(
                                     0f to Color.Transparent,
-                                    0.8f to primaryColor.copy(alpha = 0.1f),
-                                    1f to primaryColor.copy(alpha = 0.6f)
+                                    0.8f to Color.White.copy(alpha = 0.05f),
+                                    1f to Color.White.copy(alpha = 0.4f)
                                 ),
                                 startAngle = 0f,
                                 sweepAngle = 360f,
@@ -178,8 +238,8 @@ fun DashboardScreen(
                             drawArc(
                                 brush = Brush.sweepGradient(
                                     0f to Color.Transparent,
-                                    0.8f to primaryColor.copy(alpha = 0.1f),
-                                    1f to primaryColor.copy(alpha = 0.8f)
+                                    0.8f to Color.White.copy(alpha = 0.05f),
+                                    1f to Color.White.copy(alpha = 0.5f)
                                 ),
                                 startAngle = 0f,
                                 sweepAngle = 360f,
@@ -192,11 +252,21 @@ fun DashboardScreen(
                 }
 
                 // Animated Glowing Shield Toggle
+                val interactionSource = remember { MutableInteractionSource() }
+                val isPressed by interactionSource.collectIsPressedAsState()
+                val pressScale by animateFloatAsState(targetValue = if (isPressed) 0.85f else 1f, label="press")
+
                 Box(
                     modifier = Modifier
                         .size(180.dp)
-                        .scale(if (isRunning) pulseScale else 1f)
-                        .background(Color.Transparent, shape = androidx.compose.foundation.shape.CircleShape)
+                        .scale((if (isRunning) pulseScale else 1f) * pressScale)
+                        .background(
+                            Brush.radialGradient(
+                                colors = listOf(Color.White.copy(alpha = 0.15f), Color.White.copy(alpha = 0.02f)),
+                                radius = 250f
+                            ),
+                            shape = androidx.compose.foundation.shape.CircleShape
+                        )
                         .shadow(
                             elevation = if (isRunning) 32.dp * pulseAlpha else 0.dp,
                             shape = androidx.compose.foundation.shape.CircleShape,
@@ -204,11 +274,14 @@ fun DashboardScreen(
                             ambientColor = primaryColor
                         )
                         .border(
-                            width = if (isRunning) 4.dp else 1.dp,
-                            color = if (isRunning) primaryColor.copy(alpha = 0.8f) else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                            width = 1.dp,
+                            color = if (isRunning) primaryColor.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.1f),
                             shape = androidx.compose.foundation.shape.CircleShape
                         )
-                    .clickable {
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
                         view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                         if (isRunning) stopVpnService(context) else requestStart()
                     },
@@ -245,16 +318,11 @@ fun DashboardScreen(
                 // Live Matrix Feed (Bento Style)
                 if (matrixLogs.isNotEmpty()) {
                     Card(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
-                            .shadow(
-                                elevation = 16.dp * pulseAlpha,
-                                shape = RoundedCornerShape(24.dp),
-                                spotColor = Color(0xFF00FF00),
-                                ambientColor = Color(0xFF00FF00)
-                            ),
-                        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha=0.7f)),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
                         shape = RoundedCornerShape(24.dp),
-                        border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFF00FF00).copy(alpha=0.4f))
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.15f))
                     ) {
                         Column(modifier = Modifier.padding(20.dp)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -322,10 +390,10 @@ fun DashboardScreen(
             } else {
                 Card(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
                     shape = RoundedCornerShape(24.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                    border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+                    border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.15f))
                 ) {
                     Row(
                         modifier = Modifier
@@ -347,12 +415,23 @@ fun DashboardScreen(
 private fun StatItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         val isThreats = label == stringResource(R.string.dash_threats) && value != "0"
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = if (isThreats) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
-        )
+        AnimatedContent(
+            targetState = value,
+            transitionSpec = {
+                if (targetState.replace(",", "").toLongOrNull() ?: 0L > initialState.replace(",", "").toLongOrNull() ?: 0L) {
+                    (slideInVertically { height -> height } + fadeIn()) togetherWith (slideOutVertically { height -> -height } + fadeOut())
+                } else {
+                    (slideInVertically { height -> -height } + fadeIn()) togetherWith (slideOutVertically { height -> height } + fadeOut())
+                }
+            }, label = "stat_anim"
+        ) { targetValue ->
+            Text(
+                text = targetValue,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = if (isThreats) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
+            )
+        }
         Spacer(Modifier.height(4.dp))
         Text(
             text = label,
@@ -384,11 +463,18 @@ fun ThreatLevelGauge(blockedCount: Long, primaryColor: Color) {
         blockedCount < 500 -> Color(0xFFFFA500)
         else -> Color.Red
     }
+    val badge = when {
+        blockedCount < 50 -> "🥉 NOVICE"
+        blockedCount < 200 -> "🥈 GUARDIAN"
+        blockedCount < 1000 -> "🥇 CYBER NINJA"
+        else -> "💎 MATRIX LORD"
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(2.dp, levelColor.copy(alpha=0.5f))
+        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.15f))
     ) {
         Column(modifier = Modifier.padding(20.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Text("THREATS", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -396,6 +482,8 @@ fun ThreatLevelGauge(blockedCount: Long, primaryColor: Color) {
             Text(level, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black), color = levelColor)
             Spacer(modifier = Modifier.height(4.dp))
             Text("$blockedCount BLOCKED", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(badge, style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold), color = levelColor.copy(alpha=0.9f))
         }
     }
 }
@@ -410,9 +498,9 @@ fun AdEaterPet(blockedCount: Long) {
     }
     Card(
         modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.primary.copy(alpha=0.3f))
+        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha=0.15f))
     ) {
         Column(modifier = Modifier.padding(20.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Text("AD-EATER", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -421,9 +509,14 @@ fun AdEaterPet(blockedCount: Long) {
             Spacer(modifier = Modifier.height(4.dp))
             Text("LVL: ${blockedCount / 10}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha=0.7f))
             Spacer(modifier = Modifier.height(8.dp))
-            val progress = (blockedCount % 10) / 10f
+            val rawProgress = (blockedCount % 10) / 10f
+            val animatedProgress by animateFloatAsState(
+                targetValue = rawProgress,
+                animationSpec = tween(800, easing = androidx.compose.animation.core.LinearOutSlowInEasing),
+                label = "xp_bar"
+            )
             androidx.compose.material3.LinearProgressIndicator(
-                progress = progress,
+                progress = { animatedProgress },
                 modifier = Modifier.fillMaxWidth(0.7f).height(4.dp).clip(RoundedCornerShape(2.dp)),
                 color = MaterialTheme.colorScheme.primary,
                 trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
