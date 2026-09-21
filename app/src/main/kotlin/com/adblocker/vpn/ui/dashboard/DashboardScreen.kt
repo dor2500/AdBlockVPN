@@ -138,7 +138,7 @@ fun DashboardScreen(
             onClick = {
                 val currentIndex = themes.indexOf(settingsState.selectedTheme.lowercase()).takeIf { it >= 0 } ?: 0
                 val nextIndex = (currentIndex + 1) % themes.size
-                settingsViewModel.updateTheme(themes[nextIndex])
+                settingsViewModel.setTheme(themes[nextIndex])
             },
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
