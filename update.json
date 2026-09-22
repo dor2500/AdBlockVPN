@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "10.0.0",
-  "latestVersionCode": 1000,
-  "releaseNotes": "🍱 The Spatial Bento-Box Overhaul (v10.0.0)! The app has been entirely redesigned from the ground up to use a futuristic Grid UI, floating glassmorphism widgets, and spatial animated backgrounds.",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v10.0.0.apk",
+  "latestVersion": "10.1.0",
+  "latestVersionCode": 1010,
+  "releaseNotes": "🧠 Smart AI Update (v10.1.0)! The Cyber Assistant is now significantly smarter. It can identify specific services (like Wolt, YouTube, Instagram) and perfectly configure both their domains AND their app packages (VPN Bypass) in a single command!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v10.1.0.apk",
   "mandatory": false
 }
 

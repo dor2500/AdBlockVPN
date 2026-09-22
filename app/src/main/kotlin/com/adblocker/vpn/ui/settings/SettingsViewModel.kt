@@ -59,6 +59,17 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun removeWhitelist(domain: String) = viewModelScope.launch { dataStore.removeFromWhitelist(domain) }
     fun addBlacklist(domain: String) = viewModelScope.launch { dataStore.addToBlacklist(domain) }
     fun removeBlacklist(domain: String) = viewModelScope.launch { dataStore.removeFromBlacklist(domain) }
+    
+    fun addBypassedApp(packageName: String) = viewModelScope.launch {
+        val current = settings.value.bypassedApps
+        dataStore.setBypassedApps(current + packageName)
+    }
+    
+    fun removeBypassedApp(packageName: String) = viewModelScope.launch {
+        val current = settings.value.bypassedApps
+        dataStore.setBypassedApps(current - packageName)
+    }
+
     fun setAutoStart(enabled: Boolean) = viewModelScope.launch { dataStore.setAutoStartOnBoot(enabled) }
     
     fun setVpnLocation(locationId: String) = viewModelScope.launch { dataStore.setVpnLocation(locationId) }

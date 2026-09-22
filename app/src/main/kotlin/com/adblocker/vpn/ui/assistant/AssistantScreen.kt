@@ -101,6 +101,8 @@ fun AssistantScreen(
                                     text = inputText,
                                     onAddWhitelist = { settingsViewModel.addWhitelist(it) },
                                     onAddBlacklist = { settingsViewModel.addBlacklist(it) },
+                                    onAddBypassedApp = { settingsViewModel.addBypassedApp(it) },
+                                    onRemoveBypassedApp = { settingsViewModel.removeBypassedApp(it) },
                                     onPanicMode = { settingsViewModel.setAggressiveFirewall(true) }
                                 )
                                 inputText = ""
