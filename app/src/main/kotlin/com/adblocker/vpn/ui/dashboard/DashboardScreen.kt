@@ -123,20 +123,20 @@ fun DashboardScreen(
                 // Stats Widget 1
                 item {
                     GlassWidget(title = "Threats Blocked") {
-                        AnimatedCounter(value = state.blockedThreatsCount.toString(), isError = state.blockedThreatsCount > 0L)
+                        AnimatedCounter(value = state.queriesBlocked.toString(), isError = state.queriesBlocked > 0L)
                     }
                 }
 
                 // Stats Widget 2
                 item {
                     GlassWidget(title = "Bandwidth Saved") {
-                        AnimatedCounter(value = formatBytes(state.bytesSaved), isError = false)
+                        AnimatedCounter(value = formatBytes(state.queriesBlocked * 120 * 1024), isError = false)
                     }
                 }
 
                 // Pet Widget (Full Width)
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
-                    AdEaterWidget(blockedCount = state.blockedThreatsCount)
+                    AdEaterWidget(blockedCount = state.queriesBlocked)
                 }
             }
         }
@@ -325,14 +325,14 @@ fun AnimatedCounter(value: String, isError: Boolean) {
 
 private fun startVpnService(context: android.content.Context) {
     val intent = Intent(context, AdBlockVpnService::class.java).apply {
-        action = Constants.ACTION_START_VPN
+        action = Constants.ACTION_START
     }
     ContextCompat.startForegroundService(context, intent)
 }
 
 private fun stopVpnService(context: android.content.Context) {
     val intent = Intent(context, AdBlockVpnService::class.java).apply {
-        action = Constants.ACTION_STOP_VPN
+        action = Constants.ACTION_STOP
     }
     ContextCompat.startForegroundService(context, intent)
 }
