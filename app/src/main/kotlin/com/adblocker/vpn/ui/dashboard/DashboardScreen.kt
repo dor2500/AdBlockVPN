@@ -51,7 +51,8 @@ import com.adblocker.vpn.R
 
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = viewModel()
+    viewModel: DashboardViewModel = viewModel(),
+    onNavigateToAssistant: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val state by viewModel.engineState.collectAsState()
@@ -143,6 +144,20 @@ fun DashboardScreen(
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Icon(Icons.Filled.Settings, contentDescription = "Change Theme", tint = MaterialTheme.colorScheme.onBackground.copy(alpha=0.5f))
+        }
+
+        ExtendedFloatingActionButton(
+            onClick = onNavigateToAssistant,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 90.dp, end = 16.dp),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
+        ) {
+            Icon(Icons.Filled.AutoAwesome, contentDescription = "AI Assistant")
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Cyber AI")
         }
 
         Column(

@@ -40,6 +40,7 @@ import com.adblocker.vpn.ui.location.LocationScreen
 import com.adblocker.vpn.ui.monitor.MonitorScreen
 import com.adblocker.vpn.ui.settings.ChangelogScreen
 import com.adblocker.vpn.ui.settings.SettingsScreen
+import com.adblocker.vpn.ui.assistant.AssistantScreen
 
 private object Routes {
     const val DASHBOARD = "dashboard"
@@ -50,6 +51,7 @@ private object Routes {
     const val APP_BYPASS = "app_bypass"
     const val APP_FIREWALL = "app_firewall"
     const val CHANGELOG = "changelog"
+    const val ASSISTANT = "assistant"
 }
 
 private data class BottomNavItem(
@@ -151,7 +153,9 @@ fun AppNavigation() {
                 popExitTransition = { androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(300)) + androidx.compose.animation.slideOutVertically(targetOffsetY = { 50 }, animationSpec = androidx.compose.animation.core.tween(300)) }
             ) {
                 composable(Routes.DASHBOARD) {
-                    DashboardScreen()
+                    DashboardScreen(
+                        onNavigateToAssistant = { navController.navigate(Routes.ASSISTANT) }
+                    )
                 }
                 composable(Routes.LOCATION) {
                     LocationScreen()
@@ -179,6 +183,9 @@ fun AppNavigation() {
                 }
                 composable(Routes.CHANGELOG) {
                     ChangelogScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Routes.ASSISTANT) {
+                    AssistantScreen(onBack = { navController.popBackStack() })
                 }
                 composable(
                     route = "blocked_screen/{domain}/{reason}",

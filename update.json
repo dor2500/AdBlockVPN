@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "8.0.0",
-  "latestVersionCode": 800,
-  "releaseNotes": "🚀 Mega Update v8.0.0: VisionOS 2.0 Gamification! Interactive fluid shields, animated rolling data stats, smooth Ad-Eater XP bars, and an all-new floating Theme Switcher (try switching themes dynamically without restarting the app!). Enjoy the ultra-premium experience.",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v8.0.0.apk",
+  "latestVersion": "9.0.0",
+  "latestVersionCode": 900,
+  "releaseNotes": "🤖 Cyber Assistant Mega Update (v9.0.0)! Introducing the built-in AI Chatbot. Just tell it to 'Block YouTube' or 'Unblock Wolt' and it will do the magic for you! Also includes a new Panic Mode for ultimate security.",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v9.0.0.apk",
   "mandatory": false
 }
 
