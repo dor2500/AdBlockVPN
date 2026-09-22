@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "10.1.0",
-  "latestVersionCode": 1010,
-  "releaseNotes": "🧠 Smart AI Update (v10.1.0)! The Cyber Assistant is now significantly smarter. It can identify specific services (like Wolt, YouTube, Instagram) and perfectly configure both their domains AND their app packages (VPN Bypass) in a single command!",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v10.1.0.apk",
+  "latestVersion": "10.2.0",
+  "latestVersionCode": 1020,
+  "releaseNotes": "🚀 The Ultimate Dashboard Update (v10.2.0)!\n\n1. Updater Fixed: You will now get a visual Toast when clicking 'Update' so you know the download is happening.\n2. Three NEW Widgets added to the Spatial Grid:\n   • Zero-Day AI Blocks Widget\n   • Privacy & Trackers Widget\n   • Live Network Traffic (Upload/Download Speed) Widget!",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v10.2.0.apk",
   "mandatory": false
 }
 

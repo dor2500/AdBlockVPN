@@ -133,6 +133,36 @@ fun DashboardScreen(
                         AnimatedCounter(value = formatBytes(state.queriesBlocked * 120 * 1024), isError = false)
                     }
                 }
+                
+                // Zero-Day AI Widget
+                item {
+                    GlassWidget(title = "Zero-Day Blocks") {
+                        AnimatedCounter(value = state.queriesZeroDayBlocked.toString(), isError = state.queriesZeroDayBlocked > 0L)
+                    }
+                }
+                
+                // Privacy Widget
+                item {
+                    GlassWidget(title = "Trackers Blocked") {
+                        AnimatedCounter(value = (state.profilingBlocked + state.locationBlocked).toString(), isError = (state.profilingBlocked + state.locationBlocked) > 0L)
+                    }
+                }
+                
+                // Live Speed Widget
+                item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                    GlassWidget(title = "Live Network Traffic") {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("↓", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                                AnimatedCounter(value = formatSpeed(state.rxSpeed), isError = false)
+                            }
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("↑", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                                AnimatedCounter(value = formatSpeed(state.txSpeed), isError = false)
+                            }
+                        }
+                    }
+                }
 
                 // Pet Widget (Full Width)
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
@@ -345,4 +375,12 @@ private fun formatBytes(bytes: Long): String {
     if (mb < 1024) return String.format("%.1f MB", mb)
     val gb = mb / 1024.0
     return String.format("%.1f GB", gb)
+}
+
+private fun formatSpeed(bytesPerSec: Long): String {
+    if (bytesPerSec < 1024) return "$bytesPerSec B/s"
+    val kb = bytesPerSec / 1024.0
+    if (kb < 1024) return String.format("%.1f KB/s", kb)
+    val mb = kb / 1024.0
+    return String.format("%.1f MB/s", mb)
 }

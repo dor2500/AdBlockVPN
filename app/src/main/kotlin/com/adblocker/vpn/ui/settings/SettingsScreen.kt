@@ -69,6 +69,7 @@ fun SettingsScreen(
                 Button(onClick = {
                     showUpdateDialog = false
                     Updater.downloadAndInstallUpdate(context, updateInfo!!.downloadUrl, updateInfo!!.latestVersion)
+                    android.widget.Toast.makeText(context, "Download started in background. Check your notification bar!", android.widget.Toast.LENGTH_LONG).show()
                 }) {
                     Text(stringResource(R.string.update_now_button))
                 }
