@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Timeline
