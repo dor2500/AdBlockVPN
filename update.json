@@ -1,9 +1,9 @@
 {
   "isUpdateAvailable": true,
-  "latestVersion": "9.0.0",
-  "latestVersionCode": 900,
-  "releaseNotes": "🤖 Cyber Assistant Mega Update (v9.0.0)! Introducing the built-in AI Chatbot. Just tell it to 'Block YouTube' or 'Unblock Wolt' and it will do the magic for you! Also includes a new Panic Mode for ultimate security.",
-  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v9.0.0.apk",
+  "latestVersion": "10.0.0",
+  "latestVersionCode": 1000,
+  "releaseNotes": "🍱 The Spatial Bento-Box Overhaul (v10.0.0)! The app has been entirely redesigned from the ground up to use a futuristic Grid UI, floating glassmorphism widgets, and spatial animated backgrounds.",
+  "downloadUrl": "https://raw.githubusercontent.com/dor2500/AdBlockVPN/main/releases/AdBlockVPN-v10.0.0.apk",
   "mandatory": false
 }
 
